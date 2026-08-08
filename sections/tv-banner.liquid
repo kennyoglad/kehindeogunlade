@@ -5,11 +5,16 @@
 >
   {%- comment -%}
     ==========================================================
-    HEADER / FRAME 1956
+    FRAME 1956 — TV BANNER HEADER
     ==========================================================
   {%- endcomment -%}
 
-  <header class="tv-banner__header">
+  <div class="tv-banner__header">
+
+    {%- comment -%}
+      GROUP 1000007777
+      Brand / logo
+    {%- endcomment -%}
 
     <div class="tv-banner__brand">
       {% if section.settings.logo != blank %}
@@ -30,18 +35,25 @@
       {% endif %}
     </div>
 
+
+    {%- comment -%}
+      Find the ideal gift for your loved ones.
+    {%- endcomment -%}
+
     <div class="tv-banner__header-message">
       {{ section.settings.header_text }}
     </div>
 
+
+    {%- comment -%}
+      GROUP 1000007810
+      Choose yours button
+    {%- endcomment -%}
+
     {% if section.settings.header_button_text != blank %}
       <a
-        href="{{ section.settings.header_button_link | default: '#' }}"
         class="tv-banner__header-button"
-        {% if section.settings.header_button_link contains 'http' %}
-          target="_blank"
-          rel="noopener noreferrer"
-        {% endif %}
+        href="{{ section.settings.header_button_link | default: '#' }}"
         aria-label="{{ section.settings.header_button_text }}"
       >
         <span class="tv-banner__header-button-text">
@@ -58,13 +70,16 @@
       </a>
     {% endif %}
 
-  </header>
+  </div>
 
 
   {%- comment -%}
     ==========================================================
-    MAIN BANNER
+    FRAME 1957
     ==========================================================
+
+    The remaining banner content is kept separate from Frame
+    1956 so we can map its exact Figma properties when supplied.
   {%- endcomment -%}
 
   <div
@@ -101,12 +116,9 @@
 
       {% if section.settings.main_button_text != blank %}
         <a
-          href="{{ section.settings.main_button_link | default: '#' }}"
           class="tv-banner__main-button"
-          {% if section.settings.main_button_link contains 'http' %}
-            target="_blank"
-            rel="noopener noreferrer"
-          {% endif %}
+          href="{{ section.settings.main_button_link | default: '#' }}"
+          aria-label="{{ section.settings.main_button_text }}"
         >
           <span class="tv-banner__main-button-text">
             {{ section.settings.main_button_text }}
@@ -123,7 +135,6 @@
       {% endif %}
 
     </div>
-
 
     {% if section.settings.bottom_text != blank %}
       <div class="tv-banner__bottom">
@@ -143,7 +154,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Header"
+      "content": "Frame 1956 — Header"
     },
     {
       "type": "image_picker",
@@ -166,7 +177,7 @@
       "type": "text",
       "id": "header_button_text",
       "label": "Header button text",
-      "default": "CHOOSE GIFT"
+      "default": "CHOOSE YOURS"
     },
     {
       "type": "url",
@@ -176,12 +187,12 @@
 
     {
       "type": "header",
-      "content": "Banner"
+      "content": "Frame 1957 — Banner"
     },
     {
       "type": "image_picker",
       "id": "banner_image",
-      "label": "Banner background image"
+      "label": "Banner image"
     },
     {
       "type": "checkbox",
@@ -199,11 +210,6 @@
       "unit": "%",
       "default": 10
     },
-
-    {
-      "type": "header",
-      "content": "Main content"
-    },
     {
       "type": "text",
       "id": "heading",
@@ -214,7 +220,7 @@
       "type": "richtext",
       "id": "description",
       "label": "Description",
-      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.<br>Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
+      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>"
     },
     {
       "type": "text",
@@ -226,11 +232,6 @@
       "type": "url",
       "id": "main_button_link",
       "label": "Main button link"
-    },
-
-    {
-      "type": "header",
-      "content": "Bottom message"
     },
     {
       "type": "text",
