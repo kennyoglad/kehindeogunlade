@@ -474,85 +474,27 @@
   transform: translateX(-101%);
 
   transition:
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 
   z-index: 0;
 }
-
 
 .tv-banner__main-button:hover::before,
 .tv-banner__main-button:focus-visible::before {
   transform: translateX(0);
 }
 
-
 .tv-banner__main-button:hover,
 .tv-banner__main-button:focus-visible {
   color: #000000;
-
-  transform: translateY(-1px);
-}
-
-.tv-banner__main-button-text {
-  position: absolute;
-
-  left: 25.03%;
-  right: 35.42%;
-
-  top: 28.51%;
-  bottom: 29.49%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 0;
-
-  color: inherit;
-
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-
-  text-align: center;
-  text-transform: uppercase;
-
-  white-space: nowrap;
-
-  z-index: 2;
-
-  transform: none;
 }
 
 .tv-banner__main-button:hover
-.tv-banner__main-button-text,
+.tv-banner__main-button-arrow,
 .tv-banner__main-button:focus-visible
-.tv-banner__main-button-text {
-  transform: translateX(-16px);
-}
-
-
 .tv-banner__main-button-arrow {
-  position: absolute;
-
-  left: 77.78%;
-  right: 10.63%;
-
-  top: 50%;
-
-  width: auto;
-  height: 0;
-
-  transform: translateY(-50%);
-
-  color: #ffffff;
-
-  z-index: 2;
-
-  transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  color: #000000;
+  transform: translate(7px, -50%);
 }
 
 .tv-banner__arrow-line {
