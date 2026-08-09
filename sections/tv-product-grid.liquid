@@ -22,24 +22,35 @@
           {{ block.shopify_attributes }}
         >
 
-          <div class="tv-product-grid__image-wrapper">
+         
+<div class="tv-product-grid__items">
 
-          
+  {% for block in section.blocks %}
 
-{% for block in section.blocks %}
-  <article class="tv-product-grid__item">
-    <div style="
-      width: 100%;
-      aspect-ratio: 433 / 444;
-      background: #eee;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    ">
-      Product {{ forloop.index }}
-    </div>
-  </article>
-{% endfor %}
+    <article
+      class="tv-product-grid__item"
+      {{ block.shopify_attributes }}
+    >
+      <div
+        class="tv-product-grid__image-wrapper"
+        style="
+          width: 100%;
+          aspect-ratio: 433 / 444;
+          background: #eeeeee;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        Product {{ forloop.index }}
+      </div>
+    </article>
+
+  {% endfor %}
+
+</div>
+        </article>
+      {% endfor %}
 
     </div>
 
