@@ -1,61 +1,27 @@
-<div style="background: yellow; color: black; padding: 30px; font-size: 24px;">
-  TV PRODUCT GRID IS RENDERING
-</div>
-
-<section
-  class="tv-product-grid"
-  id="tv-product-grid-{{ section.id }}"
+<div
+  style="
+    display: block !important;
+    width: 100% !important;
+    min-height: 600px !important;
+    padding: 60px !important;
+    background: #ff0000 !important;
+    color: #ffffff !important;
+    font-size: 40px !important;
+    line-height: 1.2 !important;
+    position: relative !important;
+    z-index: 999999 !important;
+  "
 >
-  <div class="tv-product-grid__inner">
+  TV PRODUCT GRID IS HERE
 
-    {% if section.settings.heading != blank %}
-      <h2 class="tv-product-grid__heading">
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
-
-    <div class="tv-product-grid__items">
-
-      {% for block in section.blocks %}
-        <article
-          class="tv-product-grid__item"
-          {{ block.shopify_attributes }}
-        >
-
-         
-<div class="tv-product-grid__items">
-
-  {% for block in section.blocks %}
-
-    <article
-      class="tv-product-grid__item"
-      {{ block.shopify_attributes }}
-    >
-      <div
-        class="tv-product-grid__image-wrapper"
-        style="
-          width: 100%;
-          aspect-ratio: 433 / 444;
-          background: #eeeeee;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        "
-      >
-        Product {{ forloop.index }}
-      </div>
-    </article>
-
-  {% endfor %}
-
-</div>
-        </article>
-      {% endfor %}
-
-    </div>
-
+  <div style="margin-top: 40px; font-size: 30px;">
+    Section ID: {{ section.id }}
   </div>
-</section>
+
+  <div style="margin-top: 20px; font-size: 30px;">
+    Blocks: {{ section.blocks.size }}
+  </div>
+</div>
 
 {% schema %}
 {
