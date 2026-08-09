@@ -3,104 +3,88 @@
   class="tv-banner"
   data-section-id="{{ section.id }}"
 >
-  {%- comment -%}
-    ==========================================================
-    FRAME 1956 — TV BANNER HEADER
-    ==========================================================
-  {%- endcomment -%}
+  <!-- =====================================================
+       HEADER — Figma Frame 1956
+       1440 × 64px
+       ===================================================== -->
+  <header class="tv-banner__header">
 
-  <div class="tv-banner__header">
+    <div class="tv-banner__header-inner">
 
-    {%- comment -%}
-      GROUP 1000007777
-      Brand / logo
-    {%- endcomment -%}
+      <!-- Logo -->
+      <div class="tv-banner__logo">
+        {% if section.settings.logo != blank %}
+          {{
+            section.settings.logo
+            | image_url: width: 500
+            | image_tag:
+              class: 'tv-banner__logo-image',
+              loading: 'eager',
+              widths: '150, 250, 350, 500',
+              sizes: '(max-width: 749px) 120px, 180px',
+              alt: section.settings.logo.alt | default: section.settings.brand_text
+          }}
+        {% else %}
+          <span class="tv-banner__brand-text">
+            {{ section.settings.brand_text }}
+          </span>
+        {% endif %}
+      </div>
 
-    <div class="tv-banner__brand">
-      {% if section.settings.logo != blank %}
-        {{
-          section.settings.logo
-          | image_url: width: 500
-          | image_tag:
-            class: 'tv-banner__logo',
-            loading: 'eager',
-            widths: '150, 250, 350, 500',
-            sizes: '(max-width: 749px) 120px, 180px',
-            alt: section.settings.logo.alt | default: section.settings.brand_text
-        }}
-      {% else %}
-        <span class="tv-banner__brand-text">
-          {{ section.settings.brand_text }}
-        </span>
-      {% endif %}
-    </div>
+      <!-- Header message -->
+      <div class="tv-banner__header-message">
+        {{ section.settings.header_text }}
+      </div>
 
-
-    {%- comment -%}
-      Find the ideal gift for your loved ones.
-    {%- endcomment -%}
-
-    <div class="tv-banner__header-message">
-      {{ section.settings.header_text }}
-    </div>
-
-
-    {%- comment -%}
-      GROUP 1000007810
-      Choose yours button
-    {%- endcomment -%}
-
-    {% if section.settings.header_button_text != blank %}
-      <a
-        class="tv-banner__header-button"
-        href="{{ section.settings.header_button_link | default: '#' }}"
-        aria-label="{{ section.settings.header_button_text }}"
-      >
-        <span class="tv-banner__header-button-text">
-          {{ section.settings.header_button_text }}
-        </span>
-
-        <span
-          class="tv-banner__header-button-arrow"
-          aria-hidden="true"
+      <!-- Header button -->
+      {% if section.settings.header_button_text != blank %}
+        <a
+          href="{{ section.settings.header_button_link | default: '#' }}"
+          class="tv-banner__header-button"
         >
-          <span class="tv-banner__arrow-line"></span>
-          <span class="tv-banner__arrow-head"></span>
-        </span>
-      </a>
+          <span class="tv-banner__header-button-text">
+            {{ section.settings.header_button_text }}
+          </span>
+
+          <span
+            class="tv-banner__header-button-arrow"
+            aria-hidden="true"
+          >
+            <span class="tv-banner__header-arrow-line"></span>
+            <span class="tv-banner__header-arrow-head"></span>
+          </span>
+        </a>
+      {% endif %}
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================
+       MAIN — Figma main frame
+       1440 × 780px
+       ===================================================== -->
+  <div class="tv-banner__main">
+
+    <!-- Artwork -->
+    {% if section.settings.banner_artwork != blank %}
+      <div class="tv-banner__artwork">
+        {{
+          section.settings.banner_artwork
+          | image_url: width: 3000
+          | image_tag:
+            class: 'tv-banner__artwork-image',
+            loading: 'eager',
+            widths: '750, 1100, 1440, 1800, 2400, 3000',
+            sizes: '100vw',
+            alt: section.settings.banner_artwork.alt | default: 'Gift Guide'
+        }}
+      </div>
     {% endif %}
 
-  </div>
 
-
-  {%- comment -%}
-    ==========================================================
-    FRAME 1957
-    ==========================================================
-
-    The remaining banner content is kept separate from Frame
-    1956 so we can map its exact Figma properties when supplied.
-  {%- endcomment -%}
-
-  <div
-    class="tv-banner__visual"
-    {% if section.settings.banner_image != blank %}
-      style="background-image: url('{{ section.settings.banner_image | image_url: width: 2400 }}');"
-    {% endif %}
-  >
-
-    {% if section.settings.banner_image == blank %}
-      <div class="tv-banner__placeholder"></div>
-    {% endif %}
-
-    {% if section.settings.show_overlay %}
-      <div
-        class="tv-banner__overlay"
-        style="--tv-banner-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
-      ></div>
-    {% endif %}
-
-    <div class="tv-banner__main">
+    <!-- Main content -->
+    <div class="tv-banner__content">
 
       {% if section.settings.heading != blank %}
         <h1 class="tv-banner__heading">
@@ -108,17 +92,18 @@
         </h1>
       {% endif %}
 
+
       {% if section.settings.description != blank %}
         <div class="tv-banner__description">
           {{ section.settings.description }}
         </div>
       {% endif %}
 
+
       {% if section.settings.main_button_text != blank %}
         <a
-          class="tv-banner__main-button"
           href="{{ section.settings.main_button_link | default: '#' }}"
-          aria-label="{{ section.settings.main_button_text }}"
+          class="tv-banner__main-button"
         >
           <span class="tv-banner__main-button-text">
             {{ section.settings.main_button_text }}
@@ -128,21 +113,26 @@
             class="tv-banner__main-button-arrow"
             aria-hidden="true"
           >
-            <span class="tv-banner__arrow-line"></span>
-            <span class="tv-banner__arrow-head"></span>
+            <span class="tv-banner__main-arrow-line"></span>
+            <span class="tv-banner__main-arrow-head"></span>
           </span>
         </a>
       {% endif %}
 
     </div>
 
-    {% if section.settings.bottom_text != blank %}
-      <div class="tv-banner__bottom">
-        {{ section.settings.bottom_text }}
-      </div>
-    {% endif %}
-
   </div>
+
+
+  <!-- =====================================================
+       HEADERBOTTOM — Figma bottom strip
+       1440 × 34px
+       ===================================================== -->
+  <footer class="tv-banner__footer">
+    <div class="tv-banner__footer-text">
+      {{ section.settings.bottom_text }}
+    </div>
+  </footer>
 </section>
 
 
@@ -151,10 +141,11 @@
   "name": "TV Banner",
   "tag": "section",
   "class": "tv-banner-section",
+
   "settings": [
     {
       "type": "header",
-      "content": "Frame 1956 — Header"
+      "content": "Header"
     },
     {
       "type": "image_picker",
@@ -187,59 +178,49 @@
 
     {
       "type": "header",
-      "content": "Frame 1957 — Banner"
+      "content": "Main Banner"
     },
     {
       "type": "image_picker",
-      "id": "banner_image",
-      "label": "Banner image"
+      "id": "banner_artwork",
+      "label": "Banner artwork"
     },
     {
-      "type": "checkbox",
-      "id": "show_overlay",
-      "label": "Show overlay",
-      "default": false
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
     },
     {
-      "type": "range",
-      "id": "overlay_opacity",
-      "label": "Overlay opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 10
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
     },
-   {
-  "type": "text",
-  "id": "heading",
-  "label": "Heading",
-  "default": "The Gift Guide"
-},
-{
-  "type": "richtext",
-  "id": "description",
-  "label": "Description",
-  "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>"
-},
-{
-  "type": "text",
-  "id": "main_button_text",
-  "label": "Main button text",
-  "default": "CHOOSE YOURS"
-},
-{
-  "type": "url",
-  "id": "main_button_link",
-  "label": "Main button link"
-},
-{
-  "type": "text",
-  "id": "bottom_text",
-  "label": "Bottom text",
-  "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-}
+    {
+      "type": "text",
+      "id": "main_button_text",
+      "label": "Main button text",
+      "default": "CHOOSE YOURS"
+    },
+    {
+      "type": "url",
+      "id": "main_button_link",
+      "label": "Main button link"
+    },
+
+    {
+      "type": "header",
+      "content": "Bottom Bar"
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Bottom text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    }
   ],
+
   "presets": [
     {
       "name": "TV Banner"
