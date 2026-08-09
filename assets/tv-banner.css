@@ -27,17 +27,18 @@
 
    ========================================================= */
 
-
 .tv-page {
   --tv-black: #000000;
+  --tv-white: #ffffff;
 
   position: relative;
-  max-width: 1440px;
   width: 100%;
   min-height: 100vh;
-  margin: 0 auto;
+
+  margin: 0;
   padding: 0;
-  background: var(--tv-black);
+
+  background: var(--tv-white);
 }
 
 /* ==========================================================
