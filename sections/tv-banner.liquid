@@ -1,17 +1,24 @@
-<div class="tv-banner">
+<div class="tv-page">
 
-  <!-- ======================================================
-       HEADER
-       Figma: 1440 × 64px
-       ====================================================== -->
+  <!-- ==========================================================
+       TV BANNER
+       Figma: 1440 × 878px
+       Header: 64px
+       Hero: 780px
+       Footer: 34px
+  =========================================================== -->
 
-  <header class="tv-banner__header">
+  <section class="tv-banner">
 
-    <div class="tv-banner__header-inner">
+    <!-- ========================================================
+         HEADER
+         Figma: 1440 × 64px
+    ========================================================= -->
+
+    <header class="tv-banner__header">
 
       <!-- LOGO -->
       <div class="tv-banner__logo">
-
         {% if section.settings.logo != blank %}
 
           {{
@@ -32,7 +39,6 @@
           </span>
 
         {% endif %}
-
       </div>
 
 
@@ -66,29 +72,18 @@
 
       {% endif %}
 
-    </div>
-
-  </header>
+    </header>
 
 
-  <!-- ======================================================
-       MAIN
-       Figma: 1440 × 780px
-       ====================================================== -->
+    <!-- ========================================================
+         HERO
+         Figma: 1440 × 780px
+    ========================================================= -->
 
-  <main class="tv-banner__main">
-
-    <div class="tv-banner__canvas">
+    <div class="tv-banner__hero">
 
 
-      <!-- ==================================================
-           TOP ARTWORK
-           Figma:
-           width: 1440px
-           height: 390px
-           top: 0px relative to main
-           ================================================== -->
-
+      <!-- TOP ARTWORK -->
       <div class="tv-banner__artwork tv-banner__artwork--top">
 
         <img
@@ -101,15 +96,7 @@
       </div>
 
 
-      <!-- ==================================================
-           BOTTOM ARTWORK
-           Figma:
-           width: 890px
-           height: 402px
-           left: 550px
-           top: 378px relative to main
-           ================================================== -->
-
+      <!-- BOTTOM ARTWORK -->
       <div class="tv-banner__artwork tv-banner__artwork--bottom">
 
         <img
@@ -122,10 +109,7 @@
       </div>
 
 
-      <!-- ==================================================
-           MAIN CONTENT
-           ================================================== -->
-
+      <!-- MAIN CONTENT -->
       <div class="tv-banner__content">
 
         {% if section.settings.heading != blank %}
@@ -173,145 +157,99 @@
 
     </div>
 
-  </main>
+
+    <!-- ========================================================
+         FOOTER
+         Figma: 1440 × 34px
+    ========================================================= -->
+
+    <footer class="tv-banner__footer">
+
+      <span class="tv-banner__footer-text">
+        SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL
+      </span>
+
+    </footer>
+
+  </section>
 
 
-  <!-- ======================================================
-       FOOTER
-       Figma: 1440 × 34px
-       ====================================================== -->
+  <!-- ==========================================================
+       PRODUCT GRID
+       Figma: 1337 × 981px
+       Gap from banner: 90px
+  =========================================================== -->
 
-  <footer class="tv-banner__footer">
+  <section class="tv-product-grid">
 
-    <div class="tv-banner__footer-text">
-      {{ section.settings.bottom_text }}
+    {% if section.settings.heading != blank %}
+      <h2 class="tv-product-grid__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+
+    <div class="tv-product-grid__items">
+
+      {% for block in section.blocks %}
+
+        <article
+          class="tv-product-grid__item"
+          {{ block.shopify_attributes }}
+        >
+
+          <div class="tv-product-grid__image-wrapper">
+
+            {% if block.settings.image != blank %}
+
+              {{
+                block.settings.image
+                | image_url: width: 866
+                | image_tag:
+                  class: 'tv-product-grid__image',
+                  loading: 'lazy',
+                  widths: '433, 650, 866',
+                  sizes: '(min-width: 1440px) 433px, 32.4vw, 100vw'
+              }}
+
+            {% else %}
+
+              <div class="tv-product-grid__placeholder">
+                Add image
+              </div>
+
+            {% endif %}
+
+
+            {% if block.settings.product != blank %}
+
+              <button
+                type="button"
+                class="tv-product-grid__hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                aria-label="View {{ block.settings.product.title }}"
+                data-product-url="{{ block.settings.product.url }}"
+              >
+
+                <span class="tv-product-grid__hotspot-circle">
+                  <span class="tv-product-grid__hotspot-plus"></span>
+                </span>
+
+              </button>
+
+            {% endif %}
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
     </div>
 
-  </footer>
+  </section>
 
 </div>
-
-
-{% schema %}
-
-{
-  "name": "TV Banner",
-  "tag": "section",
-  "class": "tv-banner-section",
-
-  "settings": [
-
-    {
-      "type": "header",
-      "content": "Header"
-    },
-
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-
-    {
-      "type": "text",
-      "id": "brand_text",
-      "label": "Brand text",
-      "default": "TISSO VISION"
-    },
-
-    {
-      "type": "text",
-      "id": "header_text",
-      "label": "Header message",
-      "default": "Find the ideal gift for your loved ones."
-    },
-
-    {
-      "type": "text",
-      "id": "header_button_text",
-      "label": "Header button text",
-      "default": "CHOOSE GIFT"
-    },
-
-    {
-      "type": "url",
-      "id": "header_button_link",
-      "label": "Header button link"
-    },
-
-
-    {
-      "type": "header",
-      "content": "Main Artwork"
-    },
-
-    {
-      "type": "image_picker",
-      "id": "top_artwork",
-      "label": "Top artwork",
-      "info": "Figma frame: 1440 × 390px"
-    },
-
-    {
-      "type": "image_picker",
-      "id": "bottom_artwork",
-      "label": "Bottom artwork",
-      "info": "Figma frame: 890 × 402px"
-    },
-
-
-    {
-      "type": "header",
-      "content": "Main Content"
-    },
-
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "The Gift Guide"
-    },
-
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
-    },
-
-    {
-      "type": "text",
-      "id": "main_button_text",
-      "label": "Main button text",
-      "default": "SHOP NOW"
-    },
-
-    {
-      "type": "url",
-      "id": "main_button_link",
-      "label": "Main button link"
-    },
-
-
-    {
-      "type": "header",
-      "content": "Bottom Bar"
-    },
-
-    {
-      "type": "text",
-      "id": "bottom_text",
-      "label": "Bottom text",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-    }
-
-  ],
-
-  "presets": [
-    {
-      "name": "TV Banner"
-    }
-  ]
-}
-
-{% endschema %}
