@@ -81,26 +81,22 @@
 
     <!-- TOP ARTWORK -->
     <div class="tv-banner__artwork tv-banner__artwork--top">
-      {{
-        'artworktop.png'
-        | asset_url
-        | image_tag:
-          class: 'tv-banner__artwork-image',
-          loading: 'eager',
-          alt: 'Gift Guide artwork'
-      }}
+      <img
+        src="{{ 'artworktop.png' | asset_url }}"
+        class="tv-banner__artwork-image"
+        alt="Gift Guide artwork"
+        loading="eager"
+      >
     </div>
     
     <!-- BOTTOM ARTWORK -->
     <div class="tv-banner__artwork tv-banner__artwork--bottom">
-      {{
-        'artworkbottom.png'
-        | asset_url
-        | image_tag:
-          class: 'tv-banner__artwork-image',
-          loading: 'eager',
-          alt: 'Gift Guide artwork'
-      }}
+      <img
+        src="{{ 'artworkbottom.png' | asset_url }}"
+        class="tv-banner__artwork-image"
+        alt="Gift Guide artwork"
+        loading="eager"
+      >
     </div>
 
 
