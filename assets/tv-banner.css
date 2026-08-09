@@ -58,13 +58,15 @@
   --tv-yellow: #fff544;
 
   position: relative;
-  max-width: 1440px;
-  margin: 0 auto;
+   width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 0;
   background: var(--tv-white);
   font-family: 'Jost', sans-serif;
   color: var(--tv-black);
 }
+
 
 /* ==========================================================
    HEADER var(--tv-white);    
