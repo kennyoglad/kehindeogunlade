@@ -7,7 +7,6 @@
 
   position: relative;
   width: 100%;
-  
   min-height: 100vh;
 
   margin: 0;
@@ -34,20 +33,14 @@
   --tv-yellow: #fff544;
 
   position: relative;
-
   width: 100%;
-  
-  margin: 0;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0;
-
-  overflow: hidden;
-
   background: var(--tv-white);
-
   font-family: 'Jost', sans-serif;
   color: var(--tv-black);
 }
-
 
 /* ==========================================================
    HEADER var(--tv-white);    
