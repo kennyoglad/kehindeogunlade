@@ -24,7 +24,7 @@
 
   overflow: hidden;
 
-  background:#000000;
+  background:var(--tv-white);
 
   font-family: 'Jost', sans-serif;
   color: var(--tv-black);
