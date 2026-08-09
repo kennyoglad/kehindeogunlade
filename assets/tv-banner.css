@@ -12,7 +12,8 @@
   background: var(--tv-white);
 }
 
-   ========================================================= */
+
+
 .tv-page {
   --tv-black: #000000;
   position: relative;
@@ -22,6 +23,21 @@
   padding: 0;
   background: var(--tv-black);
   box-sizing: border-box;
+}
+
+   ========================================================= */
+
+
+.tv-page {
+  --tv-black: #000000;
+
+  position: relative;
+  max-width: 1440px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--tv-black);
 }
 
 /* ==========================================================
