@@ -3,15 +3,16 @@
   class="tv-banner"
   data-section-id="{{ section.id }}"
 >
-  <!-- =====================================================
-       HEADER — Figma Frame 1956
-       1440 × 64px
-       ===================================================== -->
-  <header class="tv-banner__header">
+  {%- comment -%}
+    ==========================================================
+    HEADER
+    Figma: 1440 × 64px
+    ==========================================================
+  {%- endcomment -%}
 
+  <header class="tv-banner__header">
     <div class="tv-banner__header-inner">
 
-      <!-- Logo -->
       <div class="tv-banner__logo">
         {% if section.settings.logo != blank %}
           {{
@@ -21,7 +22,7 @@
               class: 'tv-banner__logo-image',
               loading: 'eager',
               widths: '150, 250, 350, 500',
-              sizes: '(max-width: 749px) 120px, 180px',
+              sizes: '151px',
               alt: section.settings.logo.alt | default: section.settings.brand_text
           }}
         {% else %}
@@ -31,12 +32,10 @@
         {% endif %}
       </div>
 
-      <!-- Header message -->
       <div class="tv-banner__header-message">
         {{ section.settings.header_text }}
       </div>
 
-      <!-- Header button -->
       {% if section.settings.header_button_text != blank %}
         <a
           href="{{ section.settings.header_button_link | default: '#' }}"
@@ -60,30 +59,61 @@
   </header>
 
 
-  <!-- =====================================================
-       MAIN — Figma main frame
-       1440 × 780px
-       ===================================================== -->
+  {%- comment -%}
+    ==========================================================
+    MAIN
+    Figma: 1440 × 780px
+
+    Frame 1:
+    Figma top: 64px
+    Main-relative top: 0px
+    Size: 1440 × 390px
+
+    Frame 2:
+    Figma top: 442px
+    Main-relative top: 378px
+    Size: 890 × 402px
+    Left: 550px
+    ==========================================================
+  {%- endcomment -%}
+
   <div class="tv-banner__main">
 
-    <!-- Artwork -->
-    {% if section.settings.banner_artwork != blank %}
-      <div class="tv-banner__artwork">
+    <!-- TOP ARTWORK -->
+    {% if section.settings.top_artwork != blank %}
+      <div class="tv-banner__artwork tv-banner__artwork--top">
         {{
-          section.settings.banner_artwork
+          section.settings.top_artwork
           | image_url: width: 3000
           | image_tag:
             class: 'tv-banner__artwork-image',
             loading: 'eager',
             widths: '750, 1100, 1440, 1800, 2400, 3000',
             sizes: '100vw',
-            alt: section.settings.banner_artwork.alt | default: 'Gift Guide'
+            alt: section.settings.top_artwork.alt | default: 'Gift Guide artwork'
         }}
       </div>
     {% endif %}
 
 
-    <!-- Main content -->
+    <!-- BOTTOM ARTWORK -->
+    {% if section.settings.bottom_artwork != blank %}
+      <div class="tv-banner__artwork tv-banner__artwork--bottom">
+        {{
+          section.settings.bottom_artwork
+          | image_url: width: 1800
+          | image_tag:
+            class: 'tv-banner__artwork-image',
+            loading: 'eager',
+            widths: '750, 890, 1200, 1500, 1800',
+            sizes: '890px',
+            alt: section.settings.bottom_artwork.alt | default: 'Gift Guide artwork'
+        }}
+      </div>
+    {% endif %}
+
+
+    <!-- MAIN CONTENT -->
     <div class="tv-banner__content">
 
       {% if section.settings.heading != blank %}
@@ -124,10 +154,13 @@
   </div>
 
 
-  <!-- =====================================================
-       HEADERBOTTOM — Figma bottom strip
-       1440 × 34px
-       ===================================================== -->
+  {%- comment -%}
+    ==========================================================
+    FOOTER
+    Figma: 1440 × 34px
+    ==========================================================
+  {%- endcomment -%}
+
   <footer class="tv-banner__footer">
     <div class="tv-banner__footer-text">
       {{ section.settings.bottom_text }}
@@ -168,7 +201,7 @@
       "type": "text",
       "id": "header_button_text",
       "label": "Header button text",
-      "default": "CHOOSE GIFT"
+      "default": "CHOOSE YOURS"
     },
     {
       "type": "url",
@@ -178,12 +211,24 @@
 
     {
       "type": "header",
-      "content": "Main Banner"
+      "content": "Main Artwork"
     },
     {
       "type": "image_picker",
-      "id": "banner_artwork",
-      "label": "Banner artwork"
+      "id": "top_artwork",
+      "label": "Top artwork",
+      "info": "Figma frame: 1440 × 390px"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_artwork",
+      "label": "Bottom artwork",
+      "info": "Figma frame: 890 × 402px"
+    },
+
+    {
+      "type": "header",
+      "content": "Main Content"
     },
     {
       "type": "text",
