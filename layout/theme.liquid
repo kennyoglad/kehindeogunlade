@@ -57,18 +57,21 @@
 
     <div class="page-wrapper">
       
-      <main
-        id="MainContent"
-        class="content-for-layout"
-        role="main"
-        data-page-transition-enabled="{{ settings.page_transition_enabled }}"
-        data-product-transition="{{ settings.transition_to_main_product }}"
-        data-template="{{ template }}"
-      >
-        <div class="tv-page">
-          {{ content_for_layout }}
-        </div>
-      </main>
+      
+    <main
+      id="MainContent"
+      class="content-for-layout"
+      role="main"
+      data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+      data-product-transition="{{ settings.transition_to_main_product }}"
+      data-template="{{ template }}"
+    >
+      <div class="tv-page">
+        {{ content_for_layout }}
+      </div>
+    </main>
+
+
       <footer>
         {% sections 'footer-group' %}
       </footer>
