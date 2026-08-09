@@ -4,7 +4,35 @@
       "type": "tv-banner"
     },
     "tv_product_grid": {
-      "type": "tv-product-grid"
+      "type": "tv-product-grid",
+      "blocks": {
+        "product_image_1": {
+          "type": "product_image"
+        },
+        "product_image_2": {
+          "type": "product_image"
+        },
+        "product_image_3": {
+          "type": "product_image"
+        },
+        "product_image_4": {
+          "type": "product_image"
+        },
+        "product_image_5": {
+          "type": "product_image"
+        },
+        "product_image_6": {
+          "type": "product_image"
+        }
+      },
+      "block_order": [
+        "product_image_1",
+        "product_image_2",
+        "product_image_3",
+        "product_image_4",
+        "product_image_5",
+        "product_image_6"
+      ]
     }
   },
   "order": [
