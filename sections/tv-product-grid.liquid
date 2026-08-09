@@ -1,91 +1,95 @@
-```liquid
 <section class="tv-product-grid">
 
-  {% if section.settings.heading != blank %}
-    <h2 class="tv-product-grid__heading">
-      {{ section.settings.heading }}
-    </h2>
-  {% endif %}
+  <div class="tv-product-grid__container">
 
-  <div class="tv-product-grid__items">
-
-    {% for block in section.blocks %}
-
-      {% assign product = block.settings.product %}
-
-      <article
-        class="tv-product-grid__item"
-        {{ block.shopify_attributes }}
-      >
-
-        <div class="tv-product-grid__image-wrapper">
-
-          {% if block.settings.image != blank %}
-
-            {{
-              block.settings.image
-              | image_url: width: 866
-              | image_tag:
-                class: 'tv-product-grid__image',
-                loading: 'lazy',
-                widths: '433, 650, 866',
-                sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
-                alt: block.settings.image.alt | default: product.title
-            }}
-
-          {% elsif product != blank and product.featured_image != blank %}
-
-            {{
-              product.featured_image
-              | image_url: width: 866
-              | image_tag:
-                class: 'tv-product-grid__image',
-                loading: 'lazy',
-                widths: '433, 650, 866',
-                sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
-                alt: product.title
-            }}
-
-          {% else %}
-
-            <div class="tv-product-grid__placeholder">
-              <span>No image selected</span>
-            </div>
-
-          {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 class="tv-product-grid__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
 
 
-          {% if product != blank %}
+    <div class="tv-product-grid__items">
 
-            <button
-              type="button"
-              class="tv-product-grid__hotspot"
-              style="
-                --hotspot-x: {{ block.settings.hotspot_x }}%;
-                --hotspot-y: {{ block.settings.hotspot_y }}%;
-              "
-              aria-label="View {{ product.title | escape }}"
-              data-product-handle="{{ product.handle }}"
-              data-product-url="{{ product.url }}"
-              data-product-id="{{ product.id }}"
-            >
+      {% for block in section.blocks %}
 
-              <span
-                class="tv-product-grid__hotspot-circle"
-                aria-hidden="true"
+        {% assign product = block.settings.product %}
+
+        <article
+          class="tv-product-grid__item"
+          {{ block.shopify_attributes }}
+        >
+
+          <div class="tv-product-grid__image-wrapper">
+
+            {% if block.settings.image != blank %}
+
+              {{
+                block.settings.image
+                | image_url: width: 866
+                | image_tag:
+                  class: 'tv-product-grid__image',
+                  loading: 'lazy',
+                  widths: '433, 650, 866',
+                  sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
+                  alt: block.settings.image.alt | default: product.title
+              }}
+
+            {% elsif product != blank and product.featured_image != blank %}
+
+              {{
+                product.featured_image
+                | image_url: width: 866
+                | image_tag:
+                  class: 'tv-product-grid__image',
+                  loading: 'lazy',
+                  widths: '433, 650, 866',
+                  sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
+                  alt: product.title
+              }}
+
+            {% else %}
+
+              <div class="tv-product-grid__placeholder">
+                <span>No image selected</span>
+              </div>
+
+            {% endif %}
+
+
+            {% if product != blank %}
+
+              <button
+                type="button"
+                class="tv-product-grid__hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                aria-label="View {{ product.title | escape }}"
+                data-product-id="{{ product.id }}"
+                data-product-handle="{{ product.handle }}"
+                data-product-url="{{ product.url }}"
               >
-                <span class="tv-product-grid__hotspot-plus"></span>
-              </span>
 
-            </button>
+                <span
+                  class="tv-product-grid__hotspot-circle"
+                  aria-hidden="true"
+                >
+                  <span class="tv-product-grid__hotspot-plus"></span>
+                </span>
 
-          {% endif %}
+              </button>
 
-        </div>
+            {% endif %}
 
-      </article>
+          </div>
 
-    {% endfor %}
+        </article>
+
+      {% endfor %}
+
+    </div>
 
   </div>
 
@@ -201,4 +205,3 @@
   ]
 }
 {% endschema %}
-```
