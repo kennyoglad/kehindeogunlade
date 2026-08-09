@@ -10,16 +10,17 @@
       </h2>
     {% endif %}
 
-    <div class="tv-product-grid__grid">
+    <div class="tv-product-grid__items">
 
       {% for block in section.blocks %}
         <article
-          class="tv-product-grid__card"
+          class="tv-product-grid__item"
           {{ block.shopify_attributes }}
         >
 
-          {% if block.settings.image != blank %}
-            <div class="tv-product-grid__image-wrapper">
+          <div class="tv-product-grid__image-wrapper">
+
+            {% if block.settings.image != blank %}
 
               {{
                 block.settings.image
@@ -28,28 +29,38 @@
                   class: 'tv-product-grid__image',
                   loading: 'lazy',
                   widths: '433, 650, 866, 1000',
-                  sizes: '(min-width: 1440px) 433px, 33vw',
-                  alt: block.settings.image.alt | default: block.settings.product_title
+                  sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
+                  alt: block.settings.image.alt | default: section.settings.heading
               }}
 
-              {% if block.settings.product_link != blank %}
-                <a
-                  href="{{ block.settings.product_link }}"
-                  class="tv-product-grid__hotspot"
-                  style="
-                    --hotspot-x: {{ block.settings.hotspot_x }}%;
-                    --hotspot-y: {{ block.settings.hotspot_y }}%;
-                  "
-                  aria-label="{{ block.settings.product_title | escape }}"
-                >
-                  <span class="tv-product-grid__hotspot-icon" aria-hidden="true">
-                    +
-                  </span>
-                </a>
-              {% endif %}
+            {% else %}
 
-            </div>
-          {% endif %}
+              {{ 'image' | placeholder_svg_tag: 'tv-product-grid__placeholder' }}
+
+            {% endif %}
+
+
+            {% if block.settings.product != blank %}
+
+              <button
+                type="button"
+                class="tv-product-grid__hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                data-product-url="{{ block.settings.product.url }}"
+                data-product-handle="{{ block.settings.product.handle }}"
+                aria-label="View {{ block.settings.product.title }}"
+              >
+                <span class="tv-product-grid__hotspot-circle">
+                  <span class="tv-product-grid__hotspot-plus"></span>
+                </span>
+              </button>
+
+            {% endif %}
+
+          </div>
 
         </article>
       {% endfor %}
@@ -59,9 +70,12 @@
   </div>
 </section>
 
+
 {% schema %}
 {
   "name": "TV Product Grid",
+  "tag": "section",
+  "class": "section-tv-product-grid",
   "settings": [
     {
       "type": "text",
@@ -72,24 +86,18 @@
   ],
   "blocks": [
     {
-      "type": "product",
-      "name": "Product",
+      "type": "image_product",
+      "name": "Image",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Product image"
+          "label": "Image"
         },
         {
-          "type": "text",
-          "id": "product_title",
-          "label": "Product title",
-          "default": "Product"
-        },
-        {
-          "type": "url",
-          "id": "product_link",
-          "label": "Product link"
+          "type": "product",
+          "id": "product",
+          "label": "Product"
         },
         {
           "type": "range",
@@ -119,22 +127,22 @@
       "name": "TV Product Grid",
       "blocks": [
         {
-          "type": "product"
+          "type": "image_product"
         },
         {
-          "type": "product"
+          "type": "image_product"
         },
         {
-          "type": "product"
+          "type": "image_product"
         },
         {
-          "type": "product"
+          "type": "image_product"
         },
         {
-          "type": "product"
+          "type": "image_product"
         },
         {
-          "type": "product"
+          "type": "image_product"
         }
       ]
     }
