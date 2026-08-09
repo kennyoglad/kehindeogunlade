@@ -24,50 +24,22 @@
 
           <div class="tv-product-grid__image-wrapper">
 
-            {% if block.settings.image != blank %}
+          
 
-              {{
-                block.settings.image
-                | image_url: width: 1000
-                | image_tag:
-                  class: 'tv-product-grid__image',
-                  loading: 'lazy',
-                  widths: '433, 650, 866, 1000',
-                  sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
-                  alt: block.settings.image.alt | default: section.settings.heading
-              }}
-
-            {% else %}
-
-              {{ 'image' | placeholder_svg_tag: 'tv-product-grid__placeholder' }}
-
-            {% endif %}
-
-
-            {% if block.settings.product != blank %}
-
-              <button
-                type="button"
-                class="tv-product-grid__hotspot"
-                style="
-                  --hotspot-x: {{ block.settings.hotspot_x }}%;
-                  --hotspot-y: {{ block.settings.hotspot_y }}%;
-                "
-                data-product-url="{{ block.settings.product.url }}"
-                data-product-handle="{{ block.settings.product.handle }}"
-                aria-label="View {{ block.settings.product.title }}"
-              >
-                <span class="tv-product-grid__hotspot-circle">
-                  <span class="tv-product-grid__hotspot-plus"></span>
-                </span>
-              </button>
-
-            {% endif %}
-
-          </div>
-
-        </article>
-      {% endfor %}
+{% for block in section.blocks %}
+  <article class="tv-product-grid__item">
+    <div style="
+      width: 100%;
+      aspect-ratio: 433 / 444;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">
+      Product {{ forloop.index }}
+    </div>
+  </article>
+{% endfor %}
 
     </div>
 
