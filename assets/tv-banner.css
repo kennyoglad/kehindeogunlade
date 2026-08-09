@@ -8,6 +8,18 @@
 
    The main section is responsive and preserves the
    original 1440 × 780 Figma aspect ratio.
+
+.tv-page {
+  --tv-black: #000000;
+
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  background: var(--tv-black);
+}
    ========================================================== */
 
 .tv-banner {
