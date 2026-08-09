@@ -1,39 +1,90 @@
-.tv-product-grid-test {
+.tv-product-grid {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tv-product-grid__heading-wrapper {
+  margin-bottom: 30px;
+}
+
+.tv-product-grid__heading {
+  margin: 0;
+  font-family: 'Lustria', serif;
+  font-size: 36px;
+  line-height: 120%;
+  font-weight: 400;
+  color: #000000;
+}
+
+.tv-product-grid__items {
+  display: grid;
+  grid-template-columns: repeat(3, 433px);
+  gap: 20px;
+  align-items: start;
+}
+
+.tv-product-grid__item {
+  width: 433px;
+  height: 444px;
+  position: relative;
+}
+
+.tv-product-grid__image-wrapper {
+  position: relative;
+  width: 433px;
+  height: 444px;
+  overflow: hidden;
+}
+
+.tv-product-grid__image {
   display: block;
   width: 100%;
-  padding: 60px;
-  background: white;
+  height: 100%;
+  object-fit: cover;
 }
 
-.tv-product-grid-test h2 {
-  display: block;
-  margin: 0 0 30px;
-  font-size: 36px;
-  color: black;
-}
-
-.tv-product-grid-test__items {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.tv-product-grid-test__item {
-  min-height: 200px;
-  border: 2px solid black;
+.tv-product-grid__placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f5f5f5;
-  color: black;
+  color: #000000;
+  font-size: 16px;
 }
 
-@media screen and (max-width: 749px) {
-  .tv-product-grid-test {
-    padding: 30px 20px;
+/* Tablet */
+@media screen and (max-width: 1399px) {
+  .tv-product-grid__items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .tv-product-grid-test__items {
+  .tv-product-grid__item,
+  .tv-product-grid__image-wrapper {
+    width: 100%;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  .tv-product-grid {
+    padding: 0 20px;
+  }
+
+  .tv-product-grid__heading {
+    font-size: 30px;
+  }
+
+  .tv-product-grid__items {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tv-product-grid__item,
+  .tv-product-grid__image-wrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 433 / 444;
   }
 }
