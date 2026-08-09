@@ -24,7 +24,7 @@
 
   overflow: hidden;
 
-  background: var(--tv-black);
+  background: var(--tv-white);
 
   font-family: 'Jost', sans-serif;
   color: var(--tv-black);
@@ -32,7 +32,7 @@
 
 
 /* ==========================================================
-   HEADER var(--tv-white);
+   HEADER var(--tv-white);    
    Figma:
    1440 × 64px
    background: #F5F5F5
