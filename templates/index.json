@@ -2,9 +2,13 @@
   "sections": {
     "tv_banner": {
       "type": "tv-banner"
+    },
+    "tv_product_grid": {
+      "type": "tv-product-grid"
     }
   },
   "order": [
-    "tv_banner"
+    "tv_banner",
+    "tv_product_grid"
   ]
 }
