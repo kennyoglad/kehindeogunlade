@@ -1,20 +1,36 @@
+/* =========================================================
+   TV PRODUCT GRID
+   Figma desktop: 1339 × 981px
+   ========================================================= */
+
 .tv-product-grid {
   width: 100%;
-  background: #ffffff;
-  box-sizing: border-box;
-}
-
-.tv-product-grid__inner {
-  width: 100%;
-  max-width: 1337px;
+  max-width: 1339px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
+  background: #ffffff;
 }
 
+/* ---------------------------------------------------------
+   HEADING
+   Figma:
+   width: 372px
+   height: 43px
+   font: Lustria 36px / 120%
+   --------------------------------------------------------- */
+
 .tv-product-grid__heading {
-  margin: 0 0 30px;
+  width: 372px;
+  height: 43px;
+
+  margin: 0 0 30px 0;
   padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
 
   font-family: 'Lustria', serif;
   font-size: 36px;
@@ -24,32 +40,65 @@
   color: #000000;
 }
 
+/* ---------------------------------------------------------
+   GRID
+   Figma:
+   3 columns
+   433px each
+   20px gap
+   2 rows
+   --------------------------------------------------------- */
+
 .tv-product-grid__items {
+  width: 100%;
+
   display: grid;
 
-  grid-template-columns: repeat(3, 433px);
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  grid-auto-rows: 444px;
 
   column-gap: 20px;
   row-gap: 20px;
 
-  align-items: start;
+  box-sizing: border-box;
 }
 
+/* ---------------------------------------------------------
+   ITEM
+   --------------------------------------------------------- */
+
 .tv-product-grid__item {
-  width: 433px;
+  position: relative;
+
+  width: 100%;
   height: 444px;
+
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
 }
+
+/* ---------------------------------------------------------
+   IMAGE WRAPPER
+   --------------------------------------------------------- */
 
 .tv-product-grid__image-wrapper {
   position: relative;
 
-  width: 433px;
-  height: 444px;
+  width: 100%;
+  height: 100%;
 
   overflow: hidden;
+
+  background: #f3f3f3;
 }
+
+/* ---------------------------------------------------------
+   PRODUCT IMAGE
+   --------------------------------------------------------- */
 
 .tv-product-grid__image {
   display: block;
@@ -58,23 +107,26 @@
   height: 100%;
 
   object-fit: cover;
+  object-position: center;
+
+  margin: 0;
+  padding: 0;
 }
+
+/* ---------------------------------------------------------
+   PLACEHOLDER
+   --------------------------------------------------------- */
 
 .tv-product-grid__placeholder {
+  display: block;
+
   width: 100%;
   height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #eeeeee;
-
-  color: #777777;
-
-  font-family: 'Jost', sans-serif;
-  font-size: 16px;
 }
+
+/* ---------------------------------------------------------
+   HOTSPOT
+   --------------------------------------------------------- */
 
 .tv-product-grid__hotspot {
   position: absolute;
@@ -85,12 +137,14 @@
   width: 22px;
   height: 22px;
 
-  transform: translate(-50%, -50%);
-
   padding: 0;
   margin: 0;
 
+  transform: translate(-50%, -50%);
+
   border: 0;
+  border-radius: 50%;
+
   background: transparent;
 
   cursor: pointer;
@@ -98,96 +152,115 @@
   z-index: 5;
 }
 
+/* Outer circle */
+
 .tv-product-grid__hotspot-circle {
   position: relative;
 
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   width: 22px;
   height: 22px;
+
+  box-sizing: border-box;
 
   border-radius: 50%;
 
   background: rgba(248, 248, 248, 0.9);
 }
 
-.tv-product-grid__hotspot-plus {
+/* Plus */
+
+.tv-product-grid__hotspot-plus,
+.tv-product-grid__hotspot-plus::after {
   position: absolute;
 
-  left: 50%;
-  top: 50%;
+  display: block;
 
-  width: 9px;
-  height: 9px;
-
-  transform: translate(-50%, -50%);
-}
-
-.tv-product-grid__hotspot-plus::before,
-.tv-product-grid__hotspot-plus::after {
   content: "";
 
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
   background: #000000;
-
-  transform: translate(-50%, -50%);
 }
 
-.tv-product-grid__hotspot-plus::before {
+/* Horizontal line */
+
+.tv-product-grid__hotspot-plus {
   width: 9px;
   height: 1.5px;
 }
 
+/* Vertical line */
+
 .tv-product-grid__hotspot-plus::after {
   width: 1.5px;
   height: 9px;
+
+  left: 3.75px;
+  top: -3.75px;
 }
 
+/* ---------------------------------------------------------
+   HOVER
+   --------------------------------------------------------- */
+
+.tv-product-grid__hotspot-circle {
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.tv-product-grid__hotspot:hover
+.tv-product-grid__hotspot-circle,
+.tv-product-grid__hotspot:focus-visible
+.tv-product-grid__hotspot-circle {
+  transform: scale(1.1);
+  background: #ffffff;
+}
+
+/* ---------------------------------------------------------
+   FOCUS
+   --------------------------------------------------------- */
+
+.tv-product-grid__hotspot:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
 
 @media screen and (max-width: 1399px) {
-
-  .tv-product-grid__inner {
-    max-width: calc(100% - 40px);
+  .tv-product-grid {
+    width: calc(100% - 40px);
   }
-
-  .tv-product-grid__items {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .tv-product-grid__item,
-  .tv-product-grid__image-wrapper {
-    width: 100%;
-  }
-
 }
 
-
 @media screen and (max-width: 749px) {
-
-  .tv-product-grid__inner {
-    max-width: none;
-    padding: 0 20px;
+  .tv-product-grid {
+    width: calc(100% - 32px);
   }
 
   .tv-product-grid__heading {
-    font-size: 28px;
+    width: 100%;
+    height: auto;
+
     margin-bottom: 20px;
+
+    font-size: 28px;
   }
 
   .tv-product-grid__items {
     grid-template-columns: 1fr;
-    gap: 20px;
+    grid-auto-rows: auto;
+
+    row-gap: 12px;
   }
 
-  .tv-product-grid__item,
-  .tv-product-grid__image-wrapper {
-    width: 100%;
+  .tv-product-grid__item {
     height: auto;
     aspect-ratio: 433 / 444;
   }
-
 }
