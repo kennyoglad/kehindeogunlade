@@ -1,1 +1,108 @@
+/* =========================================================
+   TV PRODUCT GRID
+   ========================================================= */
 
+.tv-product-grid {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #000000;
+}
+
+.tv-product-grid__inner {
+  width: min(1337px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.tv-product-grid__heading {
+  width: 100%;
+  margin: 0 0 30px;
+
+  font-family: 'Lustria', serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 120%;
+
+  color: #000000;
+}
+
+.tv-product-grid__grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+
+  width: 100%;
+}
+
+.tv-product-grid__card {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.tv-product-grid__image-wrapper {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 433 / 444;
+
+  overflow: hidden;
+}
+
+.tv-product-grid__image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.tv-product-grid__hotspot {
+  position: absolute;
+
+  left: var(--hotspot-x);
+  top: var(--hotspot-y);
+
+  width: 22px;
+  height: 22px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(248, 248, 248, 0.9);
+
+  color: #000000;
+
+  text-decoration: none;
+
+  z-index: 2;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.tv-product-grid__hotspot:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.tv-product-grid__hotspot-icon {
+  display: block;
+
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+
+  transform: translateY(-1px);
+}
