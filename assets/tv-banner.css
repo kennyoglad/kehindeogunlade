@@ -1,6 +1,5 @@
 /* =========================================================
    TV PAGE — OUTER FIGMA FRAME
-   ========================================================= */
 .tv-page {
   --tv-black: #000000;
 
@@ -8,11 +7,21 @@
   max-width: 1440px;
   width: 100%;
   min-height: 100vh;
-
   margin: 0;
   padding: 0;
+  background: var(--tv-white);
+}
 
-  background: var(--tv-black);
+   ========================================================= */
+.tv-page {
+  --tv-white: #ffffff;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--tv-white);
+  box-sizing: border-box;
 }
 
 /* ==========================================================
