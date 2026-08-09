@@ -1,73 +1,72 @@
 <section class="tv-product-grid">
 
-  <div class="tv-product-grid__inner">
+  <div class="tv-product-grid">
 
-    {% if section.settings.heading != blank %}
-      <h2 class="tv-product-grid__heading">
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
+  {% if section.settings.heading != blank %}
+    <h2 class="tv-product-grid__heading">
+      {{ section.settings.heading }}
+    </h2>
+  {% endif %}
 
-    <div class="tv-product-grid__items">
+  <div class="tv-product-grid__items">
 
-      {% for block in section.blocks %}
+    {% for block in section.blocks %}
 
-        <article
-          class="tv-product-grid__item"
-          {{ block.shopify_attributes }}
-        >
+      <article
+        class="tv-product-grid__item"
+        {{ block.shopify_attributes }}
+      >
 
-          <div class="tv-product-grid__image-wrapper">
+        <div class="tv-product-grid__image-wrapper">
 
-            {% if block.settings.image != blank %}
+          {% if block.settings.image != blank %}
 
-              {{
-                block.settings.image
-                | image_url: width: 866
-                | image_tag:
-                  class: 'tv-product-grid__image',
-                  loading: 'lazy',
-                  widths: '433, 650, 866',
-                  sizes: '(min-width: 990px) 433px, 33vw, 100vw'
-              }}
+            {{
+              block.settings.image
+              | image_url: width: 866
+              | image_tag:
+                class: 'tv-product-grid__image',
+                loading: 'lazy',
+                widths: '433, 650, 866',
+                sizes: '(min-width: 990px) 433px, 33vw, 100vw'
+            }}
 
-            {% else %}
+          {% else %}
 
-              <div class="tv-product-grid__placeholder">
-                Add image
-              </div>
+            <div class="tv-product-grid__placeholder">
+              Add image
+            </div>
 
-            {% endif %}
+          {% endif %}
 
+          {% if block.settings.product != blank %}
 
-            {% if block.settings.product != blank %}
+            <button
+              type="button"
+              class="tv-product-grid__hotspot"
+              style="
+                --hotspot-x: {{ block.settings.hotspot_x }}%;
+                --hotspot-y: {{ block.settings.hotspot_y }}%;
+              "
+              aria-label="View {{ block.settings.product.title }}"
+              data-product-url="{{ block.settings.product.url }}"
+            >
+              <span class="tv-product-grid__hotspot-circle">
+                <span class="tv-product-grid__hotspot-plus"></span>
+              </span>
+            </button>
 
-              <button
-                type="button"
-                class="tv-product-grid__hotspot"
-                style="
-                  --hotspot-x: {{ block.settings.hotspot_x }}%;
-                  --hotspot-y: {{ block.settings.hotspot_y }}%;
-                "
-                aria-label="View {{ block.settings.product.title }}"
-                data-product-url="{{ block.settings.product.url }}"
-              >
-                <span class="tv-product-grid__hotspot-circle">
-                  <span class="tv-product-grid__hotspot-plus"></span>
-                </span>
-              </button>
+          {% endif %}
 
-            {% endif %}
+        </div>
 
-          </div>
+      </article>
 
-        </article>
-
-      {% endfor %}
-
-    </div>
+    {% endfor %}
 
   </div>
+
+</div>
 
 </section>
 
