@@ -1,20 +1,19 @@
-<section
-  id="TvBanner-{{ section.id }}"
-  class="tv-banner"
-  data-section-id="{{ section.id }}"
->
-  {%- comment -%}
-    ==========================================================
-    HEADER
-    Figma: 1440 × 64px
-    ==========================================================
-  {%- endcomment -%}
+<div class="tv-banner">
+
+  <!-- ======================================================
+       HEADER
+       Figma: 1440 × 64px
+       ====================================================== -->
 
   <header class="tv-banner__header">
+
     <div class="tv-banner__header-inner">
 
+      <!-- LOGO -->
       <div class="tv-banner__logo">
+
         {% if section.settings.logo != blank %}
+
           {{
             section.settings.logo
             | image_url: width: 500
@@ -25,22 +24,32 @@
               sizes: '151px',
               alt: section.settings.logo.alt | default: section.settings.brand_text
           }}
+
         {% else %}
+
           <span class="tv-banner__brand-text">
             {{ section.settings.brand_text }}
           </span>
+
         {% endif %}
+
       </div>
 
+
+      <!-- HEADER MESSAGE -->
       <div class="tv-banner__header-message">
         {{ section.settings.header_text }}
       </div>
 
+
+      <!-- HEADER BUTTON -->
       {% if section.settings.header_button_text != blank %}
+
         <a
           href="{{ section.settings.header_button_link | default: '#' }}"
           class="tv-banner__header-button"
         >
+
           <span class="tv-banner__header-button-text">
             {{ section.settings.header_button_text }}
           </span>
@@ -52,161 +61,197 @@
             <span class="tv-banner__header-arrow-line"></span>
             <span class="tv-banner__header-arrow-head"></span>
           </span>
+
         </a>
+
       {% endif %}
 
     </div>
+
   </header>
 
 
-  {%- comment -%}
-    ==========================================================
-    MAIN
-    Figma: 1440 × 780px
+  <!-- ======================================================
+       MAIN
+       Figma: 1440 × 780px
+       ====================================================== -->
 
-    Frame 1:
-    Figma top: 64px
-    Main-relative top: 0px
-    Size: 1440 × 390px
+  <main class="tv-banner__main">
 
-    Frame 2:
-    Figma top: 442px
-    Main-relative top: 378px
-    Size: 890 × 402px
-    Left: 550px
-    ==========================================================
-  {%- endcomment -%}
+    <div class="tv-banner__canvas">
 
-  <div class="tv-banner__main">
 
-  <div class="tv-banner__canvas">
+      <!-- ==================================================
+           TOP ARTWORK
+           Figma:
+           width: 1440px
+           height: 390px
+           top: 0px relative to main
+           ================================================== -->
 
-    <!-- TOP ARTWORK -->
-    <div class="tv-banner__artwork tv-banner__artwork--top">
-      <img
-        src="{{ 'artworktop.png' | asset_url }}"
-        class="tv-banner__artwork-image"
-        alt="Gift Guide artwork"
-        loading="eager"
-      >
-    </div>
+      <div class="tv-banner__artwork tv-banner__artwork--top">
 
-    <!-- BOTTOM ARTWORK -->
-    <div class="tv-banner__artwork tv-banner__artwork--bottom">
-      <img
-        src="{{ 'artworkbottom.png' | asset_url }}"
-        class="tv-banner__artwork-image"
-        alt="Gift Guide artwork"
-        loading="eager"
-      >
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="tv-banner__content">
-
-      {% if section.settings.heading != blank %}
-        <h1 class="tv-banner__heading">
-          {{ section.settings.heading }}
-        </h1>
-      {% endif %}
-
-      {% if section.settings.description != blank %}
-        <div class="tv-banner__description">
-          {{ section.settings.description }}
-        </div>
-      {% endif %}
-
-      {% if section.settings.main_button_text != blank %}
-        <a
-          href="{{ section.settings.main_button_link | default: '#' }}"
-          class="tv-banner__main-button"
+        <img
+          src="{{ 'artworktop.png' | asset_url }}"
+          class="tv-banner__artwork-image"
+          alt="Gift Guide artwork"
+          loading="eager"
         >
-          <span class="tv-banner__main-button-text">
-            {{ section.settings.main_button_text }}
-          </span>
 
-          <span
-            class="tv-banner__main-button-arrow"
-            aria-hidden="true"
+      </div>
+
+
+      <!-- ==================================================
+           BOTTOM ARTWORK
+           Figma:
+           width: 890px
+           height: 402px
+           left: 550px
+           top: 378px relative to main
+           ================================================== -->
+
+      <div class="tv-banner__artwork tv-banner__artwork--bottom">
+
+        <img
+          src="{{ 'artworkbottom.png' | asset_url }}"
+          class="tv-banner__artwork-image"
+          alt="Gift Guide artwork"
+          loading="eager"
+        >
+
+      </div>
+
+
+      <!-- ==================================================
+           MAIN CONTENT
+           ================================================== -->
+
+      <div class="tv-banner__content">
+
+        {% if section.settings.heading != blank %}
+
+          <h1 class="tv-banner__heading">
+            {{ section.settings.heading }}
+          </h1>
+
+        {% endif %}
+
+
+        {% if section.settings.description != blank %}
+
+          <div class="tv-banner__description">
+            {{ section.settings.description }}
+          </div>
+
+        {% endif %}
+
+
+        {% if section.settings.main_button_text != blank %}
+
+          <a
+            href="{{ section.settings.main_button_link | default: '#' }}"
+            class="tv-banner__main-button"
           >
-            <span class="tv-banner__main-arrow-line"></span>
-            <span class="tv-banner__main-arrow-head"></span>
-          </span>
-        </a>
-      {% endif %}
+
+            <span class="tv-banner__main-button-text">
+              {{ section.settings.main_button_text }}
+            </span>
+
+            <span
+              class="tv-banner__main-button-arrow"
+              aria-hidden="true"
+            >
+              <span class="tv-banner__main-arrow-line"></span>
+              <span class="tv-banner__main-arrow-head"></span>
+            </span>
+
+          </a>
+
+        {% endif %}
+
+      </div>
 
     </div>
 
-  </div>
+  </main>
+
+
+  <!-- ======================================================
+       FOOTER
+       Figma: 1440 × 34px
+       ====================================================== -->
+
+  <footer class="tv-banner__footer">
+
+    <div class="tv-banner__footer-text">
+      {{ section.settings.bottom_text }}
+    </div>
+
+  </footer>
 
 </div>
 
 
-  {%- comment -%}
-    ==========================================================
-    FOOTER
-    Figma: 1440 × 34px
-    ==========================================================
-  {%- endcomment -%}
-
-  <footer class="tv-banner__footer">
-    <div class="tv-banner__footer-text">
-      {{ section.settings.bottom_text }}
-    </div>
-  </footer>
-</section>
-
-
 {% schema %}
+
 {
   "name": "TV Banner",
   "tag": "section",
   "class": "tv-banner-section",
 
   "settings": [
+
     {
       "type": "header",
       "content": "Header"
     },
+
     {
       "type": "image_picker",
       "id": "logo",
       "label": "Logo"
     },
+
     {
       "type": "text",
       "id": "brand_text",
       "label": "Brand text",
       "default": "TISSO VISION"
     },
+
     {
       "type": "text",
       "id": "header_text",
       "label": "Header message",
       "default": "Find the ideal gift for your loved ones."
     },
+
     {
       "type": "text",
       "id": "header_button_text",
       "label": "Header button text",
       "default": "CHOOSE GIFT"
     },
+
     {
       "type": "url",
       "id": "header_button_link",
       "label": "Header button link"
     },
 
+
     {
       "type": "header",
       "content": "Main Artwork"
     },
+
     {
       "type": "image_picker",
       "id": "top_artwork",
       "label": "Top artwork",
       "info": "Figma frame: 1440 × 390px"
     },
+
     {
       "type": "image_picker",
       "id": "bottom_artwork",
@@ -214,44 +259,52 @@
       "info": "Figma frame: 890 × 402px"
     },
 
+
     {
       "type": "header",
       "content": "Main Content"
     },
+
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "The Gift Guide"
     },
+
     {
       "type": "richtext",
       "id": "description",
       "label": "Description",
       "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
     },
+
     {
       "type": "text",
       "id": "main_button_text",
       "label": "Main button text",
       "default": "SHOP NOW"
     },
+
     {
       "type": "url",
       "id": "main_button_link",
       "label": "Main button link"
     },
 
+
     {
       "type": "header",
       "content": "Bottom Bar"
     },
+
     {
       "type": "text",
       "id": "bottom_text",
       "label": "Bottom text",
       "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
     }
+
   ],
 
   "presets": [
@@ -260,4 +313,5 @@
     }
   ]
 }
+
 {% endschema %}
