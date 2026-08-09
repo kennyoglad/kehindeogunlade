@@ -28,9 +28,6 @@
    ========================================================= */
 
 .tv-page {
-  --tv-black: #000000;
-  --tv-white: #ffffff;
-
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -38,7 +35,8 @@
   margin: 0;
   padding: 0;
 
-  background: var(--tv-black);
+  background: #ffffff;
+  box-sizing: border-box;
 }
 
 /* ==========================================================
