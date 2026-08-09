@@ -14,7 +14,7 @@
 
    ========================================================= */
 .tv-page {
-  --tv-white: #ffffff;
+  --tv-black: #000000;
   position: relative;
   width: 100%;
   min-height: 100vh;
