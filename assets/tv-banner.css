@@ -1,86 +1,72 @@
 /* =========================================================
-   TV PAGE — OUTER FIGMA FRAME
-.tv-page {
-  --tv-black: #000000;
-
-  position: relative;
-  max-width: 1440px;
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: var(--tv-white);
-}
-
-
-
-.tv-page {
-  --tv-black: #000000;
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: var(--tv-black);
-  box-sizing: border-box;
-}
-
+   TV PAGE
+   Full browser width
    ========================================================= */
 
 .tv-page {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-
-  margin: 0;
-  padding: 0;
-
-  background: #ffffff;
-  box-sizing: border-box;
-}
-
-/* ==========================================================
-   TV BANNER
-   Figma desktop frame: 1440 × 878px
-
-   Header: 1440 × 64px
-   Main:   1440 × 780px
-   Footer: 1440 × 34px
-
-   The main section is responsive and preserves the
-   original 1440 × 780 Figma aspect ratio.
-   ========================================================== */
-
-.tv-banner {
   --tv-black: #000000;
   --tv-white: #ffffff;
   --tv-gray: #f5f5f5;
   --tv-yellow: #fff544;
 
-  position: relative;
-   width: 100%;
-  max-width: none;
+  width: 100%;
+  min-height: 100vh;
+
   margin: 0;
   padding: 0;
+
   background: var(--tv-white);
+}
+
+
+/* =========================================================
+   TV BANNER
+   COMPLETE FIGMA FRAME
+
+   Figma:
+   1440 × 878px
+
+   Header: 1440 × 64
+   Main:   1440 × 780
+   Footer: 1440 × 34
+
+   IMPORTANT:
+   The entire banner scales as ONE unit.
+   ========================================================= */
+
+.tv-banner {
+  position: relative;
+
+  width: 100%;
+  max-width: 1440px;
+
+  margin: 0 auto;
+  padding: 0;
+
+  aspect-ratio: 1440 / 878;
+
+  overflow: hidden;
+
+  background: var(--tv-white);
+
   font-family: 'Jost', sans-serif;
   color: var(--tv-black);
 }
 
 
-/* ==========================================================
-   HEADER var(--tv-white);    
-   Figma:
-   1440 × 64px
-   background: #F5F5F5
-   padding: 10px 50px
-   ========================================================== */
+/* =========================================================
+   HEADER
+   64 / 878 = 7.2893%
+   ========================================================= */
 
 .tv-banner__header {
-  position: relative;
+  position: absolute;
+
+  left: 0;
+  top: 0;
 
   width: 100%;
-  height: 64px;
+  height: 7.2893%;
 
   box-sizing: border-box;
 
@@ -88,7 +74,6 @@
 
   z-index: 10;
 }
-
 
 .tv-banner__header-inner {
   position: relative;
@@ -102,22 +87,24 @@
   align-items: center;
   justify-content: center;
 
-  padding: 10px 50px;
+  padding: 1.137% 3.472%;
 }
 
 
-/* ==========================================================
+/* =========================================================
    HEADER LOGO
-   ========================================================== */
+
+   50 / 1440 = 3.472%
+   ========================================================= */
 
 .tv-banner__logo {
   position: absolute;
 
-  left: 50px;
+  left: 3.4722%;
   top: 50%;
 
-  width: 151.44px;
-  height: 19px;
+  width: 10.5167%;
+  height: auto;
 
   transform: translateY(-50%);
 
@@ -126,7 +113,6 @@
 
   z-index: 2;
 }
-
 
 .tv-banner__logo-image {
   display: block;
@@ -137,24 +123,23 @@
   max-width: 100%;
 }
 
-
 .tv-banner__brand-text {
   display: block;
 
   color: var(--tv-black);
 
   font-family: 'Jost', sans-serif;
-  font-size: 19px;
+  font-size: 1.3194vw;
   font-weight: 500;
-  line-height: 19px;
+  line-height: 1;
 
   white-space: nowrap;
 }
 
 
-/* ==========================================================
+/* =========================================================
    HEADER MESSAGE
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__header-message {
   position: absolute;
@@ -162,8 +147,7 @@
   left: 50%;
   top: 50%;
 
-  width: 260px;
-  height: 14px;
+  width: 18.0556%;
 
   transform: translate(-50%, -50%);
 
@@ -176,8 +160,9 @@
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 13px;
+
+  font-size: 1.1111vw;
+  line-height: 1;
 
   text-align: center;
 
@@ -185,18 +170,21 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    HEADER BUTTON
-   ========================================================== */
+   Figma:
+   207 × 44
+   right: 50px
+   ========================================================= */
 
 .tv-banner__header-button {
   position: absolute;
 
-  right: 50px;
+  right: 3.4722%;
   top: 50%;
 
-  width: 207px;
-  height: 44px;
+  width: 14.375%;
+  height: 68.75%;
 
   transform: translateY(-50%);
 
@@ -219,17 +207,17 @@
   overflow: hidden;
 
   cursor: pointer;
-
-  transition:
-    transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+
+/* =========================================================
+   HEADER BUTTON HOVER
+   ========================================================= */
 
 .tv-banner__header-button::before {
   content: "";
 
   position: absolute;
-
   inset: 0;
 
   background: var(--tv-black);
@@ -242,12 +230,10 @@
   z-index: 0;
 }
 
-
 .tv-banner__header-button:hover::before,
 .tv-banner__header-button:focus-visible::before {
   transform: translateX(0);
 }
-
 
 .tv-banner__header-button:hover,
 .tv-banner__header-button:focus-visible {
@@ -255,30 +241,22 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    HEADER BUTTON TEXT
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__header-button-text {
-  position: absolute;
-
-  left: 19.81%;
-  right: 30.92%;
-
-  top: 26.51%;
-  bottom: 25.76%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 
   z-index: 2;
 
+  color: currentColor;
+
   font-family: 'Jost', sans-serif;
-  font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
+
+  font-size: 1.1111vw;
+  line-height: 1;
 
   text-align: center;
   text-transform: uppercase;
@@ -287,9 +265,9 @@
 }
 
 
-/* ==========================================================
-   HEADER BUTTON ARROW
-   ========================================================== */
+/* =========================================================
+   HEADER ARROW
+   ========================================================= */
 
 .tv-banner__header-button-arrow {
   position: absolute;
@@ -304,11 +282,7 @@
   transform: translateY(-50%);
 
   z-index: 2;
-
-  transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 
 .tv-banner__header-arrow-line {
   position: absolute;
@@ -320,7 +294,6 @@
 
   border-top: 1.5px solid currentColor;
 }
-
 
 .tv-banner__header-arrow-head {
   position: absolute;
@@ -340,40 +313,24 @@
 }
 
 
-.tv-banner__header-button:hover
-.tv-banner__header-button-arrow,
-.tv-banner__header-button:focus-visible
-.tv-banner__header-button-arrow {
-  transform: translate(6px, -50%);
-}
-
-
-/* ==========================================================
+/* =========================================================
    MAIN
-   Figma reference:
-   1440 × 780px
+   780 / 878 = 88.8383%
 
-   IMPORTANT:
-   The main section is no longer fixed at 780px.
-
-   Instead:
-     width: 100%
-     max-width: 1440px
-     aspect-ratio: 1440 / 780
-
-   This preserves the Figma composition while allowing
-   the entire component to scale down proportionally.
-   ========================================================== */
+   Main begins immediately below header.
+   ========================================================= */
 
 .tv-banner__main {
-  position: relative;
+  position: absolute;
+
+  left: 0;
+  top: 7.2893%;
 
   width: 100%;
-  max-width: 1440px;
+  height: 88.8383%;
 
-  margin: 0 auto;
-
-  aspect-ratio: 1440 / 780;
+  margin: 0;
+  padding: 0;
 
   box-sizing: border-box;
 
@@ -383,18 +340,9 @@
 }
 
 
-/* ==========================================================
-   FIGMA CANVAS
-
-   All artwork and content are positioned relative to
-   this canvas.
-
-   At 1440px:
-     canvas = 1440 × 780
-
-   At smaller widths:
-     canvas scales proportionally.
-   ========================================================== */
+/* =========================================================
+   CANVAS
+   ========================================================= */
 
 .tv-banner__canvas {
   position: relative;
@@ -406,9 +354,9 @@
 }
 
 
-/* ==========================================================
-   ARTWORK BASE
-   ========================================================== */
+/* =========================================================
+   ARTWORK
+   ========================================================= */
 
 .tv-banner__artwork {
   position: absolute;
@@ -423,7 +371,6 @@
   z-index: 1;
 }
 
-
 .tv-banner__artwork-image {
   display: block;
 
@@ -437,22 +384,13 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    TOP ARTWORK
 
-   Original Figma:
-     width: 1440px
-     height: 390px
-     left: 0px
-     top: 64px
-
-   The 64px is the header.
-
-   Inside the 780px main canvas:
-     top = 0
-
-   390 / 780 = 50%
-   ========================================================== */
+   Main-relative:
+   1440 × 390
+   top: 0
+   ========================================================= */
 
 .tv-banner__artwork--top {
   left: 0;
@@ -463,34 +401,16 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    BOTTOM ARTWORK
 
-   Original Figma:
-     width: 890px
-     height: 402px
-     left: 550px
-     top: 442px
+   Main-relative:
+   left: 550
+   top: 378
+   width: 890
+   height: 402
 
-   Main canvas begins at 64px.
-
-   Local Y:
-     442 - 64 = 378px
-
-   Relative to 1440 × 780:
-
-     left:
-       550 / 1440 = 38.1944%
-
-     top:
-       378 / 780 = 48.4615%
-
-     width:
-       890 / 1440 = 61.8056%
-
-     height:
-       402 / 780 = 51.5385%
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__artwork--bottom {
   left: 38.1944%;
@@ -501,9 +421,9 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    MAIN CONTENT
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__content {
   position: absolute;
@@ -518,94 +438,47 @@
   pointer-events: none;
 }
 
-
 .tv-banner__content > * {
   pointer-events: auto;
 }
 
 
-/* ==========================================================
-   MAIN HEADING
-
-   Figma:
-     left:   4.65%
-     right:  63.47%
-     top:    55.69%
-     bottom: 36.33%
-
-   Font:
-     Jost
-     500
-     70px
-     100%
-   ========================================================== */
+/* =========================================================
+   HEADING
+   ========================================================= */
 
 .tv-banner__heading {
   position: absolute;
 
-  left: 4.65%;
-  right: 63.47%;
-
+  left: 4.6528%;
   top: 55.69%;
-  bottom: 36.33%;
+
+  width: 31.88%;
 
   margin: 0;
   padding: 0;
 
-  display: flex;
-  align-items: center;
-
   box-sizing: border-box;
 
   color: var(--tv-black);
-  background: transparent;
 
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 500;
 
   /*
-   * 70px at a 1440px viewport.
-   * Scales with the responsive canvas.
-   */
-  font-size: clamp(42px, 4.8611vw, 70px);
+    Use container-relative scaling rather than
+    viewport-dependent clamp().
+  */
+  font-size: min(4.8611vw, 70px);
 
   line-height: 100%;
-
-  letter-spacing: normal;
-
-  border: 0;
 }
 
 
-/* ==========================================================
-   MAIN DESCRIPTION
-
-   Original Figma:
-     width: 483px
-     height: 84px
-     left: 67px
-     top: 609px
-
-   Because the 64px header is outside the main canvas:
-
-     local top = 609 - 64
-               = 545px
-
-   Relative to the 1440 × 780 canvas:
-
-     left:
-       67 / 1440 = 4.6528%
-
-     top:
-       545 / 780 = 69.8718%
-
-     width:
-       483 / 1440 = 33.5417%
-
-     height:
-       84 / 780 = 10.7692%
-   ========================================================== */
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
 
 .tv-banner__description {
   position: absolute;
@@ -625,19 +498,14 @@
   box-sizing: border-box;
 
   color: var(--tv-black);
-  background: transparent;
 
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
 
-  font-size: clamp(14px, 1.3889vw, 20px);
-
+  font-size: min(1.3889vw, 20px);
   line-height: 140%;
-
-  border: 0;
 }
-
 
 .tv-banner__description p {
   margin: 0;
@@ -645,33 +513,9 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    MAIN BUTTON
-
-   Original Figma:
-     width: 220px
-     height: 50px
-     left: 67px
-     top: 743px
-
-   Header = 64px
-
-   Local top:
-     743 - 64 = 679px
-
-   Relative:
-     left:
-       67 / 1440 = 4.6528%
-
-     top:
-       679 / 780 = 87.0513%
-
-     width:
-       220 / 1440 = 15.2778%
-
-     height:
-       50 / 780 = 6.4103%
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__main-button {
   position: absolute;
@@ -701,21 +545,17 @@
   overflow: hidden;
 
   cursor: pointer;
-
-  transition:
-    transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 
-/* ==========================================================
-   MAIN BUTTON HOVER LAYER
-   ========================================================== */
+/* =========================================================
+   MAIN BUTTON HOVER
+   ========================================================= */
 
 .tv-banner__main-button::before {
   content: "";
 
   position: absolute;
-
   inset: 0;
 
   background: var(--tv-yellow);
@@ -728,41 +568,33 @@
   z-index: 0;
 }
 
-
 .tv-banner__main-button:hover::before,
 .tv-banner__main-button:focus-visible::before {
   transform: translateX(0);
 }
 
+.tv-banner__main-button:hover,
+.tv-banner__main-button:focus-visible {
+  color: var(--tv-black);
+}
 
-/* ==========================================================
+
+/* =========================================================
    MAIN BUTTON TEXT
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__main-button-text {
-  position: absolute;
-
-  left: 25.03%;
-  right: 35.42%;
-
-  top: 28.51%;
-  bottom: 29.49%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 
   z-index: 2;
 
   color: currentColor;
 
   font-family: 'Jost', sans-serif;
-  font-style: normal;
   font-weight: 400;
 
-  font-size: clamp(11px, 1.1111vw, 16px);
-
-  line-height: 20px;
+  font-size: min(1.1111vw, 16px);
+  line-height: 1;
 
   text-align: center;
   text-transform: uppercase;
@@ -771,9 +603,9 @@
 }
 
 
-/* ==========================================================
+/* =========================================================
    MAIN BUTTON ARROW
-   ========================================================== */
+   ========================================================= */
 
 .tv-banner__main-button-arrow {
   position: absolute;
@@ -788,11 +620,7 @@
   transform: translateY(-50%);
 
   z-index: 2;
-
-  transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 
 .tv-banner__main-arrow-line {
   position: absolute;
@@ -804,7 +632,6 @@
 
   border-top: 1.5px solid currentColor;
 }
-
 
 .tv-banner__main-arrow-head {
   position: absolute;
@@ -824,33 +651,21 @@
 }
 
 
-/* ==========================================================
-   MAIN BUTTON HOVER
-   ========================================================== */
-
-.tv-banner__main-button:hover,
-.tv-banner__main-button:focus-visible {
-  color: var(--tv-black);
-}
-
-
-.tv-banner__main-button:hover
-.tv-banner__main-button-arrow,
-.tv-banner__main-button:focus-visible
-.tv-banner__main-button-arrow {
-  transform: translate(7px, -50%);
-}
-
-
-/* ==========================================================
+/* =========================================================
    FOOTER
-   ========================================================== */
+   34 / 878 = 3.8724%
+
+   Footer is now INSIDE the same scalable frame.
+   ========================================================= */
 
 .tv-banner__footer {
-  position: relative;
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
 
   width: 100%;
-  height: 34px;
+  height: 3.8724%;
 
   box-sizing: border-box;
 
@@ -858,29 +673,23 @@
   align-items: center;
   justify-content: center;
 
-  padding: 10px 50px;
+  padding: 0;
 
   background: var(--tv-gray);
 
   z-index: 5;
 }
 
-
 .tv-banner__footer-text {
-  width: 451px;
-  height: 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
 
   color: var(--tv-black);
 
   font-family: 'Jost', sans-serif;
-  font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 13px;
+
+  font-size: min(1.1111vw, 16px);
+  line-height: 1;
 
   text-align: center;
 
@@ -888,9 +697,9 @@
 }
 
 
-/* ==========================================================
-   FOCUS STATES
-   ========================================================== */
+/* =========================================================
+   FOCUS
+   ========================================================= */
 
 .tv-banner__header-button:focus-visible,
 .tv-banner__main-button:focus-visible {
@@ -899,62 +708,47 @@
 }
 
 
-/* ==========================================================
-   TABLET / SMALL DESKTOP
-   ========================================================== */
-
-@media screen and (max-width: 1100px) {
-
-  .tv-banner__header-inner {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-
-
-  .tv-banner__logo {
-    left: 30px;
-  }
-
-
-  .tv-banner__header-button {
-    right: 30px;
-  }
-
-
-  /*
-   * The main composition itself scales automatically.
-   *
-   * Do NOT override the Figma positioning here.
-   */
-}
-
-
-/* ==========================================================
+/* =========================================================
    MOBILE
-   ========================================================== */
+   ========================================================= */
 
 @media screen and (max-width: 749px) {
 
-  /* --------------------------------------------------------
-     HEADER
-     -------------------------------------------------------- */
+  .tv-banner {
+    aspect-ratio: auto;
+    height: auto;
+
+    overflow: visible;
+  }
 
   .tv-banner__header {
-    height: auto;
-    min-height: 64px;
+    position: relative;
+
+    height: 64px;
   }
 
+  .tv-banner__main {
+    position: relative;
+
+    top: auto;
+
+    height: auto;
+    min-height: 620px;
+  }
+
+  .tv-banner__footer {
+    position: relative;
+
+    height: 34px;
+  }
+
+  .tv-banner__canvas {
+    height: 620px;
+  }
 
   .tv-banner__header-inner {
-    min-height: 64px;
-
     padding: 10px 16px;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
   }
-
 
   .tv-banner__logo {
     position: relative;
@@ -963,13 +757,9 @@
     top: auto;
 
     width: 120px;
-    height: auto;
 
     transform: none;
-
-    order: 1;
   }
-
 
   .tv-banner__header-message {
     position: relative;
@@ -978,20 +768,16 @@
     top: auto;
 
     width: auto;
-    height: auto;
 
     flex: 1;
 
     transform: none;
-
-    order: 2;
 
     font-size: 12px;
     line-height: 14px;
 
     white-space: normal;
   }
-
 
   .tv-banner__header-button {
     position: relative;
@@ -1003,94 +789,20 @@
     height: 40px;
 
     transform: none;
-
-    order: 3;
-
-    flex-shrink: 0;
   }
-
 
   .tv-banner__header-button-text {
     font-size: 13px;
   }
 
-
-  /* --------------------------------------------------------
-     MOBILE MAIN
-
-     At mobile widths, switch from the desktop Figma
-     composition to a usable stacked composition.
-
-     This prevents the 1440px artwork from simply becoming
-     a tiny scaled-down desktop design.
-     -------------------------------------------------------- */
-
-  .tv-banner__main {
-    max-width: none;
-
-    aspect-ratio: auto;
-
-    height: auto;
-    min-height: 620px;
-  }
-
-
-  .tv-banner__canvas {
-    width: 100%;
-    height: 620px;
-  }
-
-
-  /* --------------------------------------------------------
-     MOBILE ARTWORK
-     -------------------------------------------------------- */
-
-  .tv-banner__artwork-image {
-    object-fit: cover;
-    object-position: center top;
-  }
-
-
-  .tv-banner__artwork--top {
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 50%;
-  }
-
-
-  .tv-banner__artwork--bottom {
-    left: auto;
-    right: 0;
-    top: 38%;
-
-    width: 85%;
-    height: 62%;
-  }
-
-
-  /* --------------------------------------------------------
-     MOBILE HEADING
-     -------------------------------------------------------- */
-
   .tv-banner__heading {
     left: 20px;
-    right: 20px;
-
     top: 48%;
-    bottom: auto;
 
-    height: auto;
+    width: calc(100% - 40px);
 
     font-size: clamp(42px, 11vw, 58px);
-    line-height: 100%;
   }
-
-
-  /* --------------------------------------------------------
-     MOBILE DESCRIPTION
-     -------------------------------------------------------- */
 
   .tv-banner__description {
     left: 20px;
@@ -1101,13 +813,7 @@
     height: auto;
 
     font-size: 16px;
-    line-height: 140%;
   }
-
-
-  /* --------------------------------------------------------
-     MOBILE MAIN BUTTON
-     -------------------------------------------------------- */
 
   .tv-banner__main-button {
     left: 20px;
@@ -1118,43 +824,8 @@
     height: 50px;
   }
 
-
-  /* --------------------------------------------------------
-     MOBILE FOOTER
-     -------------------------------------------------------- */
-
-  .tv-banner__footer {
-    height: auto;
-    min-height: 34px;
-
-    padding: 8px 16px;
-  }
-
-
   .tv-banner__footer-text {
-    width: 100%;
-    height: auto;
-
     font-size: 10px;
-    line-height: 13px;
-
     white-space: normal;
-  }
-}
-
-
-/* ==========================================================
-   REDUCED MOTION
-   ========================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .tv-banner__header-button,
-  .tv-banner__header-button::before,
-  .tv-banner__header-button-arrow,
-  .tv-banner__main-button,
-  .tv-banner__main-button::before,
-  .tv-banner__main-button-arrow {
-    transition: none;
   }
 }
