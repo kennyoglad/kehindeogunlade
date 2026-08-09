@@ -1,248 +1,382 @@
-/* ============================================================
-   TV PAGE
-   ============================================================ */
-
-.tv-page {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 90px;
-
-  background: #ffffff;
-
-  box-sizing: border-box;
-}
-
-
-/* ============================================================
+/* ==========================================================
    TV BANNER
-   Figma desktop reference:
+   Figma desktop design:
    1440 × 878px
 
-   Header = 64px
-   Hero   = 780px
-   Footer = 34px
-   ============================================================ */
+   Header: 64px
+   Main:   780px
+   Footer: 34px
+
+   Everything is scaled from the same 1440 × 878 canvas.
+   ========================================================== */
 
 .tv-banner {
+  --tv-black: #000000;
+  --tv-white: #ffffff;
+  --tv-gray: #f5f5f5;
+  --tv-yellow: #fff544;
+
   position: relative;
 
   width: 100%;
-  height: 878px;
+  max-width: none;
 
   margin: 0;
   padding: 0;
 
-  background: #ffffff;
+  /*
+    The complete Figma banner is one responsive canvas.
+    1440 × 878
+  */
+  aspect-ratio: 1440 / 878;
 
   overflow: hidden;
 
-  box-sizing: border-box;
+  background: var(--tv-white);
+
+  font-family: 'Jost', sans-serif;
+  color: var(--tv-black);
 }
 
 
-/* ============================================================
+/* ==========================================================
    HEADER
    Figma:
    1440 × 64px
-   padding: 10px 50px
-   background: #F5F5F5
-   ============================================================ */
+   ========================================================== */
 
 .tv-banner__header {
-  position: relative;
-  z-index: 20;
+  position: absolute;
+
+  left: 0;
+  top: 0;
 
   width: 100%;
-  height: 64px;
-
-  padding: 10px 50px;
-
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  background: #f5f5f5;
+  height: calc(64 / 878 * 100%);
 
   box-sizing: border-box;
+
+  background: var(--tv-gray);
+
+  z-index: 10;
 }
 
 
-/* ============================================================
-   HEADER LOGO
-   ============================================================ */
-
-.tv-banner__logo {
-  justify-self: start;
-
-  width: 151px;
-
-  display: flex;
-  align-items: center;
-}
-
-.tv-banner__logo-image {
-  display: block;
-
-  width: 151px;
-  height: auto;
-
-  max-width: 100%;
-}
-
-.tv-banner__brand-text {
-  display: block;
-
-  font-family: 'Jost', sans-serif;
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 500;
-
-  color: #000000;
-}
-
-
-/* ============================================================
-   HEADER MESSAGE
-   ============================================================ */
-
-.tv-banner__header-message {
-  justify-self: center;
-
-  width: 260px;
-
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-
-  font-size: 16px;
-  line-height: 13px;
-
-  text-align: center;
-
-  color: #000000;
-}
-
-
-/* ============================================================
-   HEADER BUTTON
-   Figma: 207 × 44px
-   ============================================================ */
-
-.tv-banner__header-button {
-  justify-self: end;
-
+.tv-banner__header-inner {
   position: relative;
 
-  width: 207px;
-  height: 44px;
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #fff544;
-
-  color: #000000;
-
-  text-decoration: none;
-
-  box-sizing: border-box;
+  padding:
+    calc(10 / 878 * 100%)
+    calc(50 / 1440 * 100%);
 }
 
-.tv-banner__header-button-text {
-  position: relative;
-  z-index: 1;
+
+/* ==========================================================
+   HEADER LOGO
+   Figma:
+   left: 50px
+   width: 151.44px
+   height: 19px
+   ========================================================== */
+
+.tv-banner__logo {
+  position: absolute;
+
+  left: calc(50 / 1440 * 100%);
+  top: 50%;
+
+  width: calc(151.44 / 1440 * 100%);
+  height: calc(19 / 64 * 100%);
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+
+  z-index: 2;
+}
+
+
+.tv-banner__logo-image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  max-width: 100%;
+}
+
+
+.tv-banner__brand-text {
+  display: block;
+
+  color: var(--tv-black);
+
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(12px, calc(19 / 1440 * 100vw), 19px);
+  font-weight: 500;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   HEADER MESSAGE
+   Figma:
+   width: 260px
+   height: 14px
+   centered
+   ========================================================== */
+
+.tv-banner__header-message {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: calc(260 / 1440 * 100%);
+  height: calc(14 / 64 * 100%);
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--tv-black);
 
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
 
-  font-size: 16px;
-  line-height: 20px;
+  font-size: clamp(10px, calc(16 / 1440 * 100vw), 16px);
+  line-height: 1;
 
-  text-transform: uppercase;
+  text-align: center;
+
+  white-space: nowrap;
 }
+
+
+/* ==========================================================
+   HEADER BUTTON
+   Figma:
+   207 × 44px
+   right: 50px
+   ========================================================== */
+
+.tv-banner__header-button {
+  position: absolute;
+
+  right: calc(50 / 1440 * 100%);
+  top: 50%;
+
+  width: calc(207 / 1440 * 100%);
+  height: calc(44 / 64 * 100%);
+
+  transform: translateY(-50%);
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: var(--tv-yellow);
+  color: var(--tv-black);
+
+  border: 0;
+  border-radius: 0;
+
+  text-decoration: none;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+
+.tv-banner__header-button::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: var(--tv-black);
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  z-index: 0;
+}
+
+
+.tv-banner__header-button:hover::before,
+.tv-banner__header-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+
+.tv-banner__header-button:hover,
+.tv-banner__header-button:focus-visible {
+  color: var(--tv-white);
+}
+
+
+/* Header button text */
+
+.tv-banner__header-button-text {
+  position: absolute;
+
+  left: 19.81%;
+  right: 30.92%;
+
+  top: 26.51%;
+  bottom: 25.76%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: clamp(10px, calc(16 / 1440 * 100vw), 16px);
+  line-height: 1.25;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+/* Header arrow */
 
 .tv-banner__header-button-arrow {
   position: absolute;
 
-  right: 21px;
+  left: 77.78%;
+  right: 10.63%;
+
   top: 50%;
 
-  width: 27px;
-  height: 16px;
+  height: 0;
 
   transform: translateY(-50%);
+
+  z-index: 2;
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 
 .tv-banner__header-arrow-line {
   position: absolute;
 
   left: 0;
-  top: 7px;
+  top: 0;
 
-  width: 21px;
-  height: 1.5px;
+  width: 100%;
 
-  background: #000000;
+  border-top: 1.5px solid currentColor;
 }
+
 
 .tv-banner__header-arrow-head {
   position: absolute;
 
   right: 0;
-  top: 3px;
+  top: 50%;
 
   width: 8px;
   height: 8px;
 
-  border-top: 1.5px solid #000000;
-  border-right: 1.5px solid #000000;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
 
-  transform: rotate(45deg);
+  transform:
+    translateY(-50%)
+    rotate(45deg);
 }
 
 
-/* ============================================================
-   HERO
-   Figma: 1440 × 780px
-   ============================================================ */
+.tv-banner__header-button:hover
+.tv-banner__header-button-arrow,
+.tv-banner__header-button:focus-visible
+.tv-banner__header-button-arrow {
+  transform: translate(6px, -50%);
+}
 
-.tv-banner__hero {
-  position: relative;
+
+/* ==========================================================
+   MAIN
+   Figma:
+   1440 × 780px
+   starts at Y = 64px
+   ========================================================== */
+
+.tv-banner__main {
+  position: absolute;
+
+  left: 0;
+
+  /*
+    64px from top of 878px canvas
+  */
+  top: calc(64 / 878 * 100%);
 
   width: 100%;
-  height: 780px;
+
+  /*
+    780px of 878px
+  */
+  height: calc(780 / 878 * 100%);
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background: var(--tv-white);
+}
+
+
+/* ==========================================================
+   ARTWORK BASE
+   ========================================================== */
+
+.tv-banner__artwork {
+  position: absolute;
 
   margin: 0;
   padding: 0;
 
-  background: #ffffff;
-
-  overflow: hidden;
-
-  box-sizing: border-box;
-}
-
-
-/* ============================================================
-   ARTWORK BASE
-   ============================================================ */
-
-.tv-banner__artwork {
-  position: absolute;
+  z-index: 1;
 
   pointer-events: none;
 
   overflow: hidden;
 }
+
 
 .tv-banner__artwork-image {
   display: block;
@@ -250,235 +384,455 @@
   width: 100%;
   height: 100%;
 
-  max-width: none;
+  margin: 0;
+  padding: 0;
 
+  /*
+    Keep the artwork exactly proportional to the
+    Figma artwork frame.
+  */
   object-fit: fill;
 }
 
 
-/* ============================================================
-   TOP ARTWORK
+/* ==========================================================
+   FRAME 1 — TOP ARTWORK
    Figma:
-   1440 × 390
    x: 0
-   y: 0 relative to hero
-   ============================================================ */
+   y: 0
+   width: 1440
+   height: 390
+
+   This is relative to the 1440 × 780 MAIN frame.
+   ========================================================== */
 
 .tv-banner__artwork--top {
+  left: 0;
+  top: 0;
+
+  width: 100%;
+
+  height: calc(390 / 780 * 100%);
+}
+
+
+/* ==========================================================
+   FRAME 2 — LOWER ARTWORK
+   Figma:
+   x: 550
+   y: 378
+   width: 890
+   height: 402
+
+   Relative to MAIN:
+   left = 550 / 1440
+   top  = 378 / 780
+   ========================================================== */
+
+.tv-banner__artwork--bottom {
+  left: calc(550 / 1440 * 100%);
+  top: calc(378 / 780 * 100%);
+
+  width: calc(890 / 1440 * 100%);
+  height: calc(402 / 780 * 100%);
+}
+
+
+/* ==========================================================
+   MAIN CONTENT
+   ========================================================== */
+
+.tv-banner__content {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+
+.tv-banner__content > * {
+  pointer-events: auto;
+}
+
+
+/* ==========================================================
+   MAIN HEADING
+   Figma:
+   x ≈ 67px
+   y ≈ 497px absolute page
+   therefore:
+   main-relative y = 433px
+
+   Width ≈ 459px
+   Height = 70px
+   ========================================================== */
+
+.tv-banner__heading {
+  position: absolute;
+
+  left: calc(67 / 1440 * 100%);
+
+  /*
+    433px from top of MAIN
+  */
+  top: calc(433 / 780 * 100%);
+
+  width: calc(459 / 1440 * 100%);
+  height: calc(70 / 780 * 100%);
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  color: var(--tv-black);
+
+  background: transparent;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+
+  font-size: clamp(28px, calc(70 / 1440 * 100vw), 70px);
+  line-height: 1;
+
+  letter-spacing: normal;
+
+  border: 0;
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+   Figma:
+   width: 483px
+   height: 84px
+   x ≈ 67px
+   y = 609px absolute page
+
+   Main-relative:
+   y = 545px
+   ========================================================== */
+
+.tv-banner__description {
+  position: absolute;
+
+  left: calc(67 / 1440 * 100%);
+  top: calc(545 / 780 * 100%);
+
+  width: calc(483 / 1440 * 100%);
+  height: calc(84 / 780 * 100%);
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  color: var(--tv-black);
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: clamp(11px, calc(20 / 1440 * 100vw), 20px);
+  line-height: 1.4;
+}
+
+
+/* ==========================================================
+   MAIN BUTTON
+   Figma:
+   220 × 50px
+   x = 67px
+   y = 743px absolute page
+
+   Main-relative:
+   y = 679px
+   ========================================================== */
+
+.tv-banner__main-button {
+  position: absolute;
+
+  left: calc(67 / 1440 * 100%);
+  top: calc(679 / 780 * 100%);
+
+  width: calc(220 / 1440 * 100%);
+  height: calc(50 / 780 * 100%);
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: var(--tv-black);
+  color: var(--tv-white);
+
+  border: 0;
+  border-radius: 0;
+
+  text-decoration: none;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+
+.tv-banner__main-button::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: var(--tv-white);
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  z-index: 0;
+}
+
+
+.tv-banner__main-button:hover::before,
+.tv-banner__main-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+
+.tv-banner__main-button:hover,
+.tv-banner__main-button:focus-visible {
+  color: var(--tv-black);
+}
+
+
+/* Main button text */
+
+.tv-banner__main-button-text {
+  position: absolute;
+
+  left: 25.03%;
+  right: 35.42%;
+
+  top: 28.51%;
+  bottom: 29.49%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2;
+
+  color: currentColor;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: clamp(10px, calc(16 / 1440 * 100vw), 16px);
+  line-height: 1.25;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+/* Main arrow */
+
+.tv-banner__main-button-arrow {
+  position: absolute;
+
+  left: 77.78%;
+  right: 10.63%;
+
+  top: 50%;
+
+  height: 0;
+
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.tv-banner__main-arrow-line {
   position: absolute;
 
   left: 0;
   top: 0;
 
   width: 100%;
-  height: 390px;
+
+  border-top: 1.5px solid currentColor;
 }
 
-
-/* ============================================================
-   BOTTOM ARTWORK
-   Figma:
-   890 × 402
-   x: 550
-   y: 378 relative to hero
-   ============================================================ */
-
-.tv-banner__artwork--bottom {
-  position: absolute;
-
-  left: 38.194444%;
-
-  top: 378px;
-
-  width: 890px;
-  height: 402px;
-}
-
-
-/* ============================================================
-   MAIN CONTENT
-   ============================================================ */
-
-.tv-banner__content {
-  position: absolute;
-
-  z-index: 10;
-
-  left: 4.652778%;
-  top: 434px;
-
-  width: 483px;
-
-  margin: 0;
-  padding: 0;
-}
-
-
-/* ============================================================
-   MAIN HEADING
-   Figma:
-   70px / 100%
-   ============================================================ */
-
-.tv-banner__heading {
-  width: 100%;
-
-  margin: 0 0 28px;
-
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-
-  font-size: 70px;
-  line-height: 100%;
-
-  color: #000000;
-}
-
-
-/* ============================================================
-   MAIN DESCRIPTION
-   Figma:
-   483 × 84
-   20px / 140%
-   ============================================================ */
-
-.tv-banner__description {
-  width: 483px;
-  min-height: 84px;
-
-  margin: 0;
-
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-
-  font-size: 20px;
-  line-height: 140%;
-
-  color: #000000;
-}
-
-.tv-banner__description p {
-  margin: 0;
-}
-
-
-/* ============================================================
-   MAIN BUTTON
-   Figma:
-   220 × 50px
-   ============================================================ */
-
-.tv-banner__main-button {
-  position: relative;
-
-  width: 220px;
-  height: 50px;
-
-  margin-top: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #000000;
-
-  color: #ffffff;
-
-  text-decoration: none;
-
-  box-sizing: border-box;
-}
-
-.tv-banner__main-button-text {
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-
-  font-size: 16px;
-  line-height: 20px;
-
-  text-transform: uppercase;
-}
-
-.tv-banner__main-button-arrow {
-  position: absolute;
-
-  right: 21px;
-  top: 50%;
-
-  width: 27px;
-  height: 16px;
-
-  transform: translateY(-50%);
-}
-
-.tv-banner__main-arrow-line {
-  position: absolute;
-
-  left: 0;
-  top: 7px;
-
-  width: 21px;
-  height: 1.5px;
-
-  background: #ffffff;
-}
 
 .tv-banner__main-arrow-head {
   position: absolute;
 
   right: 0;
-  top: 3px;
+  top: 50%;
 
   width: 8px;
   height: 8px;
 
-  border-top: 1.5px solid #ffffff;
-  border-right: 1.5px solid #ffffff;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
 
-  transform: rotate(45deg);
+  transform:
+    translateY(-50%)
+    rotate(45deg);
 }
 
 
-/* ============================================================
-   BANNER FOOTER
+.tv-banner__main-button:hover,
+.tv-banner__main-button:focus-visible {
+  color: var(--tv-black);
+}
+
+
+.tv-banner__main-button:hover
+.tv-banner__main-button-arrow,
+.tv-banner__main-button:focus-visible
+.tv-banner__main-button-arrow {
+  transform: translate(7px, -50%);
+}
+
+
+/* ==========================================================
+   FOOTER
    Figma:
    1440 × 34px
-   ============================================================ */
+
+   Main ends at:
+   64 + 780 = 844px
+
+   Footer:
+   y = 844px
+   height = 34px
+   ========================================================== */
 
 .tv-banner__footer {
-  position: relative;
-  z-index: 20;
+  position: absolute;
+
+  left: 0;
+  top: calc(844 / 878 * 100%);
 
   width: 100%;
-  height: 34px;
+  height: calc(34 / 878 * 100%);
 
-  padding: 10px 50px;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #f5f5f5;
+  padding:
+    calc(10 / 878 * 100%)
+    calc(50 / 1440 * 100%);
 
-  box-sizing: border-box;
+  background: var(--tv-gray);
+
+  z-index: 5;
 }
 
-.tv-banner__footer-text {
-  display: block;
 
-  width: 451px;
+.tv-banner__footer-text {
+  width: calc(451 / 1440 * 100%);
+  height: calc(14 / 34 * 100%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--tv-black);
 
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
 
-  font-size: 16px;
-  line-height: 13px;
+  font-size: clamp(10px, calc(16 / 1440 * 100vw), 16px);
+  line-height: 1;
 
   text-align: center;
 
-  color: #000000;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   FOCUS
+   ========================================================== */
+
+.tv-banner__header-button:focus-visible,
+.tv-banner__main-button:focus-visible {
+  outline: 2px solid var(--tv-black);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   IMPORTANT
+   Prevent Shopify/theme spacing from creating gaps around
+   the banner.
+   ========================================================== */
+
+.tv-banner,
+.tv-banner *,
+.tv-banner__header,
+.tv-banner__main,
+.tv-banner__footer {
+  box-sizing: border-box;
+}
+
+
+.tv-banner img {
+  max-width: none;
+}
+
+
+/* ==========================================================
+   SMALL SCREENS
+   ========================================================== */
+
+@media screen and (max-width: 749px) {
+
+  .tv-banner {
+    /*
+      On mobile we allow the desktop composition to remain
+      intact rather than letting individual pieces drift.
+    */
+    min-width: 0;
+  }
+
+  .tv-banner__header-message {
+    font-size: 11px;
+  }
+
+  .tv-banner__brand-text {
+    font-size: 12px;
+  }
+
 }
