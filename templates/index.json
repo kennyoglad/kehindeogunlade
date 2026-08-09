@@ -1,10 +1,10 @@
 {
   "sections": {
-    "tv_banner": {
-      "type": "tv-banner"
+    "tv_page": {
+      "type": "tv-page"
     }
   },
   "order": [
-    "tv_banner"
+    "tv_page"
   ]
 }
