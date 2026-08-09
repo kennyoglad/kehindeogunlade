@@ -1,6 +1,5 @@
+```liquid
 <section class="tv-product-grid">
-
-  <div class="tv-product-grid">
 
   {% if section.settings.heading != blank %}
     <h2 class="tv-product-grid__heading">
@@ -11,6 +10,8 @@
   <div class="tv-product-grid__items">
 
     {% for block in section.blocks %}
+
+      {% assign product = block.settings.product %}
 
       <article
         class="tv-product-grid__item"
@@ -28,18 +29,33 @@
                 class: 'tv-product-grid__image',
                 loading: 'lazy',
                 widths: '433, 650, 866',
-                sizes: '(min-width: 990px) 433px, 33vw, 100vw'
+                sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
+                alt: block.settings.image.alt | default: product.title
+            }}
+
+          {% elsif product != blank and product.featured_image != blank %}
+
+            {{
+              product.featured_image
+              | image_url: width: 866
+              | image_tag:
+                class: 'tv-product-grid__image',
+                loading: 'lazy',
+                widths: '433, 650, 866',
+                sizes: '(min-width: 1400px) 433px, calc((100vw - 40px) / 3), 100vw',
+                alt: product.title
             }}
 
           {% else %}
 
             <div class="tv-product-grid__placeholder">
-              Add image
+              <span>No image selected</span>
             </div>
 
           {% endif %}
 
-          {% if block.settings.product != blank %}
+
+          {% if product != blank %}
 
             <button
               type="button"
@@ -48,12 +64,19 @@
                 --hotspot-x: {{ block.settings.hotspot_x }}%;
                 --hotspot-y: {{ block.settings.hotspot_y }}%;
               "
-              aria-label="View {{ block.settings.product.title }}"
-              data-product-url="{{ block.settings.product.url }}"
+              aria-label="View {{ product.title | escape }}"
+              data-product-handle="{{ product.handle }}"
+              data-product-url="{{ product.url }}"
+              data-product-id="{{ product.id }}"
             >
-              <span class="tv-product-grid__hotspot-circle">
+
+              <span
+                class="tv-product-grid__hotspot-circle"
+                aria-hidden="true"
+              >
                 <span class="tv-product-grid__hotspot-plus"></span>
               </span>
+
             </button>
 
           {% endif %}
@@ -65,8 +88,6 @@
     {% endfor %}
 
   </div>
-
-</div>
 
 </section>
 
@@ -95,12 +116,14 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image",
+          "info": "Image displayed in this grid block."
         },
         {
           "type": "product",
           "id": "product",
-          "label": "Product"
+          "label": "Product",
+          "info": "Product opened when the hotspot is clicked."
         },
         {
           "type": "range",
@@ -129,6 +152,7 @@
   "presets": [
     {
       "name": "TV Product Grid",
+
       "blocks": [
         {
           "type": "image_product",
@@ -177,3 +201,4 @@
   ]
 }
 {% endschema %}
+```
