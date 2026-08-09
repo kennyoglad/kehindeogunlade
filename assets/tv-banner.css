@@ -2,18 +2,6 @@
    TV PAGE — OUTER FIGMA FRAME
    ========================================================= */
 
-.tv-page {
-  --tv-black: #000000;
-
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-
-  margin: 0;
-  padding: 0;
-
-  background: var(--tv-black);
-}
 /* ==========================================================
    TV BANNER
    Figma desktop frame: 1440 × 878px
