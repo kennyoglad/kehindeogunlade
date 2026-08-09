@@ -80,37 +80,28 @@
   <div class="tv-banner__main">
 
     <!-- TOP ARTWORK -->
-    {% if section.settings.top_artwork != blank %}
-      <div class="tv-banner__artwork tv-banner__artwork--top">
-        {{
-          section.settings.top_artwork
-          | image_url: width: 3000
-          | image_tag:
-            class: 'tv-banner__artwork-image',
-            loading: 'eager',
-            widths: '750, 1100, 1440, 1800, 2400, 3000',
-            sizes: '100vw',
-            alt: section.settings.top_artwork.alt | default: 'Gift Guide artwork'
-        }}
-      </div>
-    {% endif %}
-
-
+    <div class="tv-banner__artwork tv-banner__artwork--top">
+      {{
+        'artworktop.png'
+        | asset_url
+        | image_tag:
+          class: 'tv-banner__artwork-image',
+          loading: 'eager',
+          alt: 'Gift Guide artwork'
+      }}
+    </div>
+    
     <!-- BOTTOM ARTWORK -->
-    {% if section.settings.bottom_artwork != blank %}
-      <div class="tv-banner__artwork tv-banner__artwork--bottom">
-        {{
-          section.settings.bottom_artwork
-          | image_url: width: 1800
-          | image_tag:
-            class: 'tv-banner__artwork-image',
-            loading: 'eager',
-            widths: '750, 890, 1200, 1500, 1800',
-            sizes: '890px',
-            alt: section.settings.bottom_artwork.alt | default: 'Gift Guide artwork'
-        }}
-      </div>
-    {% endif %}
+    <div class="tv-banner__artwork tv-banner__artwork--bottom">
+      {{
+        'artworkbottom.png'
+        | asset_url
+        | image_tag:
+          class: 'tv-banner__artwork-image',
+          loading: 'eager',
+          alt: 'Gift Guide artwork'
+      }}
+    </div>
 
 
     <!-- MAIN CONTENT -->
