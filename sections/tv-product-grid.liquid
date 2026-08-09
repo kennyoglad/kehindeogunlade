@@ -1,14 +1,9 @@
-<section
-  class="tv-product-grid"
-  id="tv-product-grid-{{ section.id }}"
->
+<section class="tv-product-grid">
   <div class="tv-product-grid__inner">
 
-    {% if section.settings.heading != blank %}
-      <h2 class="tv-product-grid__heading">
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
+    <h2 class="tv-product-grid__heading">
+      Tisso vison in the wild
+    </h2>
 
     <div class="tv-product-grid__items">
 
@@ -17,11 +12,9 @@
           class="tv-product-grid__item"
           {{ block.shopify_attributes }}
         >
-
           <div class="tv-product-grid__image-wrapper">
 
             {% if block.settings.image != blank %}
-
               {{
                 block.settings.image
                 | image_url: width: 1000
@@ -29,20 +22,15 @@
                   class: 'tv-product-grid__image',
                   loading: 'lazy',
                   widths: '433, 650, 866, 1000',
-                  sizes: '(min-width: 1440px) 433px, (min-width: 750px) 33.33vw, 100vw',
-                  alt: block.settings.image.alt | default: 'Product image'
+                  sizes: '(min-width: 990px) 433px, (min-width: 750px) 50vw, 100vw'
               }}
-
             {% else %}
-
               <div class="tv-product-grid__placeholder">
-                <span>Select an image</span>
+                Product {{ forloop.index }}
               </div>
-
             {% endif %}
 
             {% if block.settings.product != blank %}
-
               <button
                 type="button"
                 class="tv-product-grid__hotspot"
@@ -50,19 +38,15 @@
                   --hotspot-x: {{ block.settings.hotspot_x }}%;
                   --hotspot-y: {{ block.settings.hotspot_y }}%;
                 "
-                data-product-url="{{ block.settings.product.url }}"
-                data-product-handle="{{ block.settings.product.handle }}"
                 aria-label="View {{ block.settings.product.title }}"
               >
                 <span class="tv-product-grid__hotspot-circle">
                   <span class="tv-product-grid__hotspot-plus"></span>
                 </span>
               </button>
-
             {% endif %}
 
           </div>
-
         </article>
       {% endfor %}
 
@@ -122,52 +106,27 @@
       ]
     }
   ],
-  "max_blocks": 6,
   "presets": [
     {
       "name": "TV Product Grid",
       "blocks": [
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 59.2,
-            "hotspot_y": 53.6
-          }
+          "type": "image_product"
         },
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 82.1,
-            "hotspot_y": 50
-          }
+          "type": "image_product"
         },
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 60.3,
-            "hotspot_y": 18.5
-          }
+          "type": "image_product"
         },
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 69.6,
-            "hotspot_y": 16
-          }
+          "type": "image_product"
         },
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 49.1,
-            "hotspot_y": 23.4
-          }
+          "type": "image_product"
         },
         {
-          "type": "image_product",
-          "settings": {
-            "hotspot_x": 73.8,
-            "hotspot_y": 36.9
-          }
+          "type": "image_product"
         }
       ]
     }
