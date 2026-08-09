@@ -324,20 +324,20 @@
 
 
 /* ==========================================================
-   ARTWORK
+   ARTWORK BASE
    ========================================================== */
 
 .tv-banner__artwork {
   position: absolute;
 
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
+  margin: 0;
+  padding: 0;
 
   z-index: 1;
 
   pointer-events: none;
+
+  overflow: hidden;
 }
 
 .tv-banner__artwork-image {
@@ -346,8 +346,57 @@
   width: 100%;
   height: 100%;
 
-  object-fit: cover;
-  object-position: center center;
+  margin: 0;
+  padding: 0;
+
+  object-fit: fill;
+}
+
+
+/* ==========================================================
+   FRAME 1 — TOP ARTWORK
+
+   Figma:
+   width:  1440px
+   height: 390px
+   left:   0px
+   top:    64px
+
+   Since .tv-banner__main begins at Figma Y=64px:
+
+   left: 0px
+   top:  0px
+   ========================================================== */
+
+.tv-banner__artwork--top {
+  left: 0;
+  top: 0;
+
+  width: 1440px;
+  height: 390px;
+}
+
+
+/* ==========================================================
+   FRAME 2 — LOWER ARTWORK
+
+   Figma:
+   width:  890px
+   height: 402px
+   left:   550px
+   top:    442px
+
+   Main-relative:
+   left: 550px
+   top:  442px - 64px = 378px
+   ========================================================== */
+
+.tv-banner__artwork--bottom {
+  left: 550px;
+  top: 378px;
+
+  width: 890px;
+  height: 402px;
 }
 
 
