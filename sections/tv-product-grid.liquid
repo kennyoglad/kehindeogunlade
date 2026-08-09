@@ -1,56 +1,82 @@
 <section class="tv-product-grid">
 
-  <div class="tv-product-grid__heading-wrapper">
-    <h2 class="tv-product-grid__heading">
-      {{ section.settings.heading }}
-    </h2>
-  </div>
+  <div class="tv-product-grid__inner">
 
-  <div class="tv-product-grid__items">
+    {% if section.settings.heading != blank %}
+      <h2 class="tv-product-grid__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
 
-    {% for block in section.blocks %}
-      <article
-        class="tv-product-grid__item"
-        {{ block.shopify_attributes }}
-      >
+    <div class="tv-product-grid__items">
 
-        <div class="tv-product-grid__image-wrapper">
+      {% for block in section.blocks %}
 
-          {% if block.settings.image != blank %}
+        <article
+          class="tv-product-grid__item"
+          {{ block.shopify_attributes }}
+        >
 
-            {{
-              block.settings.image
-              | image_url: width: 1000
-              | image_tag:
-                class: 'tv-product-grid__image',
-                loading: 'lazy',
-                widths: '433, 650, 866, 1000',
-                sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
-                alt: block.settings.image.alt | default: section.settings.heading
-            }}
+          <div class="tv-product-grid__image-wrapper">
 
-          {% else %}
+            {% if block.settings.image != blank %}
 
-            <div class="tv-product-grid__placeholder">
-              <span>Image {{ forloop.index }}</span>
-            </div>
+              {{
+                block.settings.image
+                | image_url: width: 866
+                | image_tag:
+                  class: 'tv-product-grid__image',
+                  loading: 'lazy',
+                  widths: '433, 650, 866',
+                  sizes: '(min-width: 990px) 433px, 33vw, 100vw'
+              }}
 
-          {% endif %}
+            {% else %}
 
-        </div>
+              <div class="tv-product-grid__placeholder">
+                Add image
+              </div>
 
-      </article>
-    {% endfor %}
+            {% endif %}
+
+
+            {% if block.settings.product != blank %}
+
+              <button
+                type="button"
+                class="tv-product-grid__hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                aria-label="View {{ block.settings.product.title }}"
+                data-product-url="{{ block.settings.product.url }}"
+              >
+                <span class="tv-product-grid__hotspot-circle">
+                  <span class="tv-product-grid__hotspot-plus"></span>
+                </span>
+              </button>
+
+            {% endif %}
+
+          </div>
+
+        </article>
+
+      {% endfor %}
+
+    </div>
 
   </div>
 
 </section>
 
+
 {% schema %}
 {
   "name": "TV Product Grid",
   "tag": "section",
-  "class": "section-tv-product-grid",
+  "class": "tv-product-grid-section",
 
   "settings": [
     {
@@ -63,19 +89,39 @@
 
   "blocks": [
     {
-      "type": "product_image",
+      "type": "image_product",
       "name": "Product image",
 
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Lifestyle image"
+          "label": "Image"
         },
         {
           "type": "product",
           "id": "product",
           "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_x",
+          "label": "Hotspot horizontal position",
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "hotspot_y",
+          "label": "Hotspot vertical position",
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "unit": "%",
+          "default": 50
         }
       ]
     }
@@ -84,25 +130,48 @@
   "presets": [
     {
       "name": "TV Product Grid",
-
       "blocks": [
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 59.2,
+            "hotspot_y": 53.6
+          }
         },
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 82.4,
+            "hotspot_y": 50
+          }
         },
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 60.3,
+            "hotspot_y": 18.5
+          }
         },
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 69.7,
+            "hotspot_y": 16
+          }
         },
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 49,
+            "hotspot_y": 23.4
+          }
         },
         {
-          "type": "product_image"
+          "type": "image_product",
+          "settings": {
+            "hotspot_x": 73.1,
+            "hotspot_y": 36.9
+          }
         }
       ]
     }
