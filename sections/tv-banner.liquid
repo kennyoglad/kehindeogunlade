@@ -79,6 +79,8 @@
 
   <div class="tv-banner__main">
 
+  <div class="tv-banner__canvas">
+
     <!-- TOP ARTWORK -->
     <div class="tv-banner__artwork tv-banner__artwork--top">
       <img
@@ -88,7 +90,7 @@
         loading="eager"
       >
     </div>
-    
+
     <!-- BOTTOM ARTWORK -->
     <div class="tv-banner__artwork tv-banner__artwork--bottom">
       <img
@@ -99,7 +101,6 @@
       >
     </div>
 
-
     <!-- MAIN CONTENT -->
     <div class="tv-banner__content">
 
@@ -109,13 +110,11 @@
         </h1>
       {% endif %}
 
-
       {% if section.settings.description != blank %}
         <div class="tv-banner__description">
           {{ section.settings.description }}
         </div>
       {% endif %}
-
 
       {% if section.settings.main_button_text != blank %}
         <a
@@ -139,6 +138,8 @@
     </div>
 
   </div>
+
+</div>
 
 
   {%- comment -%}
