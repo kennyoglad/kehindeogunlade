@@ -1,139 +1,50 @@
-<section class="tv-product-grid">
+<section class="tv-product-grid-test">
 
-  <div class="tv-product-grid__inner">
+  <h2>Tisso vison in the wild</h2>
 
-    {% if section.settings.heading != blank %}
-      <h2 class="tv-product-grid__heading">
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
+  <div class="tv-product-grid-test__items">
 
-    <div class="tv-product-grid__items">
-
-      {% for block in section.blocks %}
-
-        <article
-          class="tv-product-grid__item"
-          {{ block.shopify_attributes }}
-        >
-
-          <div class="tv-product-grid__image-wrapper">
-
-            {% if block.settings.image != blank %}
-
-              {{
-                block.settings.image
-                | image_url: width: 1000
-                | image_tag:
-                  class: 'tv-product-grid__image',
-                  loading: 'lazy',
-                  widths: '433, 650, 866, 1000',
-                  sizes: '(min-width: 990px) 33vw, 100vw',
-                  alt: block.settings.image.alt | default: 'Product image'
-              }}
-
-            {% else %}
-
-              <div class="tv-product-grid__placeholder">
-                Product {{ forloop.index }}
-              </div>
-
-            {% endif %}
-
-          </div>
-
-        </article>
-
-      {% endfor %}
-
-    </div>
+    {% for block in section.blocks %}
+      <div class="tv-product-grid-test__item" {{ block.shopify_attributes }}>
+        <p>Product block {{ forloop.index }}</p>
+      </div>
+    {% endfor %}
 
   </div>
 
 </section>
 
-
 {% schema %}
 {
   "name": "TV Product Grid",
-  "tag": "section",
-  "class": "tv-product-grid-section",
-
-  "settings": [
-    {
-      "type": "header",
-      "content": "Product Grid"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Tisso vison in the wild"
-    }
-  ],
-
+  "settings": [],
   "blocks": [
     {
-      "type": "image_product",
-      "name": "Product",
-
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Product image"
-        },
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        },
-        {
-          "type": "range",
-          "id": "hotspot_x",
-          "label": "Hotspot horizontal position",
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "unit": "%",
-          "default": 50
-        },
-        {
-          "type": "range",
-          "id": "hotspot_y",
-          "label": "Hotspot vertical position",
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "unit": "%",
-          "default": 50
-        }
-      ]
+      "type": "product_image",
+      "name": "Product"
     }
   ],
-
   "presets": [
     {
       "name": "TV Product Grid",
-
       "blocks": [
         {
-          "type": "image_product"
+          "type": "product_image"
         },
         {
-          "type": "image_product"
+          "type": "product_image"
         },
         {
-          "type": "image_product"
+          "type": "product_image"
         },
         {
-          "type": "image_product"
+          "type": "product_image"
         },
         {
-          "type": "image_product"
+          "type": "product_image"
         },
         {
-          "type": "image_product"
+          "type": "product_image"
         }
       ]
     }
