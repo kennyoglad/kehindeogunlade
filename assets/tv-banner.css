@@ -17,23 +17,16 @@
 
 .tv-page {
   position: relative;
-
   width: 100%;
   max-width: 1440px;
-
   min-height: 2000px;
-
   margin: 0 auto;
   padding: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 90px;
-
   box-sizing: border-box;
-
   background: #ffffff;
 
   overflow: hidden;
@@ -47,10 +40,8 @@
 .tv-page > .shopify-section {
   width: 100%;
   max-width: 2000px;
-
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
@@ -62,9 +53,7 @@
 .tv-page > .tv-banner-section {
   width: 100%;
   max-width: 1440px;
-
   flex: 0 0 auto;
-
   margin: 0;
   padding: 0;
 }
@@ -76,13 +65,9 @@
 
 .tv-page > .tv-product-grid-section {
   width: 100%;
-
   flex: 0 0 auto;
-
   margin: 0;
   padding: 0;
-
-  box-sizing: border-box;
 }
 
 
