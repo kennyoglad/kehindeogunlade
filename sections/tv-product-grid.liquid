@@ -13,71 +13,127 @@
 
     {% for block in section.blocks %}
 
+      {% assign product = block.settings.product %}
+
       <article
         class="tv-product-grid__item"
         {{ block.shopify_attributes }}
       >
 
-        <div class="tv-product-grid__image-wrapper">
+        {% if product != blank %}
 
-          {% if block.settings.image != blank %}
+          <div class="tv-product-grid__image-wrapper">
 
-            {{
-              block.settings.image
-              | image_url: width: 866
-              | image_tag:
-                class: 'tv-product-grid__image',
-                loading: 'lazy',
-                widths: '433, 650, 866',
-                sizes: '(min-width: 1440px) 433px, 33vw, 100vw'
-            }}
+            {% if product.featured_image != blank %}
 
-          {% else %}
+              {{
+                product.featured_image
+                | image_url: width: 866
+                | image_tag:
+                  class: 'tv-product-grid__image',
+                  loading: 'lazy',
+                  widths: '433, 650, 866',
+                  sizes: '(min-width: 1440px) 433px, 33vw, 100vw',
+                  alt: product.featured_image.alt | default: product.title
+              }}
+
+            {% else %}
+
+              <div class="tv-product-grid__placeholder">
+                No image available
+              </div>
+
+            {% endif %}
+
+
+            {%- comment -%}
+              Product data is embedded directly into the page.
+
+              JavaScript reads this JSON when the hotspot is clicked.
+              This means:
+              - title is dynamic
+              - price is dynamic
+              - description is dynamic
+              - variants are dynamic
+              - variant IDs are dynamic
+              - product image is dynamic
+            {%- endcomment -%}
+
+            <script
+              type="application/json"
+              class="tv-product-grid__product-data"
+            >
+              {
+                "id": {{ product.id | json }},
+                "handle": {{ product.handle | json }},
+                "title": {{ product.title | json }},
+                "description": {{ product.description | json }},
+                "description_html": {{ product.description | json }},
+                "url": {{ product.url | json }},
+                "featured_image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 900 | json }}{% else %}null{% endif %},
+                "featured_image_alt": {% if product.featured_image %}{{ product.featured_image.alt | default: product.title | json }}{% else %}{{ product.title | json }}{% endif %},
+                "price": {{ product.price | json }},
+                "price_formatted": {{ product.price | money | json }},
+                "available": {{ product.available | json }},
+                "options": {{ product.options | json }},
+                "variants": [
+                  {% for variant in product.variants %}
+                    {
+                      "id": {{ variant.id | json }},
+                      "title": {{ variant.title | json }},
+                      "available": {{ variant.available | json }},
+                      "price": {{ variant.price | json }},
+                      "price_formatted": {{ variant.price | money | json }},
+                      "option1": {{ variant.option1 | json }},
+                      "option2": {{ variant.option2 | json }},
+                      "option3": {{ variant.option3 | json }},
+                      "featured_image": {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 900 | json }}{% else %}null{% endif %}
+                    }{% unless forloop.last %},{% endunless %}
+                  {% endfor %}
+                ]
+              }
+            </script>
+
+
+            {% if product != blank %}
+
+              <button
+                type="button"
+                class="tv-product-grid__hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                aria-label="View {{ product.title | escape }}"
+                data-product-hotspot
+              >
+
+                <span
+                  class="tv-product-grid__hotspot-circle"
+                  aria-hidden="true"
+                >
+
+                  <span class="tv-product-grid__hotspot-plus"></span>
+
+                </span>
+
+              </button>
+
+            {% endif %}
+
+          </div>
+
+        {% else %}
+
+          <div class="tv-product-grid__image-wrapper">
 
             <div class="tv-product-grid__placeholder">
-              Add image
+              Select a product
             </div>
 
-          {% endif %}
+          </div>
 
-
-          {% comment %}
-            Product hotspot
-
-            The hotspot is only rendered when a product
-            has been assigned to this image block in
-            the Shopify Theme Customizer.
-          {% endcomment %}
-
-          {% if block.settings.product != blank %}
-
-            <button
-              type="button"
-              class="tv-product-grid__hotspot"
-              style="
-                --hotspot-x: {{ block.settings.hotspot_x }}%;
-                --hotspot-y: {{ block.settings.hotspot_y }}%;
-              "
-              aria-label="View {{ block.settings.product.title | escape }}"
-              data-product-url="{{ block.settings.product.url }}"
-              data-product-handle="{{ block.settings.product.handle }}"
-              data-product-id="{{ block.settings.product.id }}"
-            >
-
-              <span
-                class="tv-product-grid__hotspot-circle"
-                aria-hidden="true"
-              >
-                <span
-                  class="tv-product-grid__hotspot-plus"
-                ></span>
-              </span>
-
-            </button>
-
-          {% endif %}
-
-        </div>
+        {% endif %}
 
       </article>
 
@@ -87,30 +143,6 @@
 
 </div>
 
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-
-    document
-      .querySelectorAll('.tv-product-grid__hotspot')
-      .forEach(function (hotspot) {
-
-        hotspot.addEventListener('click', function () {
-
-          const productUrl = this.dataset.productUrl;
-
-          if (productUrl) {
-            window.location.href = productUrl;
-          }
-
-        });
-
-      });
-
-  });
-</script>
-
-<script src="{{ 'tv-product-grid.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
@@ -124,27 +156,15 @@
       "id": "heading",
       "label": "Heading",
       "default": "Tisso vison in the wild"
-    }, 
-
-    {
-      "type": "product",
-      "id": "auto_add_product",
-      "label": "Automatically add product",
-      "info": "This product is automatically added when the selected product variant is Black and Medium."
     }
   ],
 
   "blocks": [
     {
-      "type": "image_product",
-      "name": "Product image",
+      "type": "product_image",
+      "name": "Product",
 
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
         {
           "type": "product",
           "id": "product",
@@ -180,42 +200,42 @@
 
       "blocks": [
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 59.2,
             "hotspot_y": 53.6
           }
         },
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 82.4,
             "hotspot_y": 50
           }
         },
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 60.3,
             "hotspot_y": 18.5
           }
         },
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 69.7,
             "hotspot_y": 16
           }
         },
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 49,
             "hotspot_y": 23.4
           }
         },
         {
-          "type": "image_product",
+          "type": "product_image",
           "settings": {
             "hotspot_x": 73.1,
             "hotspot_y": 36.9
@@ -226,97 +246,3 @@
   ]
 }
 {% endschema %}
-
-
-<div
-  class="tv-product-popup"
-  id="tv-product-popup"
-  aria-hidden="true"
->
-  <div class="tv-product-popup__overlay" data-popup-close></div>
-
-  <div
-    class="tv-product-popup__dialog"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="tv-product-popup-title"
-  >
-
-    <button
-      type="button"
-      class="tv-product-popup__close"
-      aria-label="Close product"
-      data-popup-close
-    >
-      <span></span>
-      <span></span>
-    </button>
-
-    <div class="tv-product-popup__content">
-
-      <div class="tv-product-popup__product">
-
-        <div class="tv-product-popup__image-wrapper">
-          <img
-            id="tv-product-popup-image"
-            class="tv-product-popup__image"
-            src=""
-            alt=""
-          >
-        </div>
-
-        <div class="tv-product-popup__info">
-
-          <h2
-            id="tv-product-popup-title"
-            class="tv-product-popup__title"
-          ></h2>
-
-          <div
-            id="tv-product-popup-price"
-            class="tv-product-popup__price"
-          ></div>
-
-          <div
-            id="tv-product-popup-description"
-            class="tv-product-popup__description"
-          ></div>
-
-        </div>
-
-      </div>
-
-      <form
-        id="tv-product-popup-form"
-        class="tv-product-popup__form"
-      >
-
-        <div
-          id="tv-product-popup-options"
-          class="tv-product-popup__options"
-        ></div>
-
-        <p
-          id="tv-product-popup-error"
-          class="tv-product-popup__error"
-          hidden
-        ></p>
-
-        <button
-          type="submit"
-          class="tv-product-popup__add"
-        >
-          <span>ADD TO CART</span>
-
-          <span class="tv-product-popup__add-arrow">
-            <span class="tv-product-popup__add-arrow-line"></span>
-            <span class="tv-product-popup__add-arrow-head"></span>
-          </span>
-        </button>
-
-      </form>
-
-    </div>
-
-  </div>
-</div>
