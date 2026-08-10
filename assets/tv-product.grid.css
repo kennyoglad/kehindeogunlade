@@ -1,39 +1,43 @@
 /* ==========================================================
    TV PRODUCT GRID
-   Figma desktop canvas:
-   1440px
-
-   Product grid:
-   1339px
-   3 × 433px
-   20px gaps
    ========================================================== */
 
 .tv-product-grid-section {
   width: 100%;
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
 
 /* ==========================================================
-   CONTENT FRAME
+   MAIN FRAME
+   Figma:
+   1337 × 981
    ========================================================== */
 
 .tv-product-grid {
   width: 100%;
-  max-width: 1339px;
+  max-width: 1337px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
   background: #ffffff;
 }
 
+.tv-product-grid__inner {
+  width: 100%;
+  max-width: 1337px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 
 /* ==========================================================
    HEADING
+   Figma:
+   372 × 43
    ========================================================== */
 
 .tv-product-grid__heading {
@@ -48,33 +52,26 @@
 
   box-sizing: border-box;
 
-  font-family: 'Lustria', serif;
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 120%;
-
   color: #000000;
+
+  font-family: 'Lustria', serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 36px;
+  line-height: 120%;
 }
 
 
 /* ==========================================================
-   PRODUCT ITEMS FRAME
-
-   Figma Frame 1000009723
-
-   Heading:
-   43px
-
-   Gap:
-   30px
-
-   Therefore:
-   items start at Y = 73px
+   PRODUCT ITEMS
+   Figma:
+   1339 × 908
    ========================================================== */
 
 .tv-product-grid__items {
-  width: 1339px;
-  height: 908px;
+  width: 100%;
+  height: auto;
 
   margin-top: 30px;
   margin-left: 0;
@@ -95,21 +92,36 @@
 
 
 /* ==========================================================
-   ITEM
+   PRODUCT ITEM
+   Figma:
+   433 × 444
    ========================================================== */
 
 .tv-product-grid__item {
   position: relative;
-  width: 433px;
+
+  width: calc(
+    (100% - 40px) / 3
+  );
+
   height: 444px;
-  flex: 0 0 433px;
+
+  flex: 0 0 calc(
+    (100% - 40px) / 3
+  );
+
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
 }
 
+
 /* ==========================================================
    IMAGE WRAPPER
+
+   IMPORTANT:
+   This establishes the positioning context for the hotspot.
    ========================================================== */
 
 .tv-product-grid__image-wrapper {
@@ -172,15 +184,25 @@
 
 /* ==========================================================
    HOTSPOT
+
+   Figma:
+   22 × 22px
+
+   left/top are the CENTER of the hotspot.
    ========================================================== */
 
 .tv-product-grid__hotspot {
   position: absolute;
-  left: var(--hotspot-x);
-  top: var(--hotspot-y);
+
+  left: var(--hotspot-x, 50%);
+  top: var(--hotspot-y, 50%);
 
   width: 22px;
   height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   margin: 0;
   padding: 0;
@@ -192,15 +214,26 @@
 
   background: transparent;
 
+  color: #000000;
+
   cursor: pointer;
 
-  z-index: 50;
+  z-index: 20;
 
   appearance: none;
+  -webkit-appearance: none;
+
+  visibility: visible;
+  opacity: 1;
 }
+
 
 /* ==========================================================
    HOTSPOT CIRCLE
+
+   IMPORTANT:
+   Keep the background opaque enough to remain visible
+   over all product photography.
    ========================================================== */
 
 .tv-product-grid__hotspot-circle {
@@ -211,6 +244,8 @@
   width: 22px;
   height: 22px;
 
+  flex: 0 0 22px;
+
   align-items: center;
   justify-content: center;
 
@@ -218,43 +253,57 @@
 
   background: rgba(248, 248, 248, 0.9);
 
-  border: 1px solid #000;
+  border: 1px solid #000000;
 
   box-sizing: border-box;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
 }
+
+
 /* ==========================================================
    PLUS
    ========================================================== */
 
-.tv-product-grid__hotspot-plus,
-.tv-product-grid__hotspot-plus::after {
-  position: absolute;
+.tv-product-grid__hotspot-plus {
+  position: relative;
 
   display: block;
 
-  content: "";
-
-  background: #000000;
-}
-
-
-.tv-product-grid__hotspot-plus {
   width: 9px;
   height: 1.5px;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: #000000;
+
+  box-sizing: border-box;
 }
 
-
 .tv-product-grid__hotspot-plus::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
   width: 1.5px;
   height: 9px;
 
-  left: 3.75px;
-  top: -3.75px;
+  background: #000000;
+
+  transform:
+    translate(-50%, -50%);
 }
 
 
 /* ==========================================================
-   HOVER
+   HOTSPOT HOVER
    ========================================================== */
 
 .tv-product-grid__hotspot:hover
@@ -269,7 +318,7 @@
 
 
 /* ==========================================================
-   FOCUS
+   HOTSPOT FOCUS
    ========================================================== */
 
 .tv-product-grid__hotspot:focus-visible {
@@ -279,14 +328,76 @@
 
 
 /* ==========================================================
-   DESKTOP → TABLET
+   DESKTOP EXACT WIDTH
+
+   At 1440px:
+   grid width = 1337px
+
+   Cards:
+   (1337 - 40) / 3 = 432.333px
+
+   Figma specifies 433px cards.
+
+   The grid therefore allows a 1px Figma rounding difference.
+   ========================================================== */
+
+@media screen and (min-width: 1440px) {
+
+  .tv-product-grid {
+    width: 1337px;
+    max-width: 1337px;
+  }
+
+  .tv-product-grid__inner {
+    width: 1337px;
+    max-width: 1337px;
+  }
+
+  .tv-product-grid__items {
+    width: 1339px;
+    max-width: none;
+  }
+
+  .tv-product-grid__item {
+    width: 433px;
+    flex-basis: 433px;
+  }
+
+}
+
+
+/* ==========================================================
+   TABLET
    ========================================================== */
 
 @media screen and (max-width: 1439px) {
 
   .tv-product-grid {
     width: calc(100% - 100px);
-    max-width: 1339px;
+    max-width: 1337px;
+  }
+
+  .tv-product-grid__inner {
+    width: 100%;
+    max-width: 1337px;
+  }
+
+  .tv-product-grid__items {
+    width: 100%;
+  }
+
+  .tv-product-grid__item {
+    width: calc(
+      (100% - 40px) / 3
+    );
+
+    flex-basis: calc(
+      (100% - 40px) / 3
+    );
+
+    height: auto;
+
+    aspect-ratio: 433 / 444;
   }
 
 }
@@ -303,39 +414,57 @@
     max-width: none;
   }
 
+  .tv-product-grid__inner {
+    width: 100%;
+    max-width: none;
+  }
+
 
   .tv-product-grid__heading {
     width: 100%;
     height: auto;
 
-    margin-bottom: 20px;
+    margin: 0;
 
     font-size: 28px;
+    line-height: 120%;
   }
 
 
   .tv-product-grid__items {
-    grid-template-columns: 1fr;
+    width: 100%;
 
-    grid-auto-rows: auto;
+    margin-top: 20px;
 
-    row-gap: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    gap: 12px;
   }
 
 
   .tv-product-grid__item {
+    width: 100%;
+    flex: 0 0 auto;
+
     height: auto;
 
     aspect-ratio: 433 / 444;
   }
 
+
+  .tv-product-grid__hotspot {
+    width: 22px;
+    height: 22px;
+  }
+
 }
 
 
-
-/* =========================================================
+/* ==========================================================
    PRODUCT POPUP
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup {
   position: fixed;
@@ -365,9 +494,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    OVERLAY
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__overlay {
   position: absolute;
@@ -377,9 +506,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    DIALOG
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__dialog {
   position: relative;
@@ -397,9 +526,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    CLOSE
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__close {
   position: absolute;
@@ -434,31 +563,36 @@
 }
 
 .tv-product-popup__close span:first-child {
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform:
+    translate(-50%, -50%)
+    rotate(45deg);
 }
 
 .tv-product-popup__close span:last-child {
-  transform: translate(-50%, -50%) rotate(-45deg);
+  transform:
+    translate(-50%, -50%)
+    rotate(-45deg);
 }
 
 
-/* =========================================================
+/* ==========================================================
    CONTENT
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__content {
   padding: 44px 24px 30px;
 }
 
 
-/* =========================================================
-   PRODUCT TOP
-   ========================================================= */
+/* ==========================================================
+   PRODUCT
+   ========================================================== */
 
 .tv-product-popup__product {
   display: grid;
 
-  grid-template-columns: 145px minmax(0, 1fr);
+  grid-template-columns:
+    145px minmax(0, 1fr);
 
   gap: 14px;
 
@@ -466,9 +600,9 @@
 }
 
 
-/* =========================================================
-   IMAGE
-   ========================================================= */
+/* ==========================================================
+   POPUP IMAGE
+   ========================================================== */
 
 .tv-product-popup__image-wrapper {
   width: 145px;
@@ -489,9 +623,9 @@
 }
 
 
-/* =========================================================
-   PRODUCT INFO
-   ========================================================= */
+/* ==========================================================
+   POPUP INFO
+   ========================================================== */
 
 .tv-product-popup__info {
   min-width: 0;
@@ -537,9 +671,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    OPTIONS
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__options {
   display: flex;
@@ -572,17 +706,18 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    OPTION VALUES
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__values {
   display: grid;
 
-  grid-template-columns: repeat(
-    var(--option-count),
-    minmax(0, 1fr)
-  );
+  grid-template-columns:
+    repeat(
+      var(--option-count),
+      minmax(0, 1fr)
+    );
 
   border: 1px solid #999999;
 }
@@ -615,7 +750,8 @@
 }
 
 .tv-product-popup__value.is-selected {
-  box-shadow: inset 0 0 0 2px #000000;
+  box-shadow:
+    inset 0 0 0 2px #000000;
 }
 
 .tv-product-popup__value:hover {
@@ -623,9 +759,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    ERROR
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__error {
   margin: -12px 0 16px;
@@ -638,9 +774,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    ADD TO CART
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__add {
   position: relative;
@@ -679,7 +815,8 @@
   transform: translateX(-101%);
 
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms
+    cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-product-popup__add:hover::before,
@@ -698,9 +835,9 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    ADD TO CART ARROW
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup__add-arrow {
   position: absolute;
@@ -716,7 +853,8 @@
   z-index: 2;
 
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms
+    cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-product-popup__add-arrow-line {
@@ -727,7 +865,8 @@
 
   width: 100%;
 
-  border-top: 1.5px solid currentColor;
+  border-top:
+    1.5px solid currentColor;
 }
 
 .tv-product-popup__add-arrow-head {
@@ -739,23 +878,30 @@
   width: 8px;
   height: 8px;
 
-  border-top: 1.5px solid currentColor;
-  border-right: 1.5px solid currentColor;
+  border-top:
+    1.5px solid currentColor;
+
+  border-right:
+    1.5px solid currentColor;
 
   transform:
     translateY(-50%)
     rotate(45deg);
 }
 
-.tv-product-popup__add:hover .tv-product-popup__add-arrow,
-.tv-product-popup__add:focus-visible .tv-product-popup__add-arrow {
-  transform: translate(6px, -50%);
+.tv-product-popup__add:hover
+.tv-product-popup__add-arrow,
+
+.tv-product-popup__add:focus-visible
+.tv-product-popup__add-arrow {
+  transform:
+    translate(6px, -50%);
 }
 
 
-/* =========================================================
+/* ==========================================================
    LOADING
-   ========================================================= */
+   ========================================================== */
 
 .tv-product-popup.is-loading
 .tv-product-popup__content {
@@ -764,9 +910,9 @@
 }
 
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* ==========================================================
+   MOBILE POPUP
+   ========================================================== */
 
 @media screen and (max-width: 749px) {
 
@@ -780,7 +926,8 @@
   }
 
   .tv-product-popup__product {
-    grid-template-columns: 120px minmax(0, 1fr);
+    grid-template-columns:
+      120px minmax(0, 1fr);
   }
 
   .tv-product-popup__image-wrapper {
