@@ -1,622 +1,675 @@
-/*
- * TV PRODUCT GRID
- * ============================================================
- */
+/* =========================================================
+   TV PRODUCT GRID
+   Popup styling — Figma: Frame 1000009755
+   ========================================================= */
 
 
-/*
- * SECTION
- * ============================================================
- */
+/* =========================================================
+   PRODUCT GRID
+   ========================================================= */
 
 .tv-product-grid {
   width: 100%;
-  background: #ffffff;
 }
-
-.tv-product-grid__container {
-  width: 100%;
-  max-width: 1337px;
-  margin: 0 auto;
-}
-
-
-/*
- * HEADING
- * ============================================================
- */
-
-.tv-product-grid__heading {
-  margin: 0 0 30px;
-
-  font-family: "Lustria", serif;
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 1.2;
-
-  color: #000000;
-}
-
-
-/*
- * PRODUCT GRID
- * ============================================================
- *
- * Figma:
- *
- * Grid width: 1339px
- * Columns:    3
- * Image:      433px × 444px
- * Gap:        20px
- *
- */
 
 .tv-product-grid__items {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
-
-/*
- * PRODUCT CARD
- * ============================================================
- */
-
-.tv-product-card {
+.tv-product-grid__item {
   position: relative;
-  min-width: 0;
+  flex: 0 0 calc((100% - 40px) / 3);
 }
 
-
-/*
- * PRODUCT IMAGE
- * ============================================================
- */
-
-.tv-product-card__image-wrapper {
+.tv-product-grid__image-wrap {
   position: relative;
-
   width: 100%;
-
-  aspect-ratio: 433 / 444;
-
-  overflow: hidden;
-
-  background: #f5f5f5;
 }
 
-
-.tv-product-card__image {
+.tv-product-grid__image {
   display: block;
-
   width: 100%;
-  height: 100%;
-
-  object-fit: cover;
+  height: auto;
 }
 
 
-.tv-product-card__image-placeholder {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  background: #f5f5f5;
-}
-
-
-.tv-product-card__image-placeholder svg {
-  width: 100%;
-  height: 100%;
-}
-
-
-/*
- * HOTSPOT
- * ============================================================
- */
+/* =========================================================
+   HOTSPOT
+   ========================================================= */
 
 .tv-product-hotspot {
   position: absolute;
+  z-index: 10;
 
-  left: var(--hotspot-x);
-  top: var(--hotspot-y);
-
-  width: 30px;
-  height: 30px;
+  width: 22px;
+  height: 22px;
 
   padding: 0;
   margin: 0;
 
-  transform: translate(-50%, -50%);
-
   border: 0;
-
-  background: transparent;
-
-  cursor: pointer;
-
-  z-index: 5;
-
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-
-.tv-product-hotspot__circle {
-  position: relative;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 30px;
-  height: 30px;
-
   border-radius: 50%;
 
   background: rgba(248, 248, 248, 0.9);
 
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
+  cursor: pointer;
 
-
-.tv-product-hotspot:hover
-.tv-product-hotspot__circle {
-  transform: scale(1.1);
-
-  background: #ffffff;
-}
-
-
-.tv-product-hotspot__plus {
-  position: relative;
-
-  display: block;
-
-  width: 12px;
-  height: 12px;
-}
-
-
-.tv-product-hotspot__plus::before,
-.tv-product-hotspot__plus::after {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-  left: 50%;
-
-  width: 12px;
-  height: 1.5px;
-
-  background: #000000;
-
-  transform:
-    translate(-50%, -50%);
-}
-
-
-.tv-product-hotspot__plus::after {
-  transform:
-    translate(-50%, -50%)
-    rotate(90deg);
-}
-
-
-/*
- * PRODUCT POPUP
- * ============================================================
- */
-
-.tv-product-popup {
-  position: fixed;
-
-  inset: 0;
+  transform: translate(-50%, -50%);
 
   display: flex;
-
   align-items: center;
   justify-content: center;
-
-  padding: 20px;
-
-  z-index: 9999;
-
-  visibility: hidden;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
 }
 
-
-.tv-product-popup.is-open {
-  visibility: visible;
-
-  opacity: 1;
-
-  pointer-events: auto;
-}
-
-
-/*
- * POPUP OVERLAY
- * ============================================================
- */
-
-.tv-product-popup__overlay {
+.tv-product-hotspot::before,
+.tv-product-hotspot::after {
+  content: "";
   position: absolute;
 
-  inset: 0;
+  width: 8px;
+  height: 8px;
 
-  background: rgba(0, 0, 0, 0.25);
+  border: 1.5px solid #000;
+}
+
+.tv-product-hotspot::before {
+  transform: rotate(45deg);
+}
+
+.tv-product-hotspot::after {
+  transform: rotate(-45deg);
+}
+
+.tv-product-hotspot:hover {
+  background: #fff;
 }
 
 
-/*
- * POPUP CONTENT
- * ============================================================
- */
+/* =========================================================
+   POPUP OVERLAY
+   ========================================================= */
 
-.tv-product-popup__content {
-  position: relative;
+.tv-product-popup-overlay {
+  position: fixed;
+  inset: 0;
 
-  width: min(
-    385px,
-    calc(100vw - 40px)
-  );
+  z-index: 9998;
 
-  max-height:
-    calc(100vh - 40px);
+  display: none;
 
-  overflow-y: auto;
+  background: transparent;
+}
 
-  padding:
-    44px
-    24px
-    32px;
+.tv-product-popup-overlay.is-active {
+  display: block;
+}
+
+
+/* =========================================================
+   POPUP
+   Figma:
+   width: 311px
+   height: 447px
+   ========================================================= */
+
+.tv-product-popup {
+  position: absolute;
+
+  width: 311px;
+  height: 447px;
 
   box-sizing: border-box;
 
-  background: #ffffff;
+  background: #fff;
 
-  z-index: 2;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2);
+
+  overflow: hidden;
+
+  z-index: 9999;
 }
 
 
-/*
- * POPUP CLOSE
- * ============================================================
- */
+/* =========================================================
+   POPUP INNER
+   ========================================================= */
+
+.tv-product-popup__inner {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   Figma:
+   approximately top: 13px
+   right: 20px
+   ========================================================= */
 
 .tv-product-popup__close {
   position: absolute;
 
-  top: 14px;
-  right: 16px;
+  top: 13px;
+  right: 20px;
 
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 20;
+
+  transform: rotate(-45deg);
+}
+
+.tv-product-popup__close::before,
+.tv-product-popup__close::after {
+  content: "";
+
+  position: absolute;
+
+  top: 9px;
+  left: 2px;
+
+  width: 18px;
+  height: 1.5px;
+
+  background: #000;
+}
+
+.tv-product-popup__close::after {
+  transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   PRODUCT INFORMATION / TOP AREA
+   ========================================================= */
+
+.tv-product-popup__product {
+  position: absolute;
+
+  top: 36px;
+  left: 17px;
+  right: 17px;
+
+  height: 150px;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+   Figma:
+   left ≈ 17px
+   top ≈ 36px
+   width ≈ 120px
+   height ≈ 140px
+   ========================================================= */
+
+.tv-product-popup__image {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 123px;
+  height: 140px;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS
+   ========================================================= */
+
+.tv-product-popup__details {
+  position: absolute;
+
+  left: 145px;
+  right: 0;
+
+  top: 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Product title */
+
+.tv-product-popup__title {
+  margin: 0;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+
+  font-size: 16px;
+  line-height: 120%;
+
+  color: #000;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* Price */
+
+.tv-product-popup__price {
+  margin-top: 5px;
+
+  font-family: "Lustria", serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
+  line-height: 120%;
+
+  color: #000;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* Description */
+
+.tv-product-popup__description {
+  margin: 14px 0 0;
+
+  width: 146px;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+
+  font-size: 14px;
+  line-height: 110%;
+
+  letter-spacing: -0.01em;
+
+  color: #000;
+}
+
+
+/* =========================================================
+   COLOR SELECTOR
+   Figma:
+   left: 20px
+   top: approximately 186px
+   ========================================================= */
+
+.tv-product-popup__color {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+
+  top: 186px;
+}
+
+
+/* "Color" label */
+
+.tv-product-popup__color-label {
+  display: block;
+
+  margin: 0 0 9px;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 14px;
+  line-height: 130%;
+
+  color: #333;
+}
+
+
+/* Color selector */
+
+.tv-product-popup__color-options {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  width: 100%;
+  height: 39px;
+}
+
+
+/* Individual color */
+
+.tv-product-popup__color-option {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  height: 39px;
+
+  box-sizing: border-box;
+
+  padding-left: 17px;
+
+  border: 0.5px solid #000;
+
+  background: #fff;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 18px;
+  line-height: 100%;
+
+  letter-spacing: -0.02em;
+
+  text-transform: capitalize;
+
+  color: #000;
+
+  cursor: pointer;
+}
+
+
+/* Remove doubled border between the two options */
+
+.tv-product-popup__color-option + .tv-product-popup__color-option {
+  margin-left: -0.5px;
+}
+
+
+/* Selected color */
+
+.tv-product-popup__color-option.is-selected {
+  background: #000;
+  color: #fff;
+}
+
+
+/* =========================================================
+   SIZE SELECTOR
+   Figma:
+   top: 262px
+   left/right: 20px
+   height: 64px
+   ========================================================= */
+
+.tv-product-popup__size {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+
+  top: 262px;
+
+  height: 64px;
+}
+
+
+/* "Size" label */
+
+.tv-product-popup__size-label {
+  display: block;
+
+  margin: 0 0 9px;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 14px;
+  line-height: 130%;
+
+  color: #333;
+}
+
+
+/* Size select */
+
+.tv-product-popup__size-select {
+  position: relative;
+
+  width: 100%;
+  height: 41px;
+
+  box-sizing: border-box;
+
+  padding: 0 44px 0 14px;
+
+  border: 0.5px solid #000;
+
+  border-radius: 0;
+
+  background: #fff;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
+  line-height: 100%;
+
+  letter-spacing: -0.02em;
+
+  color: #000;
+
+  cursor: pointer;
+}
+
+
+/* Dropdown arrow */
+
+.tv-product-popup__size::after {
+  content: "";
+
+  position: absolute;
+
+  right: 18px;
+  top: 40px;
+
+  width: 8px;
+  height: 8px;
+
+  border-right: 1.5px solid #000;
+  border-bottom: 1.5px solid #000;
+
+  transform: rotate(45deg) translateY(-50%);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ADD TO CART
+   Figma:
+   left: 20px
+   top: 377px
+   width: 271px
+   height: 45px
+   ========================================================= */
+
+.tv-product-popup__add-to-cart {
+  position: absolute;
+
+  left: 20px;
+  bottom: 25px;
+
+  width: 271px;
+  height: 45px;
+
+  box-sizing: border-box;
 
   padding: 0;
 
   border: 0;
 
-  background: transparent;
+  background: #000;
+  color: #fff;
 
-  font-family: Arial, sans-serif;
-  font-size: 28px;
-  font-weight: 300;
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
   line-height: 20px;
 
-  color: #000000;
+  text-transform: uppercase;
 
   cursor: pointer;
 
-  z-index: 3;
-}
-
-
-/*
- * POPUP TOP AREA
- * ============================================================
- */
-
-.tv-product-popup__top {
-  display: grid;
-
-  grid-template-columns:
-    150px minmax(0, 1fr);
-
-  gap: 10px;
-
-  align-items: start;
-
-  margin-bottom: 28px;
-}
-
-
-/*
- * POPUP IMAGE
- * ============================================================
- */
-
-.tv-product-popup__image {
-  width: 150px;
-  height: 174px;
-
-  overflow: hidden;
-
-  background: #f5f5f5;
-}
-
-
-.tv-product-popup__image-element {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-/*
- * POPUP DETAILS
- * ============================================================
- */
-
-.tv-product-popup__details {
-  min-width: 0;
-}
-
-
-.tv-product-popup__title {
-  margin:
-    15px
-    0
-    22px;
-
-  font-family: "Jost", sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.2;
-
-  color: #000000;
-}
-
-
-.tv-product-popup__price {
-  margin-bottom: 12px;
-
-  font-family: "Jost", sans-serif;
-  font-size: 20px;
-  line-height: 1.2;
-
-  color: #000000;
-}
-
-
-.tv-product-popup__price-current {
-  color: #000000;
-}
-
-
-.tv-product-popup__price-compare {
-  margin-left: 6px;
-
-  color: #777777;
-
-  text-decoration: line-through;
-}
-
-
-.tv-product-popup__description {
-  font-family: "Jost", sans-serif;
-  font-size: 16px;
-  line-height: 1.3;
-
-  color: #000000;
-}
-
-
-/*
- * POPUP BUTTON
- * ============================================================
- */
-
-.tv-product-popup__button {
   display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  min-height: 56px;
-
-  padding:
-    0
-    22px;
-
-  box-sizing: border-box;
-
-  background: #000000;
-
-  color: #ffffff;
-
-  font-family: "Jost", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-
-  text-decoration: none;
-  text-transform: uppercase;
-
-  transition: opacity 0.2s ease;
-}
-
-
-.tv-product-popup__button:hover {
-  opacity: 0.85;
-}
-
-
-.tv-product-popup__arrow {
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1;
-}
-
-
-/*
- * SOLD OUT
- * ============================================================
- */
-
-.tv-product-popup__sold-out {
-  display: flex;
-
   align-items: center;
   justify-content: center;
 
-  min-height: 56px;
-
-  background: #000000;
-
-  color: #ffffff;
-
-  font-family: "Jost", sans-serif;
-  font-size: 16px;
+  text-align: center;
 }
 
 
-/*
- * POPUP SCROLL LOCK
- * ============================================================
- */
+/* Add to cart arrow */
 
-html.tv-product-popup-open,
-body.tv-product-popup-open {
-  overflow: hidden;
+.tv-product-popup__add-to-cart::after {
+  content: "";
+
+  position: absolute;
+
+  right: 29px;
+  top: 50%;
+
+  width: 30px;
+  height: 1.5px;
+
+  background: #fff;
+
+  transform: translateY(-50%);
 }
 
 
-/*
- * TABLET
- * ============================================================
- */
+/* Arrow head */
 
-@media screen and (max-width: 989px) {
+.tv-product-popup__add-to-cart::before {
+  content: "";
 
-  .tv-product-grid__container {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+  position: absolute;
 
-  .tv-product-grid__items {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
+  right: 28px;
+  top: 50%;
 
+  width: 7px;
+  height: 7px;
+
+  border-top: 1.5px solid #fff;
+  border-right: 1.5px solid #fff;
+
+  transform:
+    translateY(-50%)
+    rotate(45deg);
 }
 
 
-/*
- * MOBILE
- * ============================================================
- */
+/* =========================================================
+   HOVER STATES
+   ========================================================= */
+
+.tv-product-popup__add-to-cart:hover {
+  background: #222;
+}
+
+.tv-product-popup__color-option:hover {
+  background: #f5f5f5;
+}
+
+.tv-product-popup__color-option.is-selected:hover {
+  background: #222;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media screen and (max-width: 749px) {
 
-  .tv-product-grid__container {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-
-  .tv-product-grid__heading {
-    margin-bottom: 20px;
-
-    font-size: 28px;
-  }
-
-
   .tv-product-grid__items {
-    grid-template-columns: 1fr;
-
-    gap: 16px;
-  }
-
-
-  .tv-product-hotspot {
-    width: 28px;
-    height: 28px;
-  }
-
-
-  .tv-product-hotspot__circle {
-    width: 28px;
-    height: 28px;
-  }
-
-
-  .tv-product-popup {
-    padding: 12px;
-  }
-
-
-  .tv-product-popup__content {
-    width: 100%;
-
-    max-height:
-      calc(100vh - 24px);
-
-    padding:
-      42px
-      18px
-      20px;
-  }
-
-
-  .tv-product-popup__top {
-    grid-template-columns:
-      120px minmax(0, 1fr);
-
     gap: 10px;
   }
 
-
-  .tv-product-popup__image {
-    width: 120px;
-    height: 145px;
+  .tv-product-grid__item {
+    flex-basis: calc((100% - 10px) / 2);
   }
 
+  /*
+   * Keep popup at Figma dimensions where possible,
+   * but prevent it from overflowing a small viewport.
+   */
 
-  .tv-product-popup__title {
-    margin-top: 10px;
+  .tv-product-popup {
+    width: min(311px, calc(100vw - 20px));
+    height: 447px;
 
-    font-size: 16px;
+    max-height: calc(100vh - 20px);
   }
 
+  .tv-product-popup__add-to-cart {
+    width: calc(100% - 40px);
+  }
 
-  .tv-product-popup__price {
-    font-size: 18px;
+  .tv-product-popup__color,
+  .tv-product-popup__size {
+    left: 20px;
+    right: 20px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 360px) {
+
+  .tv-product-popup {
+    width: calc(100vw - 10px);
+  }
+
+  .tv-product-popup__product {
+    left: 14px;
+    right: 14px;
+  }
+
+  .tv-product-popup__color,
+  .tv-product-popup__size {
+    left: 14px;
+    right: 14px;
+  }
+
+  .tv-product-popup__add-to-cart {
+    left: 14px;
+    width: calc(100% - 28px);
   }
 
 }
