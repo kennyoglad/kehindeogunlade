@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "tv_banner": {
@@ -17,7 +8,7 @@
         "header_button_text": "CHOOSE YOURS",
         "header_button_link": "",
         "heading": "The Gift Guide",
-        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "description": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
         "main_button_text": "CHOOSE YOURS",
         "main_button_link": "",
         "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
@@ -26,56 +17,62 @@
     "tv_product_grid": {
       "type": "tv-product-grid",
       "blocks": {
-        "product_image_1": {
+        "product_1": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_822_7a1b4567-3866-44f4-b8b5-b9c262fa1bb5.png",
-            "product": "black-leather-bag"
+            "product": "black-leather-bag",
+            "hotspot_x": 59.2,
+            "hotspot_y": 53.6
           }
         },
-        "product_image_2": {
+        "product_2": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_823_f84429b8-4958-48dd-8528-4c901b8af634.png",
-            "product": "blue-silk-tuxedo"
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 82.4,
+            "hotspot_y": 50
           }
         },
-        "product_image_3": {
+        "product_3": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "chequered-red-shirt"
+            "product": "chequered-red-shirt",
+            "hotspot_x": 60.3,
+            "hotspot_y": 18.5
           }
         },
-        "product_image_4": {
+        "product_4": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_825_96248c91-29e2-43b7-bd18-67da4bceb605.png",
-            "product": "classic-leather-jacket"
+            "product": "classic-leather-jacket",
+            "hotspot_x": 69.7,
+            "hotspot_y": 16
           }
         },
-        "product_image_5": {
+        "product_5": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "classic-varsity-top"
+            "product": "classic-varsity-top",
+            "hotspot_x": 49,
+            "hotspot_y": 23.4
           }
         },
-        "product_image_6": {
+        "product_6": {
           "type": "product_image",
           "settings": {
-            "image": "shopify://shop_images/image_827_5f858d6b-6619-4773-bf4b-29488e41ffa0.png",
-            "product": "dark-denim-top"
+            "product": "dark-denim-top",
+            "hotspot_x": 73.1,
+            "hotspot_y": 36.9
           }
         }
       },
       "block_order": [
-        "product_image_1",
-        "product_image_2",
-        "product_image_3",
-        "product_image_4",
-        "product_image_5",
-        "product_image_6"
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6"
       ],
       "settings": {
         "heading": "Tisso vison in the wild"
