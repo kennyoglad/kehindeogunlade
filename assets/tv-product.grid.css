@@ -62,30 +62,34 @@
    20px vertical gap
    ========================================================== */
 
+
+
 .tv-product-grid__items {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 433px);
-  grid-auto-rows: 444px;
-  column-gap: 20px;
-  row-gap: 20px;
+  width: 1339px;
+  height: 908px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-
-
 /* ==========================================================
    ITEM
    ========================================================== */
 
 .tv-product-grid__item {
   position: relative;
-  width: 100%;
+  width: 433px;
   height: 444px;
+  flex: 0 0 433px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 /* ==========================================================
    IMAGE WRAPPER
