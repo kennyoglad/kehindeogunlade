@@ -1,50 +1,32 @@
-/* =========================================================
-   TV PRODUCT GRID
-   Figma desktop:
-   Section content: 1337px / 1339px
-   Grid: 3 × 433px
-   Gap: 20px
-   ========================================================= */
+/* ==========================================================
+   PRODUCT GRID — MASTER DESKTOP POSITION
+   Figma:
+   parent frame = 1337 × 981
+   gap from banner = 90px
+   ========================================================== */
 
+.tv-page .tv-product-grid-section {
+  width: 1337px;
+  height: 981px;
 
-/* =========================================================
-   SECTION OUTER WRAPPER
+  flex: 0 0 981px;
 
-   IMPORTANT:
-   The Shopify section itself remains inside .tv-page.
-
-   We do NOT make the Shopify section full-width here.
-   The inner .tv-product-grid controls the Figma width.
-
-
-   ========================================================= */
-
-
-.tv-product-grid-section {
-  width: 100%;
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
 }
 
 
+/* ==========================================================
+   PRODUCT GRID CONTENT
+   ========================================================== */
 
-/* =========================================================
-   FIGMA CONTENT FRAME
+.tv-page .tv-product-grid {
+  width: 1337px;
+  max-width: none;
 
-   Desktop:
-   width: 1339px
-   centered inside the 1440px tv-page
-
-   1440 - 1339 = 101px
-   ~50.5px on each side
-   ========================================================= */
-
-.tv-product-grid {
-  width: min(1339px, calc(100% - 100px));
-  max-width: 1339px;
-
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
 
   box-sizing: border-box;
@@ -53,15 +35,13 @@
 }
 
 
-/* =========================================================
-   HEADING
-
+/* ==========================================================
+   PRODUCT GRID HEADING
    Figma:
-   372 × 43px
-   margin-bottom: 30px
-   ========================================================= */
+   372 × 43
+   ========================================================== */
 
-.tv-product-grid__heading {
+.tv-page .tv-product-grid__heading {
   width: 372px;
   height: 43px;
 
@@ -76,33 +56,29 @@
   font-family: 'Lustria', serif;
   font-size: 36px;
   font-weight: 400;
-  line-height: 120%;
+  line-height: 43.2px;
 
   color: #000000;
 }
 
 
-/* =========================================================
-   GRID
-
+/* ==========================================================
+   PRODUCT GRID ITEMS
    Figma:
-   3 columns
-   433px each
-   20px horizontal gap
+   433 × 444
+   20px gaps
+   ========================================================== */
 
-   433 + 20 + 433 + 20 + 433
-   = 1339px
-   ========================================================= */
-
-.tv-product-grid__items {
-  width: 100%;
+.tv-page .tv-product-grid__items {
+  width: 1339px;
 
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+    repeat(3, 433px);
 
-  grid-auto-rows: 444px;
+  grid-template-rows:
+    repeat(2, 444px);
 
   column-gap: 20px;
   row-gap: 20px;
@@ -111,14 +87,14 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    PRODUCT ITEM
-   ========================================================= */
+   ========================================================== */
 
-.tv-product-grid__item {
+.tv-page .tv-product-grid__item {
   position: relative;
 
-  width: 100%;
+  width: 433px;
   height: 444px;
 
   margin: 0;
@@ -128,15 +104,15 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    IMAGE WRAPPER
-   ========================================================= */
+   ========================================================== */
 
-.tv-product-grid__image-wrapper {
+.tv-page .tv-product-grid__image-wrapper {
   position: relative;
 
-  width: 100%;
-  height: 100%;
+  width: 433px;
+  height: 444px;
 
   overflow: hidden;
 
@@ -146,15 +122,15 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    PRODUCT IMAGE
-   ========================================================= */
+   ========================================================== */
 
-.tv-product-grid__image {
+.tv-page .tv-product-grid__image {
   display: block;
 
-  width: 100%;
-  height: 100%;
+  width: 433px;
+  height: 444px;
 
   max-width: none;
 
@@ -168,15 +144,15 @@
 }
 
 
-/* =========================================================
+/* ==========================================================
    PLACEHOLDER
-   ========================================================= */
+   ========================================================== */
 
-.tv-product-grid__placeholder {
+.tv-page .tv-product-grid__placeholder {
   display: flex;
 
-  width: 100%;
-  height: 100%;
+  width: 433px;
+  height: 444px;
 
   align-items: center;
   justify-content: center;
@@ -190,11 +166,11 @@
 }
 
 
-/* =========================================================
-   HOTSPOT
-   ========================================================= */
+/* ==========================================================
+   HOTSPOTS
+   ========================================================== */
 
-.tv-product-grid__hotspot {
+.tv-page .tv-product-grid__hotspot {
   position: absolute;
 
   left: var(--hotspot-x);
@@ -221,11 +197,7 @@
 }
 
 
-/* =========================================================
-   HOTSPOT CIRCLE
-   ========================================================= */
-
-.tv-product-grid__hotspot-circle {
+.tv-page .tv-product-grid__hotspot-circle {
   position: relative;
 
   display: flex;
@@ -248,12 +220,8 @@
 }
 
 
-/* =========================================================
-   PLUS
-   ========================================================= */
-
-.tv-product-grid__hotspot-plus,
-.tv-product-grid__hotspot-plus::after {
+.tv-page .tv-product-grid__hotspot-plus,
+.tv-page .tv-product-grid__hotspot-plus::after {
   position: absolute;
 
   display: block;
@@ -264,17 +232,13 @@
 }
 
 
-/* Horizontal */
-
-.tv-product-grid__hotspot-plus {
+.tv-page .tv-product-grid__hotspot-plus {
   width: 9px;
   height: 1.5px;
 }
 
 
-/* Vertical */
-
-.tv-product-grid__hotspot-plus::after {
+.tv-page .tv-product-grid__hotspot-plus::after {
   width: 1.5px;
   height: 9px;
 
@@ -283,14 +247,10 @@
 }
 
 
-/* =========================================================
-   HOVER
-   ========================================================= */
-
-.tv-product-grid__hotspot:hover
+.tv-page .tv-product-grid__hotspot:hover
 .tv-product-grid__hotspot-circle,
 
-.tv-product-grid__hotspot:focus-visible
+.tv-page .tv-product-grid__hotspot:focus-visible
 .tv-product-grid__hotspot-circle {
   transform: scale(1.1);
 
@@ -298,66 +258,114 @@
 }
 
 
-/* =========================================================
-   FOCUS
-   ========================================================= */
-
-.tv-product-grid__hotspot:focus-visible {
+.tv-page .tv-product-grid__hotspot:focus-visible {
   outline: 2px solid #000000;
   outline-offset: 3px;
 }
 
 
-/* =========================================================
-   TABLET / SMALL DESKTOP
+/* ==========================================================
+   IMPORTANT:
+   Do NOT use viewport-based desktop widths here.
 
-   Keep the three-column layout while enough space exists.
-   ========================================================= */
+   These old rules were the source of the mismatch:
 
-@media screen and (max-width: 1399px) {
+   width: min(1339px, calc(100% - 100px));
+   width: calc(100% - 80px);
 
-  .tv-product-grid {
-    width: calc(100% - 80px);
-  }
-
-}
+   The product grid must stay attached to the 1440px
+   master canvas.
+   ========================================================== */
 
 
-/* =========================================================
+/* ==========================================================
    MOBILE
-   ========================================================= */
+   Keep mobile responsive separately from the desktop
+   Figma canvas.
+   ========================================================== */
 
 @media screen and (max-width: 749px) {
 
-  .tv-product-grid {
-    width: calc(100% - 32px);
-    max-width: none;
+  .tv-page {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+
+    margin: 0;
+    gap: 40px;
+
+    overflow: hidden;
   }
 
 
-  .tv-product-grid__heading {
+  .tv-page .tv-banner {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+
+    flex: none;
+
+    aspect-ratio: 1440 / 878;
+  }
+
+
+  .tv-page .tv-product-grid-section {
+    width: calc(100% - 32px);
+    height: auto;
+
+    flex: none;
+  }
+
+
+  .tv-page .tv-product-grid {
+    width: 100%;
+  }
+
+
+  .tv-page .tv-product-grid__heading {
     width: 100%;
     height: auto;
 
     margin-bottom: 20px;
 
     font-size: 28px;
+    line-height: 120%;
   }
 
 
-  .tv-product-grid__items {
-    grid-template-columns: 1fr;
+  .tv-page .tv-product-grid__items {
+    width: 100%;
 
-    grid-auto-rows: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
 
     row-gap: 12px;
   }
 
 
-  .tv-product-grid__item {
+  .tv-page .tv-product-grid__item {
+    width: 100%;
     height: auto;
 
     aspect-ratio: 433 / 444;
+  }
+
+
+  .tv-page .tv-product-grid__image-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .tv-page .tv-product-grid__image {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .tv-page .tv-product-grid__placeholder {
+    width: 100%;
+    height: 100%;
   }
 
 }
