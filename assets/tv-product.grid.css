@@ -1,43 +1,63 @@
 /* ==========================================================
    TV PRODUCT GRID
+
+   Figma main frame:
+   Width: 1337px
+   Height: 981px
+
+   Heading:
+   372 × 43px
+
+   Gap:
+   30px
+
+   Items:
+   1339 × 908px
+
+   Product:
+   433 × 444px
+
+   Horizontal gap:
+   20px
+
+   Vertical gap:
+   20px
+   ========================================================== */
+
+
+/* ==========================================================
+   SECTION
    ========================================================== */
 
 .tv-product-grid-section {
   width: 100%;
+
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
 }
 
 
 /* ==========================================================
-   MAIN FRAME
-   Figma:
-   1337 × 981
+   CONTENT FRAME
    ========================================================== */
 
 .tv-product-grid {
-  width: 100%;
-  max-width: 1337px;
-  margin: 0 auto;
-  padding: 0;
-  box-sizing: border-box;
-  background: #ffffff;
-}
+  width: 1337px;
+  max-width: calc(100% - 100px);
 
-.tv-product-grid__inner {
-  width: 100%;
-  max-width: 1337px;
   margin: 0 auto;
   padding: 0;
+
   box-sizing: border-box;
+
+  background: #ffffff;
 }
 
 
 /* ==========================================================
    HEADING
-   Figma:
-   372 × 43
    ========================================================== */
 
 .tv-product-grid__heading {
@@ -52,26 +72,33 @@
 
   box-sizing: border-box;
 
-  color: #000000;
-
   font-family: 'Lustria', serif;
-  font-style: normal;
-  font-weight: 400;
-
   font-size: 36px;
+  font-weight: 400;
   line-height: 120%;
+
+  color: #000000;
 }
 
 
 /* ==========================================================
-   PRODUCT ITEMS
+   ITEMS
+
    Figma:
-   1339 × 908
+   3 columns
+   433px each
+   20px gap
+
+   Total:
+   433 + 20 + 433 + 20 + 433
+   = 1339px
    ========================================================== */
 
 .tv-product-grid__items {
-  width: 100%;
-  height: auto;
+  width: 1339px;
+  max-width: 100%;
+
+  height: 908px;
 
   margin-top: 30px;
   margin-left: 0;
@@ -85,30 +112,24 @@
   align-items: flex-start;
   align-content: flex-start;
 
-  gap: 20px;
+  column-gap: 20px;
+  row-gap: 20px;
 
   box-sizing: border-box;
 }
 
 
 /* ==========================================================
-   PRODUCT ITEM
-   Figma:
-   433 × 444
+   ITEM
    ========================================================== */
 
 .tv-product-grid__item {
   position: relative;
 
-  width: calc(
-    (100% - 40px) / 3
-  );
-
+  width: 433px;
   height: 444px;
 
-  flex: 0 0 calc(
-    (100% - 40px) / 3
-  );
+  flex: 0 0 433px;
 
   margin: 0;
   padding: 0;
@@ -119,9 +140,6 @@
 
 /* ==========================================================
    IMAGE WRAPPER
-
-   IMPORTANT:
-   This establishes the positioning context for the hotspot.
    ========================================================== */
 
 .tv-product-grid__image-wrapper {
@@ -184,25 +202,16 @@
 
 /* ==========================================================
    HOTSPOT
-
-   Figma:
-   22 × 22px
-
-   left/top are the CENTER of the hotspot.
    ========================================================== */
 
 .tv-product-grid__hotspot {
   position: absolute;
 
-  left: var(--hotspot-x, 50%);
-  top: var(--hotspot-y, 50%);
+  left: var(--hotspot-x);
+  top: var(--hotspot-y);
 
   width: 22px;
   height: 22px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   margin: 0;
   padding: 0;
@@ -214,26 +223,16 @@
 
   background: transparent;
 
-  color: #000000;
-
   cursor: pointer;
 
-  z-index: 20;
+  z-index: 50;
 
   appearance: none;
-  -webkit-appearance: none;
-
-  visibility: visible;
-  opacity: 1;
 }
 
 
 /* ==========================================================
    HOTSPOT CIRCLE
-
-   IMPORTANT:
-   Keep the background opaque enough to remain visible
-   over all product photography.
    ========================================================== */
 
 .tv-product-grid__hotspot-circle {
@@ -244,8 +243,6 @@
   width: 22px;
   height: 22px;
 
-  flex: 0 0 22px;
-
   align-items: center;
   justify-content: center;
 
@@ -253,7 +250,7 @@
 
   background: rgba(248, 248, 248, 0.9);
 
-  border: 1px solid #000000;
+  border: 1.5px solid #000000;
 
   box-sizing: border-box;
 
@@ -267,38 +264,28 @@
    PLUS
    ========================================================== */
 
-.tv-product-grid__hotspot-plus {
-  position: relative;
+.tv-product-grid__hotspot-plus,
+.tv-product-grid__hotspot-plus::after {
+  position: absolute;
 
   display: block;
 
-  width: 9px;
-  height: 1.5px;
-
-  margin: 0;
-
-  padding: 0;
+  content: "";
 
   background: #000000;
+}
 
-  box-sizing: border-box;
+.tv-product-grid__hotspot-plus {
+  width: 9px;
+  height: 1.5px;
 }
 
 .tv-product-grid__hotspot-plus::after {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
   width: 1.5px;
   height: 9px;
 
-  background: #000000;
-
-  transform:
-    translate(-50%, -50%);
+  left: 3.75px;
+  top: -3.75px;
 }
 
 
@@ -328,151 +315,18 @@
 
 
 /* ==========================================================
-   DESKTOP EXACT WIDTH
-
-   At 1440px:
-   grid width = 1337px
-
-   Cards:
-   (1337 - 40) / 3 = 432.333px
-
-   Figma specifies 433px cards.
-
-   The grid therefore allows a 1px Figma rounding difference.
-   ========================================================== */
-
-@media screen and (min-width: 1440px) {
-
-  .tv-product-grid {
-    width: 1337px;
-    max-width: 1337px;
-  }
-
-  .tv-product-grid__inner {
-    width: 1337px;
-    max-width: 1337px;
-  }
-
-  .tv-product-grid__items {
-    width: 1339px;
-    max-width: none;
-  }
-
-  .tv-product-grid__item {
-    width: 433px;
-    flex-basis: 433px;
-  }
-
-}
-
-
-/* ==========================================================
-   TABLET
-   ========================================================== */
-
-@media screen and (max-width: 1439px) {
-
-  .tv-product-grid {
-    width: calc(100% - 100px);
-    max-width: 1337px;
-  }
-
-  .tv-product-grid__inner {
-    width: 100%;
-    max-width: 1337px;
-  }
-
-  .tv-product-grid__items {
-    width: 100%;
-  }
-
-  .tv-product-grid__item {
-    width: calc(
-      (100% - 40px) / 3
-    );
-
-    flex-basis: calc(
-      (100% - 40px) / 3
-    );
-
-    height: auto;
-
-    aspect-ratio: 433 / 444;
-  }
-
-}
-
-
-/* ==========================================================
-   MOBILE
-   ========================================================== */
-
-@media screen and (max-width: 749px) {
-
-  .tv-product-grid {
-    width: calc(100% - 32px);
-    max-width: none;
-  }
-
-  .tv-product-grid__inner {
-    width: 100%;
-    max-width: none;
-  }
-
-
-  .tv-product-grid__heading {
-    width: 100%;
-    height: auto;
-
-    margin: 0;
-
-    font-size: 28px;
-    line-height: 120%;
-  }
-
-
-  .tv-product-grid__items {
-    width: 100%;
-
-    margin-top: 20px;
-
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-
-    gap: 12px;
-  }
-
-
-  .tv-product-grid__item {
-    width: 100%;
-    flex: 0 0 auto;
-
-    height: auto;
-
-    aspect-ratio: 433 / 444;
-  }
-
-
-  .tv-product-grid__hotspot {
-    width: 22px;
-    height: 22px;
-  }
-
-}
-
-
-/* ==========================================================
    PRODUCT POPUP
    ========================================================== */
 
 .tv-product-popup {
   position: fixed;
+
   inset: 0;
 
-  z-index: 9999;
+  z-index: 99999;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -488,9 +342,19 @@
 
 .tv-product-popup.is-open {
   visibility: visible;
+
   opacity: 1;
 
   pointer-events: auto;
+}
+
+
+/* ==========================================================
+   PREVENT BACKGROUND SCROLL
+   ========================================================== */
+
+body.tv-product-popup-open {
+  overflow: hidden;
 }
 
 
@@ -500,9 +364,12 @@
 
 .tv-product-popup__overlay {
   position: absolute;
+
   inset: 0;
 
   background: rgba(0, 0, 0, 0.35);
+
+  cursor: pointer;
 }
 
 
@@ -514,6 +381,7 @@
   position: relative;
 
   width: min(386px, calc(100vw - 32px));
+
   max-height: calc(100vh - 32px);
 
   overflow-y: auto;
@@ -523,6 +391,9 @@
   box-sizing: border-box;
 
   z-index: 2;
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -543,6 +414,7 @@
   margin: 0;
 
   border: 0;
+
   background: transparent;
 
   cursor: pointer;
@@ -585,14 +457,15 @@
 
 
 /* ==========================================================
-   PRODUCT
+   PRODUCT TOP
    ========================================================== */
 
 .tv-product-popup__product {
   display: grid;
 
   grid-template-columns:
-    145px minmax(0, 1fr);
+    145px
+    minmax(0, 1fr);
 
   gap: 14px;
 
@@ -601,7 +474,7 @@
 
 
 /* ==========================================================
-   POPUP IMAGE
+   IMAGE
    ========================================================== */
 
 .tv-product-popup__image-wrapper {
@@ -624,7 +497,7 @@
 
 
 /* ==========================================================
-   POPUP INFO
+   PRODUCT INFO
    ========================================================== */
 
 .tv-product-popup__info {
@@ -743,6 +616,9 @@
   font-weight: 400;
 
   cursor: pointer;
+
+  transition:
+    background-color 150ms ease;
 }
 
 .tv-product-popup__value:last-child {
@@ -815,8 +691,7 @@
   transform: translateX(-101%);
 
   transition:
-    transform 300ms
-    cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-product-popup__add:hover::before,
@@ -831,6 +706,7 @@
 
 .tv-product-popup__add > span:first-child {
   position: relative;
+
   z-index: 2;
 }
 
@@ -853,8 +729,7 @@
   z-index: 2;
 
   transition:
-    transform 300ms
-    cubic-bezier(0.22, 1, 0.36, 1);
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-product-popup__add-arrow-line {
@@ -865,8 +740,7 @@
 
   width: 100%;
 
-  border-top:
-    1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
 }
 
 .tv-product-popup__add-arrow-head {
@@ -878,11 +752,8 @@
   width: 8px;
   height: 8px;
 
-  border-top:
-    1.5px solid currentColor;
-
-  border-right:
-    1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
 
   transform:
     translateY(-50%)
@@ -891,33 +762,137 @@
 
 .tv-product-popup__add:hover
 .tv-product-popup__add-arrow,
-
 .tv-product-popup__add:focus-visible
 .tv-product-popup__add-arrow {
-  transform:
-    translate(6px, -50%);
+  transform: translate(6px, -50%);
 }
 
 
 /* ==========================================================
-   LOADING
+   DISABLED / LOADING
    ========================================================== */
+
+.tv-product-popup__add:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
 
 .tv-product-popup.is-loading
 .tv-product-popup__content {
   opacity: 0.5;
+
   pointer-events: none;
 }
 
 
 /* ==========================================================
-   MOBILE POPUP
+   TABLET
+   ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-product-grid {
+    width: calc(100% - 100px);
+
+    max-width: 1337px;
+  }
+
+  .tv-product-grid__items {
+    width: 100%;
+    height: auto;
+
+    justify-content: flex-start;
+  }
+
+  .tv-product-grid__item {
+    flex: 0 0 calc(
+      (100% - 40px) / 3
+    );
+
+    width: calc(
+      (100% - 40px) / 3
+    );
+
+    height: auto;
+
+    aspect-ratio: 433 / 444;
+  }
+
+}
+
+
+/* ==========================================================
+   SMALL TABLET
+   ========================================================== */
+
+@media screen and (max-width: 1000px) {
+
+  .tv-product-grid {
+    width: calc(100% - 48px);
+  }
+
+  .tv-product-grid__item {
+    flex-basis: calc(
+      (100% - 20px) / 2
+    );
+
+    width: calc(
+      (100% - 20px) / 2
+    );
+  }
+
+}
+
+
+/* ==========================================================
+   MOBILE
    ========================================================== */
 
 @media screen and (max-width: 749px) {
 
+  .tv-product-grid {
+    width: calc(100% - 32px);
+
+    max-width: none;
+  }
+
+  .tv-product-grid__heading {
+    width: 100%;
+    height: auto;
+
+    margin-bottom: 0;
+
+    font-size: 28px;
+    line-height: 120%;
+  }
+
+  .tv-product-grid__items {
+    width: 100%;
+
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    height: auto;
+  }
+
+  .tv-product-grid__item {
+    width: 100%;
+
+    flex: 0 0 auto;
+
+    height: auto;
+
+    aspect-ratio: 433 / 444;
+  }
+
   .tv-product-popup__dialog {
     width: calc(100vw - 24px);
+
     max-height: calc(100vh - 24px);
   }
 
@@ -927,7 +902,8 @@
 
   .tv-product-popup__product {
     grid-template-columns:
-      120px minmax(0, 1fr);
+      120px
+      minmax(0, 1fr);
   }
 
   .tv-product-popup__image-wrapper {
@@ -937,6 +913,7 @@
 
   .tv-product-popup__value {
     padding: 0 8px;
+
     font-size: 14px;
   }
 
