@@ -42,9 +42,9 @@
 
 
           {% comment %}
-            =====================================================
-            PRODUCT HOTSPOT
-            =====================================================
+          =====================================================
+          PRODUCT HOTSPOT
+          =====================================================
           {% endcomment %}
 
           {% if product != blank %}
@@ -58,7 +58,6 @@
               "
               data-product-id="{{ product.id }}"
               data-product-handle="{{ product.handle }}"
-              data-product-title="{{ product.title | escape }}"
               aria-label="View {{ product.title | escape }}"
             >
 
@@ -108,13 +107,11 @@
           "id": "image",
           "label": "Lifestyle image"
         },
-
         {
           "type": "product",
           "id": "product",
           "label": "Product"
         },
-
         {
           "type": "range",
           "id": "hotspot_x",
@@ -125,7 +122,6 @@
           "unit": "%",
           "default": 50
         },
-
         {
           "type": "range",
           "id": "hotspot_y",
