@@ -1,270 +1,247 @@
-(() => {
+(function () {
   'use strict';
 
+  let modal = null;
+  let dialog = null;
+  let form = null;
+
+  let image = null;
+  let title = null;
+  let price = null;
+  let description = null;
+  let optionsContainer = null;
+  let errorContainer = null;
+  let addButton = null;
+
   let currentProduct = null;
+  let currentSelections = {};
+  let lastFocusedElement = null;
 
-  const modal = document.querySelector(
-    '[data-tv-product-modal]'
-  );
 
-  const form = document.getElementById(
-    'tv-product-popup-form'
-  );
+  /* ========================================================
+     INITIALIZATION
+     ======================================================== */
 
-  const image = document.getElementById(
-    'tv-product-popup-image'
-  );
+  function init() {
+    modal = document.getElementById(
+      'tv-product-modal'
+    );
 
-  const title = document.getElementById(
-    'tv-product-popup-title'
-  );
+    if (!modal) {
+      return;
+    }
 
-  const price = document.getElementById(
-    'tv-product-popup-price'
-  );
+    dialog = modal.querySelector(
+      '.tv-product-modal__dialog'
+    );
 
-  const description = document.getElementById(
-    'tv-product-popup-description'
-  );
+    form = document.getElementById(
+      'tv-product-popup-form'
+    );
 
-  const optionsContainer = document.getElementById(
-    'tv-product-popup-options'
-  );
+    image = document.getElementById(
+      'tv-product-popup-image'
+    );
 
-  const errorMessage = document.getElementById(
-    'tv-product-popup-error'
-  );
+    title = document.getElementById(
+      'tv-product-popup-title'
+    );
 
-  if (!modal || !form) {
-    return;
+    price = document.getElementById(
+      'tv-product-popup-price'
+    );
+
+    description = document.getElementById(
+      'tv-product-popup-description'
+    );
+
+    optionsContainer = document.getElementById(
+      'tv-product-popup-options'
+    );
+
+    errorContainer = document.getElementById(
+      'tv-product-popup-error'
+    );
+
+    addButton = document.getElementById(
+      'tv-product-popup-add'
+    );
+
+
+    document.addEventListener(
+      'tv:product:open',
+      function (event) {
+        if (
+          event.detail &&
+          event.detail.product
+        ) {
+          openProduct(
+            event.detail.product
+          );
+        }
+      }
+    );
+
+
+    modal.addEventListener(
+      'click',
+      handleModalClick
+    );
+
+
+    form.addEventListener(
+      'submit',
+      handleAddToCart
+    );
+
+
+    document.addEventListener(
+      'keydown',
+      handleKeydown
+    );
   }
 
-  const formatMoney = (amount) => {
-    const value = Number(amount) / 100;
 
-    return new Intl.NumberFormat(
-      document.documentElement.lang || 'en',
-      {
-        style: 'currency',
-        currency: window.Shopify?.currency?.active || 'USD'
-      }
-    ).format(value);
-  };
+  /* ========================================================
+     OPEN PRODUCT
+     ======================================================== */
 
+  function openProduct(product) {
+    currentProduct = product;
 
-  const showError = (message) => {
-    if (!errorMessage) {
-      return;
-    }
+    currentSelections = {};
 
-    errorMessage.textContent = message;
-    errorMessage.hidden = false;
-  };
+    lastFocusedElement =
+      document.activeElement;
 
 
-  const clearError = () => {
-    if (!errorMessage) {
-      return;
-    }
-
-    errorMessage.textContent = '';
-    errorMessage.hidden = true;
-  };
+    clearError();
 
 
-  const openModal = () => {
-    modal.classList.add(
-      'tv-product-modal--open'
-    );
+    renderProduct();
+
+
+    modal.hidden = false;
 
     modal.setAttribute(
       'aria-hidden',
       'false'
     );
 
-    document.documentElement.classList.add(
-      'tv-product-modal-open'
-    );
-
     document.body.classList.add(
       'tv-product-modal-open'
     );
-  };
 
 
-  const closeModal = () => {
-    modal.classList.remove(
-      'tv-product-modal--open'
-    );
+    requestAnimationFrame(function () {
+      dialog.focus();
+    });
+  }
+
+
+  /* ========================================================
+     CLOSE PRODUCT
+     ======================================================== */
+
+  function closeProduct() {
+    if (!modal) {
+      return;
+    }
+
+    modal.hidden = true;
 
     modal.setAttribute(
       'aria-hidden',
       'true'
     );
 
-    document.documentElement.classList.remove(
-      'tv-product-modal-open'
-    );
-
     document.body.classList.remove(
       'tv-product-modal-open'
     );
 
-    clearError();
-  };
-
-
-  const getSelectedOptions = () => {
-    const selects = optionsContainer.querySelectorAll(
-      '[data-option-index]'
-    );
-
-    return Array.from(selects).map(
-      (select) => select.value
-    );
-  };
-
-
-  const findSelectedVariant = () => {
-    if (!currentProduct?.variants) {
-      return null;
-    }
-
-    const selectedOptions = getSelectedOptions();
-
-    return currentProduct.variants.find(
-      (variant) => {
-        if (!variant.options) {
-          return false;
-        }
-
-        return variant.options.every(
-          (option, index) =>
-            option === selectedOptions[index]
-        );
-      }
-    ) || null;
-  };
-
-
-  const updateVariantImage = (variant) => {
-    if (!image || !variant) {
-      return;
-    }
 
     if (
-      variant.featured_image &&
-      variant.featured_image.src
+      lastFocusedElement &&
+      typeof lastFocusedElement.focus === 'function'
     ) {
-      image.src = variant.featured_image.src;
+      lastFocusedElement.focus();
+    }
+  }
 
-      image.alt =
-        variant.featured_image.alt ||
-        currentProduct.title;
 
+  /* ========================================================
+     RENDER PRODUCT
+     ======================================================== */
+
+  function renderProduct() {
+    if (!currentProduct) {
       return;
     }
 
+
+    /* ------------------------------------------------------
+       Image
+       ------------------------------------------------------ */
+
     if (
-      currentProduct.featured_image &&
-      currentProduct.featured_image.src
+      currentProduct.featured_image
     ) {
       image.src =
-        currentProduct.featured_image.src;
+        currentProduct.featured_image;
 
       image.alt =
-        currentProduct.featured_image.alt ||
-        currentProduct.title;
-    }
-  };
+        currentProduct.featured_image_alt ||
+        currentProduct.title ||
+        '';
+    } else {
+      image.removeAttribute('src');
 
-
-  const updateVariantPrice = (variant) => {
-    if (!price || !variant) {
-      return;
-    }
-
-    price.textContent = formatMoney(
-      variant.price
-    );
-  };
-
-
-  const updateVariant = () => {
-    clearError();
-
-    const variant = findSelectedVariant();
-
-    if (!variant) {
-      return;
+      image.alt =
+        currentProduct.title ||
+        '';
     }
 
-    updateVariantImage(variant);
-    updateVariantPrice(variant);
-  };
+
+    /* ------------------------------------------------------
+       Title
+       ------------------------------------------------------ */
+
+    title.textContent =
+      currentProduct.title || '';
 
 
-  const createOption = (
-    option,
-    optionIndex
-  ) => {
-    const wrapper =
-      document.createElement('div');
+    /* ------------------------------------------------------
+       Price
+       ------------------------------------------------------ */
 
-    wrapper.className =
-      'tv-product-popup__option';
+    price.textContent =
+      currentProduct.price_formatted || '';
 
 
-    const label =
-      document.createElement('label');
+    /* ------------------------------------------------------
+       Description
+       ------------------------------------------------------ */
 
-    label.className =
-      'tv-product-popup__option-label';
-
-    label.textContent =
-      option.name;
+    description.innerHTML =
+      currentProduct.description_html || '';
 
 
-    const select =
-      document.createElement('select');
+    /* ------------------------------------------------------
+       Variant options
+       ------------------------------------------------------ */
 
-    select.className =
-      'tv-product-popup__select';
-
-    select.dataset.optionIndex =
-      String(optionIndex);
-
-    select.name =
-      `option-${optionIndex}`;
+    renderOptions();
 
 
-    option.values.forEach((value) => {
-      const optionElement =
-        document.createElement('option');
-
-      optionElement.value = value;
-      optionElement.textContent = value;
-
-      select.appendChild(
-        optionElement
-      );
-    });
+    updateVariantState();
+  }
 
 
-    select.addEventListener(
-      'change',
-      updateVariant
-    );
+  /* ========================================================
+     RENDER OPTIONS
+     ======================================================== */
 
-
-    wrapper.appendChild(label);
-    wrapper.appendChild(select);
-
-    return wrapper;
-  };
-
-
-  const renderOptions = () => {
+  function renderOptions() {
     optionsContainer.innerHTML = '';
 
     if (
@@ -274,122 +251,438 @@
       return;
     }
 
+
     currentProduct.options.forEach(
-      (option, index) => {
+      function (optionName, optionIndex) {
+
+        const optionNumber =
+          optionIndex + 1;
+
+        const group =
+          document.createElement('div');
+
+        group.className =
+          'tv-product-popup__option-group';
+
+        group.dataset.optionIndex =
+          String(optionIndex);
+
+
+        const label =
+          document.createElement('div');
+
+        label.className =
+          'tv-product-popup__option-label';
+
+        label.textContent =
+          optionName;
+
+
+        const values =
+          getOptionValues(optionNumber);
+
+
+        const valuesContainer =
+          document.createElement('div');
+
+        valuesContainer.className =
+          'tv-product-popup__option-values';
+
+
+        values.forEach(
+          function (value) {
+
+            const button =
+              document.createElement('button');
+
+            button.type =
+              'button';
+
+            button.className =
+              'tv-product-popup__option-value';
+
+            button.dataset.optionIndex =
+              String(optionIndex);
+
+            button.dataset.optionValue =
+              value;
+
+            button.textContent =
+              value;
+
+
+            button.addEventListener(
+              'click',
+              function () {
+                selectOption(
+                  optionIndex,
+                  value
+                );
+              }
+            );
+
+
+            valuesContainer.appendChild(
+              button
+            );
+          }
+        );
+
+
+        group.appendChild(label);
+
+        group.appendChild(
+          valuesContainer
+        );
+
         optionsContainer.appendChild(
-          createOption(
-            option,
-            index
-          )
+          group
         );
       }
     );
-
-    updateVariant();
-  };
+  }
 
 
-  const renderProduct = () => {
+  /* ========================================================
+     GET UNIQUE OPTION VALUES
+     ======================================================== */
+
+  function getOptionValues(
+    optionNumber
+  ) {
+    const values = [];
+
+    currentProduct.variants.forEach(
+      function (variant) {
+
+        const value =
+          variant[
+            'option' +
+            optionNumber
+          ];
+
+        if (
+          value &&
+          values.indexOf(value) === -1
+        ) {
+          values.push(value);
+        }
+      }
+    );
+
+    return values;
+  }
+
+
+  /* ========================================================
+     SELECT OPTION
+     ======================================================== */
+
+  function selectOption(
+    optionIndex,
+    value
+  ) {
+    currentSelections[
+      optionIndex
+    ] = value;
+
+
+    /*
+      Clear selections that come after
+      the option that was changed.
+
+      This prevents an invalid combination
+      from remaining selected.
+    */
+
+    Object.keys(
+      currentSelections
+    ).forEach(
+      function (key) {
+
+        if (
+          Number(key) >
+          optionIndex
+        ) {
+          delete currentSelections[key];
+        }
+      }
+    );
+
+
+    updateVariantState();
+  }
+
+
+  /* ========================================================
+     UPDATE VARIANT STATE
+     ======================================================== */
+
+  function updateVariantState() {
     if (!currentProduct) {
       return;
     }
 
-    title.textContent =
-      currentProduct.title || '';
+
+    const buttons =
+      optionsContainer.querySelectorAll(
+        '.tv-product-popup__option-value'
+      );
 
 
-    price.textContent =
-      currentProduct.variants?.[0]
-        ? formatMoney(
-            currentProduct.variants[0].price
-          )
-        : '';
+    buttons.forEach(
+      function (button) {
+
+        const optionIndex =
+          Number(
+            button.dataset.optionIndex
+          );
+
+        const value =
+          button.dataset.optionValue;
 
 
-    description.innerHTML =
-      currentProduct.description || '';
+        const isSelected =
+          currentSelections[
+            optionIndex
+          ] === value;
+
+
+        button.classList.toggle(
+          'is-selected',
+          isSelected
+        );
+
+
+        const available =
+          isOptionValueAvailable(
+            optionIndex,
+            value
+          );
+
+
+        button.classList.toggle(
+          'is-disabled',
+          !available
+        );
+
+
+        button.disabled =
+          !available;
+      }
+    );
+
+
+    const selectedVariant =
+      findSelectedVariant();
+
+
+    if (selectedVariant) {
+
+      if (
+        selectedVariant.price_formatted
+      ) {
+        price.textContent =
+          selectedVariant.price_formatted;
+      }
+
+
+      if (
+        selectedVariant.featured_image
+      ) {
+        image.src =
+          selectedVariant.featured_image;
+
+        image.alt =
+          currentProduct.title || '';
+      }
+
+
+      addButton.disabled =
+        !selectedVariant.available;
+
+    } else {
+
+      price.textContent =
+        currentProduct.price_formatted || '';
+
+
+      image.src =
+        currentProduct.featured_image || '';
+
+
+      image.alt =
+        currentProduct.featured_image_alt ||
+        currentProduct.title ||
+        '';
+
+
+      addButton.disabled =
+        true;
+    }
 
 
     if (
-      currentProduct.featured_image &&
-      currentProduct.featured_image.src
+      currentProduct.options &&
+      currentProduct.options.length
     ) {
-      image.src =
-        currentProduct.featured_image.src;
 
-      image.alt =
-        currentProduct.featured_image.alt ||
-        currentProduct.title;
-    } else {
-      image.removeAttribute('src');
-      image.alt = '';
+      addButton.disabled =
+        !selectedVariant ||
+        !selectedVariant.available;
+    }
+  }
+
+
+  /* ========================================================
+     CHECK OPTION VALUE AVAILABILITY
+     ======================================================== */
+
+  function isOptionValueAvailable(
+    optionIndex,
+    value
+  ) {
+    const optionNumber =
+      optionIndex + 1;
+
+
+    return currentProduct.variants.some(
+      function (variant) {
+
+        if (!variant.available) {
+          return false;
+        }
+
+
+        if (
+          variant[
+            'option' +
+            optionNumber
+          ] !== value
+        ) {
+          return false;
+        }
+
+
+        for (
+          let index = 0;
+          index < optionIndex;
+          index++
+        ) {
+
+          if (
+            currentSelections[index] &&
+            variant[
+              'option' +
+              (index + 1)
+            ] !==
+              currentSelections[index]
+          ) {
+            return false;
+          }
+        }
+
+
+        return true;
+      }
+    );
+  }
+
+
+  /* ========================================================
+     FIND SELECTED VARIANT
+     ======================================================== */
+
+  function findSelectedVariant() {
+    if (!currentProduct) {
+      return null;
     }
 
 
-    renderOptions();
-  };
+    if (
+      !currentProduct.options ||
+      !currentProduct.options.length
+    ) {
+      return (
+        currentProduct.variants[0] ||
+        null
+      );
+    }
 
 
-  const loadProduct = async (
-    handle
-  ) => {
-    clearError();
-
-    try {
-      const response =
-        await fetch(
-          `/products/${encodeURIComponent(handle)}.js`,
-          {
-            headers: {
-              Accept:
-                'application/json'
-            }
-          }
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          'Unable to load product.'
-        );
-      }
-
-      currentProduct =
-        await response.json();
-
-      renderProduct();
-      openModal();
-
-    } catch (error) {
-      console.error(error);
-
-      showError(
-        'Unable to load this product. Please try again.'
+    const allSelected =
+      currentProduct.options.every(
+        function (_, index) {
+          return (
+            currentSelections[index]
+          );
+        }
       );
 
-      openModal();
+
+    if (!allSelected) {
+      return null;
     }
-  };
 
 
-  const addToCart = async (
+    return (
+      currentProduct.variants.find(
+        function (variant) {
+
+          return currentProduct.options.every(
+            function (_, index) {
+
+              return (
+                variant[
+                  'option' +
+                  (index + 1)
+                ] ===
+                currentSelections[index]
+              );
+            }
+          );
+        }
+      ) || null
+    );
+  }
+
+
+  /* ========================================================
+     ADD TO CART
+     ======================================================== */
+
+  async function handleAddToCart(
     event
-  ) => {
+  ) {
     event.preventDefault();
+
 
     clearError();
 
-    const variant =
+
+    if (!currentProduct) {
+      return;
+    }
+
+
+    const selectedVariant =
       findSelectedVariant();
 
-    if (!variant) {
+
+    if (!selectedVariant) {
+
       showError(
-        'Please select a valid product option.'
+        'Please select all product options.'
       );
 
       return;
     }
 
-    if (!variant.available) {
+
+    if (
+      !selectedVariant.available
+    ) {
+
       showError(
         'This variant is currently unavailable.'
       );
@@ -397,31 +690,33 @@
       return;
     }
 
-    const submitButton =
-      form.querySelector(
-        '.tv-product-popup__add'
-      );
 
-    submitButton.disabled = true;
+    setLoading(true);
+
 
     try {
+
       const response =
         await fetch(
-          `${window.Shopify.routes.root}cart/add.js`,
+          window.Shopify.routes.root +
+            'cart/add.js',
           {
             method: 'POST',
 
             headers: {
               'Content-Type':
                 'application/json',
-              Accept:
+
+              'Accept':
                 'application/json'
             },
 
             body: JSON.stringify({
               items: [
                 {
-                  id: variant.id,
+                  id:
+                    selectedVariant.id,
+
                   quantity: 1
                 }
               ]
@@ -429,81 +724,304 @@
           }
         );
 
+
       const data =
         await response.json();
+
 
       if (!response.ok) {
         throw new Error(
           data.description ||
-          'Unable to add product to cart.'
+          data.message ||
+          'Unable to add the product to cart.'
         );
       }
 
-      closeModal();
 
-      document.dispatchEvent(
-        new CustomEvent(
-          'cart:refresh'
-        )
-      );
+      /*
+        Tell the rest of the theme that
+        the cart has changed.
+
+        Different Shopify theme components
+        can listen for these events.
+      */
 
       document.dispatchEvent(
         new CustomEvent(
           'cart:updated',
           {
-            detail: data
+            detail: {
+              cart: data
+            }
           }
         )
       );
 
+
+      document.dispatchEvent(
+        new CustomEvent(
+          'cart:refresh',
+          {
+            detail: {
+              cart: data
+            }
+          }
+        )
+      );
+
+
+      /*
+        Refresh cart information where
+        supported by Shopify's cart APIs.
+      */
+
+      try {
+
+        const cartResponse =
+          await fetch(
+            window.Shopify.routes.root +
+              'cart.js'
+          );
+
+        const cart =
+          await cartResponse.json();
+
+
+        document.dispatchEvent(
+          new CustomEvent(
+            'cart:updated',
+            {
+              detail: {
+                cart: cart
+              }
+            }
+          )
+        );
+
+      } catch (cartError) {
+
+        /*
+          The product has already been
+          successfully added, so failure
+          to refresh the optional cart
+          state should not be treated as
+          an Add to Cart failure.
+        */
+
+        console.warn(
+          'Cart was updated, but the cart UI could not be refreshed.',
+          cartError
+        );
+      }
+
+
+      setLoading(false);
+
+      closeProduct();
+
     } catch (error) {
-      console.error(error);
+
+      console.error(
+        'TV Product Modal:',
+        error
+      );
+
 
       showError(
         error.message ||
-        'Unable to add product to cart.'
+        'Unable to add the product to cart.'
       );
 
-    } finally {
-      submitButton.disabled = false;
+
+      setLoading(false);
     }
-  };
+  }
 
 
-  form.addEventListener(
-    'submit',
-    addToCart
-  );
+  /* ========================================================
+     LOADING STATE
+     ======================================================== */
+
+  function setLoading(
+    loading
+  ) {
+    if (!addButton) {
+      return;
+    }
 
 
-  modal
-    .querySelectorAll(
-      '[data-popup-close]'
-    )
-    .forEach((element) => {
-      element.addEventListener(
-        'click',
-        closeModal
-      );
-    });
+    addButton.disabled =
+      loading;
 
 
-  document.addEventListener(
-    'keydown',
-    (event) => {
-      if (
-        event.key === 'Escape' &&
-        modal.classList.contains(
-          'tv-product-modal--open'
+    if (loading) {
+
+      addButton
+        .querySelector(
+          '.tv-product-popup__add-label'
         )
-      ) {
-        closeModal();
-      }
+        .textContent =
+        'ADDING...';
+
+    } else {
+
+      addButton
+        .querySelector(
+          '.tv-product-popup__add-label'
+        )
+        .textContent =
+        'ADD TO CART';
     }
-  );
+  }
 
 
-  window.TvProductModalOpen =
-    loadProduct;
+  /* ========================================================
+     ERROR
+     ======================================================== */
+
+  function showError(
+    message
+  ) {
+    errorContainer.textContent =
+      message;
+
+    errorContainer.hidden =
+      false;
+  }
+
+
+  function clearError() {
+    if (!errorContainer) {
+      return;
+    }
+
+    errorContainer.textContent =
+      '';
+
+    errorContainer.hidden =
+      true;
+  }
+
+
+  /* ========================================================
+     MODAL CLICK HANDLING
+     ======================================================== */
+
+  function handleModalClick(
+    event
+  ) {
+    const closeButton =
+      event.target.closest(
+        '[data-popup-close]'
+      );
+
+
+    if (closeButton) {
+      closeProduct();
+    }
+  }
+
+
+  /* ========================================================
+     KEYBOARD
+     ======================================================== */
+
+  function handleKeydown(
+    event
+  ) {
+    if (
+      !modal ||
+      modal.hidden
+    ) {
+      return;
+    }
+
+
+    if (
+      event.key === 'Escape'
+    ) {
+      closeProduct();
+
+      return;
+    }
+
+
+    if (
+      event.key !== 'Tab'
+    ) {
+      return;
+    }
+
+
+    trapFocus(event);
+  }
+
+
+  /* ========================================================
+     FOCUS TRAP
+     ======================================================== */
+
+  function trapFocus(
+    event
+  ) {
+    const focusable =
+      dialog.querySelectorAll(
+        'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+      );
+
+
+    if (!focusable.length) {
+      return;
+    }
+
+
+    const first =
+      focusable[0];
+
+    const last =
+      focusable[
+        focusable.length - 1
+      ];
+
+
+    if (
+      event.shiftKey &&
+      document.activeElement === first
+    ) {
+
+      event.preventDefault();
+
+      last.focus();
+
+    } else if (
+      !event.shiftKey &&
+      document.activeElement === last
+    ) {
+
+      event.preventDefault();
+
+      first.focus();
+    }
+  }
+
+
+  /* ========================================================
+     START
+     ======================================================== */
+
+  if (
+    document.readyState ===
+    'loading'
+  ) {
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      init
+    );
+
+  } else {
+
+    init();
+  }
 
 })();
