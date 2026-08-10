@@ -29,7 +29,7 @@
                 loading: 'lazy',
                 widths: '433, 650, 866, 1000',
                 sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
-                alt: block.settings.image.alt | default: product.title | default: section.settings.heading
+                alt: block.settings.image.alt | default: section.settings.heading
             }}
 
           {% else %}
@@ -41,28 +41,37 @@
           {% endif %}
 
 
-         
-<div
-  style="
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: red;
-    border-radius: 50%;
-    z-index: 999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    font-weight: bold;
-  "
->
-  +
-</div>
+          {% comment %}
+            ======================================================
+            PRODUCT HOTSPOT
+            ======================================================
+          {% endcomment %}
+
+          {% if product != blank %}
+
+            <button
+              type="button"
+              class="tv-product-grid__hotspot"
+              style="
+                --hotspot-x: {{ block.settings.hotspot_x }}%;
+                --hotspot-y: {{ block.settings.hotspot_y }}%;
+              "
+              data-product-handle="{{ product.handle }}"
+              data-product-id="{{ product.id }}"
+              aria-label="View {{ product.title | escape }}"
+            >
+
+              <span
+                class="tv-product-grid__hotspot-circle"
+                aria-hidden="true"
+              >
+                <span class="tv-product-grid__hotspot-plus"></span>
+              </span>
+
+            </button>
+
+          {% endif %}
+
         </div>
 
       </article>
@@ -75,10 +84,11 @@
 
 
 {% schema %}
+
 {
   "name": "TV Product Grid",
   "tag": "section",
-  "class": "section-tv-product-grid",
+  "class": "tv-product-grid-section",
 
   "settings": [
     {
@@ -95,16 +105,19 @@
       "name": "Product image",
 
       "settings": [
+
         {
           "type": "image_picker",
           "id": "image",
           "label": "Lifestyle image"
         },
+
         {
           "type": "product",
           "id": "product",
           "label": "Product"
         },
+
         {
           "type": "range",
           "id": "hotspot_x",
@@ -115,6 +128,7 @@
           "unit": "%",
           "default": 50
         },
+
         {
           "type": "range",
           "id": "hotspot_y",
@@ -125,6 +139,7 @@
           "unit": "%",
           "default": 50
         }
+
       ]
     }
   ],
@@ -156,4 +171,5 @@
     }
   ]
 }
+
 {% endschema %}
