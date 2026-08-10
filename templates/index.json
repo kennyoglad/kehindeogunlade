@@ -26,56 +26,17 @@
     "tv_product_grid": {
       "type": "tv-product-grid",
       "blocks": {
-        "product_image_1": {
-          "type": "product_image",
+        "product_nEnxDh": {
+          "type": "product",
           "settings": {
-            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_4cae5708-5e9e-4e7e-96ec-9649f0c20cd8.jpg",
-            "product": "black-leather-bag"
-          }
-        },
-        "product_image_2": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_823_f84429b8-4958-48dd-8528-4c901b8af634.png",
-            "product": "blue-silk-tuxedo"
-          }
-        },
-        "product_image_3": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "chequered-red-shirt"
-          }
-        },
-        "product_image_4": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_825_96248c91-29e2-43b7-bd18-67da4bceb605.png",
-            "product": "classic-leather-jacket"
-          }
-        },
-        "product_image_5": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "classic-varsity-top"
-          }
-        },
-        "product_image_6": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_827_5f858d6b-6619-4773-bf4b-29488e41ffa0.png",
-            "product": "dark-denim-top"
+            "product": "black-leather-bag",
+            "hotspot_x": 60,
+            "hotspot_y": 50
           }
         }
       },
       "block_order": [
-        "product_image_1",
-        "product_image_2",
-        "product_image_3",
-        "product_image_4",
-        "product_image_5",
-        "product_image_6"
+        "product_nEnxDh"
       ],
       "settings": {
         "heading": "Tisso vison in the wild"
