@@ -1,89 +1,85 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
-{
-  "sections": {
-    "tv_banner": {
-      "type": "tv-banner",
-      "settings": {
-        "brand_text": "TISSO VISION",
-        "header_text": "Find the ideal gift for your loved ones.",
-        "header_button_text": "CHOOSE YOURS",
-        "header_button_link": "",
-        "heading": "The Gift Guide",
-        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
-        "main_button_text": "CHOOSE YOURS",
-        "main_button_link": "",
-        "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-      }
-    },
-    "tv_product_grid": {
-      "type": "tv-product-grid",
-      "blocks": {
-        "product_image_1": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_822_7a1b4567-3866-44f4-b8b5-b9c262fa1bb5.png",
-            "product": "black-leather-bag"
-          }
-        },
-        "product_image_2": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_823_f84429b8-4958-48dd-8528-4c901b8af634.png",
-            "product": "blue-silk-tuxedo"
-          }
-        },
-        "product_image_3": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "chequered-red-shirt"
-          }
-        },
-        "product_image_4": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_825_96248c91-29e2-43b7-bd18-67da4bceb605.png",
-            "product": "classic-leather-jacket"
-          }
-        },
-        "product_image_5": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_826_c9842288-ed93-4dd7-9987-3730c8c6cb82.png",
-            "product": "classic-varsity-top"
-          }
-        },
-        "product_image_6": {
-          "type": "product_image",
-          "settings": {
-            "image": "shopify://shop_images/image_827_5f858d6b-6619-4773-bf4b-29488e41ffa0.png",
-            "product": "dark-denim-top"
+<!doctype html>
+<html
+  {% if request.design_mode %}
+    class="shopify-design-mode"
+  {% endif %}
+  lang="{{ request.locale.iso_code }}"
+>
+  <head>
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {% comment %}
+      Opt into cross-document (MPA) view transitions and hold first paint until #MainContent
+      parses, so the transition runs consistently.
+      Both are gated on the same settings as the view-transitions.js opt-out switch (see snippets/scripts.liquid).
+    {% endcomment %}
+    {% if settings.transition_to_main_product or settings.page_transition_enabled %}
+      {% style %}
+        @media (prefers-reduced-motion: no-preference) {
+          @view-transition {
+            navigation: auto;
           }
         }
-      },
-      "block_order": [
-        "product_image_1",
-        "product_image_2",
-        "product_image_3",
-        "product_image_4",
-        "product_image_5",
-        "product_image_6"
-      ],
-      "settings": {
-        "heading": "Tisso vison in the wild"
-      }
-    }
-  },
-  "order": [
-    "tv_banner",
-    "tv_product_grid"
-  ]
-}
+      {% endstyle %}
+      <link
+        rel="expect"
+        href="#MainContent"
+        blocking="render"
+        id="view-transition-render-blocker"
+      >
+    {% endif %}
+
+    {%- render 'meta-tags' -%}
+    {%- render 'stylesheets' -%}
+    {{ 'tv-banner.css' | asset_url | stylesheet_tag }}
+    {{ 'tv-product.grid.css' | asset_url | stylesheet_tag }}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-palette' -%}
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    {% render 'chat-drawer' %}
+
+    <div class="page-wrapper">
+      
+      
+    <main
+      id="MainContent"
+      class="content-for-layout"
+      role="main"
+      data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+      data-product-transition="{{ settings.transition_to_main_product }}"
+      data-template="{{ template }}"
+    >
+      <div class="tv-page">
+        {{ content_for_layout }}
+      </div>
+    </main>
+
+    </div>
+    {% render 'cart-drawer', render_wrapper: true %}
+    {% render 'theme-drawer' %}
+
+     {% render 'search-modal' %}
+
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+  </body>
+</html>
