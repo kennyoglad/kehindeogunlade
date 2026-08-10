@@ -1,98 +1,56 @@
-<section
-  class="tv-product-grid-section"
-  data-section-id="{{ section.id }}"
->
-  <div class="tv-product-grid">
+<section class="tv-product-grid">
 
-    {% if section.settings.heading != blank %}
-      <h2 class="tv-product-grid__heading">
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
+  <div class="tv-product-grid__heading-wrapper">
+    <h2 class="tv-product-grid__heading">
+      {{ section.settings.heading }}
+    </h2>
+  </div>
 
-    <div class="tv-product-grid__items">
+  <div class="tv-product-grid__items">
 
-      {% for block in section.blocks %}
+    {% for block in section.blocks %}
+      <article
+        class="tv-product-grid__item"
+        {{ block.shopify_attributes }}
+      >
 
-        {% assign product = block.settings.product %}
+        <div class="tv-product-grid__image-wrapper">
 
-        <article
-          class="tv-product-grid__item"
-          {{ block.shopify_attributes }}
-        >
+          {% if block.settings.image != blank %}
 
-          {% if product != blank %}
-
-            <div class="tv-product-grid__image-wrapper">
-
-              {% if product.featured_image != blank %}
-
-                {{
-                  product.featured_image
-                  | image_url: width: 866
-                  | image_tag:
-                    class: 'tv-product-grid__image',
-                    loading: 'lazy',
-                    widths: '433, 650, 866',
-                    sizes: '(min-width: 1440px) 433px, calc(100vw - 32px)'
-                }}
-
-              {% else %}
-
-                <div class="tv-product-grid__placeholder">
-                  No product image
-                </div>
-
-              {% endif %}
-
-
-              <button
-                type="button"
-                class="tv-product-grid__hotspot"
-                style="
-                  --hotspot-x: {{ block.settings.hotspot_x }}%;
-                  --hotspot-y: {{ block.settings.hotspot_y }}%;
-                "
-                aria-label="View {{ product.title | escape }}"
-                data-product-handle="{{ product.handle }}"
-                data-product-id="{{ product.id }}"
-              >
-
-                <span
-                  class="tv-product-grid__hotspot-circle"
-                  aria-hidden="true"
-                >
-                  <span class="tv-product-grid__hotspot-plus"></span>
-                </span>
-
-              </button>
-
-            </div>
+            {{
+              block.settings.image
+              | image_url: width: 1000
+              | image_tag:
+                class: 'tv-product-grid__image',
+                loading: 'lazy',
+                widths: '433, 650, 866, 1000',
+                sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
+                alt: block.settings.image.alt | default: section.settings.heading
+            }}
 
           {% else %}
 
-            <div class="tv-product-grid__image-wrapper">
-              <div class="tv-product-grid__placeholder">
-                Select a product
-              </div>
+            <div class="tv-product-grid__placeholder">
+              <span>Image {{ forloop.index }}</span>
             </div>
 
           {% endif %}
 
-        </article>
+        </div>
 
-      {% endfor %}
-
-    </div>
+      </article>
+    {% endfor %}
 
   </div>
+
 </section>
 
 {% schema %}
 {
   "name": "TV Product Grid",
   "tag": "section",
-  "class": "tv-product-grid-section",
+  "class": "section-tv-product-grid",
 
   "settings": [
     {
@@ -106,33 +64,18 @@
   "blocks": [
     {
       "type": "product_image",
-      "name": "Product",
+      "name": "Product image",
 
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Lifestyle image"
+        },
         {
           "type": "product",
           "id": "product",
           "label": "Product"
-        },
-        {
-          "type": "range",
-          "id": "hotspot_x",
-          "label": "Hotspot horizontal position",
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "unit": "%",
-          "default": 50
-        },
-        {
-          "type": "range",
-          "id": "hotspot_y",
-          "label": "Hotspot vertical position",
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "unit": "%",
-          "default": 50
         }
       ]
     }
@@ -144,46 +87,22 @@
 
       "blocks": [
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 59.2,
-            "hotspot_y": 53.6
-          }
+          "type": "product_image"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 82.4,
-            "hotspot_y": 50
-          }
+          "type": "product_image"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 60.3,
-            "hotspot_y": 18.5
-          }
+          "type": "product_image"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 69.7,
-            "hotspot_y": 16
-          }
+          "type": "product_image"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 49,
-            "hotspot_y": 23.4
-          }
+          "type": "product_image"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 73.1,
-            "hotspot_y": 36.9
-          }
+          "type": "product_image"
         }
       ]
     }
