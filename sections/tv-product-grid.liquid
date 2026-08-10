@@ -21,8 +21,6 @@
 
           {% if block.settings.image != blank %}
 
-            {% assign image_alt = block.settings.image.alt | default: product.title | default: section.settings.heading %}
-
             {{
               block.settings.image
               | image_url: width: 1000
@@ -31,7 +29,7 @@
                 loading: 'lazy',
                 widths: '433, 650, 866, 1000',
                 sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
-                alt: image_alt
+                alt: block.settings.image.alt | default: product.title | default: section.settings.heading
             }}
 
           {% else %}
@@ -42,17 +40,6 @@
 
           {% endif %}
 
-
-          {% comment %}
-            ========================================================
-            PRODUCT HOTSPOT
-            ========================================================
-
-            The hotspot belongs to the Shopify product selected
-            for this particular grid block.
-
-            Position is controlled by hotspot_x and hotspot_y.
-          {% endcomment %}
 
           {% if product != blank %}
 
@@ -66,17 +53,13 @@
               aria-label="View {{ product.title | escape }}"
               data-product-handle="{{ product.handle }}"
               data-product-id="{{ product.id }}"
-              data-product-title="{{ product.title | escape }}"
-              data-product-url="{{ product.url }}"
             >
-
               <span
                 class="tv-product-grid__hotspot-circle"
                 aria-hidden="true"
               >
                 <span class="tv-product-grid__hotspot-plus"></span>
               </span>
-
             </button>
 
           {% endif %}
@@ -175,7 +158,3 @@
   ]
 }
 {% endschema %}
-
-
-
-
