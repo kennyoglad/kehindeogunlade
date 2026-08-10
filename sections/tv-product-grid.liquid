@@ -40,24 +40,6 @@
 
           {% endif %}
 
-          {% if block.settings.product != blank %}
-          <div
-            style="
-              position: absolute;
-              left: {{ block.settings.hotspot_x }}%;
-              top: {{ block.settings.hotspot_y }}%;
-              transform: translate(-50%, -50%);
-              width: 22px;
-              height: 22px;
-              background: red;
-              border-radius: 50%;
-              z-index: 9999;
-            "
-          >
-            +
-          </div>
-        {% endif %}
-      
 
           {% if product != blank %}
 
@@ -72,12 +54,14 @@
               data-product-handle="{{ product.handle }}"
               data-product-id="{{ product.id }}"
             >
+
               <span
                 class="tv-product-grid__hotspot-circle"
                 aria-hidden="true"
               >
                 <span class="tv-product-grid__hotspot-plus"></span>
               </span>
+
             </button>
 
           {% endif %}
@@ -97,7 +81,7 @@
 {
   "name": "TV Product Grid",
   "tag": "section",
-  "class": "tv-product-grid-section",
+  "class": "section-tv-product-grid",
 
   "settings": [
     {
