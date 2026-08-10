@@ -1,28 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "tv_banner": {
-      "type": "tv-banner"
+      "type": "tv-banner",
+      "settings": {
+        "brand_text": "TISSO VISION",
+        "header_text": "Find the ideal gift for your loved ones.",
+        "header_button_text": "CHOOSE YOURS",
+        "header_button_link": "",
+        "heading": "The Gift Guide",
+        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "main_button_text": "CHOOSE YOURS",
+        "main_button_link": "",
+        "bottom_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+      }
     },
     "tv_product_grid": {
       "type": "tv-product-grid",
       "blocks": {
         "product_image_1": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_822.png",
+            "product": ""
+          }
         },
         "product_image_2": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_823.png",
+            "product": ""
+          }
         },
         "product_image_3": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_824.png",
+            "product": ""
+          }
         },
         "product_image_4": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_825.png",
+            "product": ""
+          }
         },
         "product_image_5": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_826.png",
+            "product": ""
+          }
         },
         "product_image_6": {
-          "type": "product_image"
+          "type": "product_image",
+          "settings": {
+            "image": "shopify://shop_images/image_827.png",
+            "product": ""
+          }
         }
       },
       "block_order": [
@@ -32,7 +76,10 @@
         "product_image_4",
         "product_image_5",
         "product_image_6"
-      ]
+      ],
+      "settings": {
+        "heading": "Tisso vison in the wild"
+      }
     }
   },
   "order": [
