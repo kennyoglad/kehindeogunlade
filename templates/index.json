@@ -26,6 +26,46 @@
     "tv_product_grid": {
       "type": "tv-product-grid",
       "blocks": {
+        "product_nLbU4p": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_YNUBdH": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_VBjFRR": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_wCkjBp": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_3ec68z": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
         "product_nEnxDh": {
           "type": "product",
           "settings": {
@@ -36,6 +76,11 @@
         }
       },
       "block_order": [
+        "product_nLbU4p",
+        "product_YNUBdH",
+        "product_VBjFRR",
+        "product_wCkjBp",
+        "product_3ec68z",
         "product_nEnxDh"
       ],
       "settings": {
