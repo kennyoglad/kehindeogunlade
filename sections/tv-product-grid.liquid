@@ -41,31 +41,28 @@
           {% endif %}
 
 
-          {% if product != blank %}
-
-            <button
-              type="button"
-              class="tv-product-grid__hotspot"
-              style="
-                --hotspot-x: {{ block.settings.hotspot_x }}%;
-                --hotspot-y: {{ block.settings.hotspot_y }}%;
-              "
-              aria-label="View {{ product.title | escape }}"
-              data-product-handle="{{ product.handle }}"
-              data-product-id="{{ product.id }}"
-            >
-
-              <span
-                class="tv-product-grid__hotspot-circle"
-                aria-hidden="true"
-              >
-                <span class="tv-product-grid__hotspot-plus"></span>
-              </span>
-
-            </button>
-
-          {% endif %}
-
+         
+<div
+  style="
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: red;
+    border-radius: 50%;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+  "
+>
+  +
+</div>
         </div>
 
       </article>
