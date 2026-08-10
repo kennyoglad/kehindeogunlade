@@ -1,0 +1,128 @@
+<div
+  id="tv-product-modal"
+  class="tv-product-modal"
+  aria-hidden="true"
+  hidden
+>
+
+  <div
+    class="tv-product-modal__overlay"
+    data-popup-close
+  ></div>
+
+
+  <div
+    class="tv-product-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="tv-product-modal-title"
+    tabindex="-1"
+  >
+
+    <button
+      type="button"
+      class="tv-product-popup__close"
+      aria-label="Close product"
+      data-popup-close
+    >
+      <span></span>
+      <span></span>
+    </button>
+
+
+    <div class="tv-product-popup__content">
+
+      <div class="tv-product-popup__product">
+
+        <div class="tv-product-popup__image-wrapper">
+
+          <img
+            id="tv-product-popup-image"
+            class="tv-product-popup__image"
+            src=""
+            alt=""
+            loading="eager"
+          >
+
+        </div>
+
+
+        <div class="tv-product-popup__info">
+
+          <h2
+            id="tv-product-popup-title"
+            class="tv-product-popup__title"
+          ></h2>
+
+
+          <div
+            id="tv-product-popup-price"
+            class="tv-product-popup__price"
+          ></div>
+
+
+          <div
+            id="tv-product-popup-description"
+            class="tv-product-popup__description"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <form
+        id="tv-product-popup-form"
+        class="tv-product-popup__form"
+      >
+
+        <div
+          id="tv-product-popup-options"
+          class="tv-product-popup__options"
+        ></div>
+
+
+        <p
+          id="tv-product-popup-error"
+          class="tv-product-popup__error"
+          hidden
+        ></p>
+
+
+        <button
+          type="submit"
+          class="tv-product-popup__add"
+          id="tv-product-popup-add"
+        >
+
+          <span class="tv-product-popup__add-label">
+            ADD TO CART
+          </span>
+
+          <span
+            class="tv-product-popup__add-arrow"
+            aria-hidden="true"
+          >
+            <span class="tv-product-popup__add-arrow-line"></span>
+            <span class="tv-product-popup__add-arrow-head"></span>
+          </span>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+{% schema %}
+{
+  "name": "TV Product Modal",
+  "tag": "div",
+  "class": "tv-product-modal-section",
+  "settings": []
+}
+{% endschema %}
