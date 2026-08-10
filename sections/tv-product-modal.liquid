@@ -1,8 +1,7 @@
 <div
-  id="tv-product-modal"
   class="tv-product-modal"
+  data-tv-product-modal
   aria-hidden="true"
-  hidden
 >
 
   <div
@@ -15,8 +14,7 @@
     class="tv-product-modal__dialog"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="tv-product-modal-title"
-    tabindex="-1"
+    aria-labelledby="tv-product-popup-title"
   >
 
     <button
@@ -41,7 +39,6 @@
             class="tv-product-popup__image"
             src=""
             alt=""
-            loading="eager"
           >
 
         </div>
@@ -92,21 +89,13 @@
         <button
           type="submit"
           class="tv-product-popup__add"
-          id="tv-product-popup-add"
         >
+          <span>ADD TO CART</span>
 
-          <span class="tv-product-popup__add-label">
-            ADD TO CART
-          </span>
-
-          <span
-            class="tv-product-popup__add-arrow"
-            aria-hidden="true"
-          >
+          <span class="tv-product-popup__add-arrow">
             <span class="tv-product-popup__add-arrow-line"></span>
             <span class="tv-product-popup__add-arrow-head"></span>
           </span>
-
         </button>
 
       </form>
@@ -116,13 +105,3 @@
   </div>
 
 </div>
-
-
-{% schema %}
-{
-  "name": "TV Product Modal",
-  "tag": "div",
-  "class": "tv-product-modal-section",
-  "settings": []
-}
-{% endschema %}
