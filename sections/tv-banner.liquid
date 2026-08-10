@@ -1,22 +1,25 @@
-{%- comment -%}
-  TV BANNER
+<div class="tv-banner">
 
-  Figma desktop frame:
-  Width:  1440px
+  {%- comment -%}
+  ==========================================================
+  TV BANNER — FIGMA FRAME
+  Desktop reference:
+  Width: 1440px
   Height: 878px
 
   Header: 64px
   Main:   780px
   Footer: 34px
-{%- endcomment -%}
 
-<section
-  class="tv-banner"
-  aria-labelledby="tv-banner-heading-{{ section.id }}"
->
+  IMPORTANT:
+  Header, main artwork/content and footer are all children
+  of the same banner frame so they scale together.
+  ==========================================================
+  {%- endcomment -%}
 
   <!-- ======================================================
        HEADER
+       Figma: 1440 × 64px
        ====================================================== -->
 
   <header class="tv-banner__header">
@@ -24,7 +27,6 @@
     <div class="tv-banner__header-inner">
 
       <!-- LOGO -->
-
       <div class="tv-banner__logo">
 
         {% if section.settings.logo != blank %}
@@ -37,14 +39,13 @@
               loading: 'eager',
               widths: '150, 250, 350, 500',
               sizes: '151px',
-              alt: section.settings.logo.alt
-                | default: section.settings.brand_text
+              alt: section.settings.logo.alt | default: section.settings.brand_text
           }}
 
         {% else %}
 
           <span class="tv-banner__brand-text">
-            {{ section.settings.brand_text | escape }}
+            {{ section.settings.brand_text }}
           </span>
 
         {% endif %}
@@ -53,18 +54,12 @@
 
 
       <!-- HEADER MESSAGE -->
-
-      {% if section.settings.header_text != blank %}
-
-        <div class="tv-banner__header-message">
-          {{ section.settings.header_text | escape }}
-        </div>
-
-      {% endif %}
+      <div class="tv-banner__header-message">
+        {{ section.settings.header_text }}
+      </div>
 
 
       <!-- HEADER BUTTON -->
-
       {% if section.settings.header_button_text != blank %}
 
         <a
@@ -73,7 +68,7 @@
         >
 
           <span class="tv-banner__header-button-text">
-            {{ section.settings.header_button_text | escape }}
+            {{ section.settings.header_button_text }}
           </span>
 
           <span
@@ -95,28 +90,26 @@
 
   <!-- ======================================================
        MAIN
+       Figma: 1440 × 780px
+
+       Top artwork:
+       1440 × 390
+       left: 0
+       top: 0 relative to main
+
+       Bottom artwork:
+       890 × 402
+       left: 550
+       top: 378 relative to main
        ====================================================== -->
 
-  <div class="tv-banner__main">
+  <main class="tv-banner__main">
 
-    <!-- TOP ARTWORK -->
+    <div class="tv-banner__canvas">
 
-    <div class="tv-banner__artwork tv-banner__artwork--top">
 
-      {% if section.settings.top_artwork != blank %}
-
-        {{
-          section.settings.top_artwork
-          | image_url: width: 1440
-          | image_tag:
-            class: 'tv-banner__artwork-image',
-            loading: 'eager',
-            widths: '720, 1080, 1440',
-            sizes: '1440px',
-            alt: 'Gift Guide artwork'
-        }}
-
-      {% else %}
+      <!-- TOP ARTWORK -->
+      <div class="tv-banner__artwork tv-banner__artwork--top">
 
         <img
           src="{{ 'artworktop.png' | asset_url }}"
@@ -127,29 +120,11 @@
           height="390"
         >
 
-      {% endif %}
-
-    </div>
+      </div>
 
 
-    <!-- BOTTOM ARTWORK -->
-
-    <div class="tv-banner__artwork tv-banner__artwork--bottom">
-
-      {% if section.settings.bottom_artwork != blank %}
-
-        {{
-          section.settings.bottom_artwork
-          | image_url: width: 890
-          | image_tag:
-            class: 'tv-banner__artwork-image',
-            loading: 'eager',
-            widths: '445, 670, 890',
-            sizes: '890px',
-            alt: 'Gift Guide artwork'
-        }}
-
-      {% else %}
+      <!-- BOTTOM ARTWORK -->
+      <div class="tv-banner__artwork tv-banner__artwork--bottom">
 
         <img
           src="{{ 'artworkbottom.png' | asset_url }}"
@@ -160,83 +135,82 @@
           height="402"
         >
 
-      {% endif %}
-
-    </div>
+      </div>
 
 
-    <!-- ====================================================
-         MAIN CONTENT
-         ==================================================== -->
+      <!-- ==================================================
+           MAIN CONTENT
+           ================================================== -->
 
-    <div class="tv-banner__content">
-
-      {% if section.settings.heading != blank %}
-
-        <h1
-          id="tv-banner-heading-{{ section.id }}"
-          class="tv-banner__heading"
-        >
-          {{ section.settings.heading | escape }}
-        </h1>
-
-      {% endif %}
+      <div class="tv-banner__content">
 
 
-      {% if section.settings.description != blank %}
+        <!-- HEADING -->
+        {% if section.settings.heading != blank %}
 
-        <div class="tv-banner__description">
-          {{ section.settings.description }}
-        </div>
+          <h1 class="tv-banner__heading">
+            {{ section.settings.heading }}
+          </h1>
 
-      {% endif %}
+        {% endif %}
 
 
-      {% if section.settings.main_button_text != blank %}
+        <!-- DESCRIPTION -->
+        {% if section.settings.description != blank %}
 
-        <a
-          href="{{ section.settings.main_button_link | default: '#' }}"
-          class="tv-banner__main-button"
-        >
+          <div class="tv-banner__description">
+            {{ section.settings.description }}
+          </div>
 
-          <span class="tv-banner__main-button-text">
-            {{ section.settings.main_button_text | escape }}
-          </span>
+        {% endif %}
 
-          <span
-            class="tv-banner__main-button-arrow"
-            aria-hidden="true"
+
+        <!-- MAIN BUTTON -->
+        {% if section.settings.main_button_text != blank %}
+
+          <a
+            href="{{ section.settings.main_button_link | default: '#' }}"
+            class="tv-banner__main-button"
           >
-            <span class="tv-banner__main-arrow-line"></span>
-            <span class="tv-banner__main-arrow-head"></span>
-          </span>
 
-        </a>
+            <span class="tv-banner__main-button-text">
+              {{ section.settings.main_button_text }}
+            </span>
 
-      {% endif %}
+            <span
+              class="tv-banner__main-button-arrow"
+              aria-hidden="true"
+            >
+              <span class="tv-banner__main-arrow-line"></span>
+              <span class="tv-banner__main-arrow-head"></span>
+            </span>
+
+          </a>
+
+        {% endif %}
+
+
+      </div>
 
     </div>
 
-  </div>
+  </main>
 
 
   <!-- ======================================================
        FOOTER
+       Figma: 1440 × 34px
        ====================================================== -->
 
   <footer class="tv-banner__footer">
 
-    {% if section.settings.bottom_text != blank %}
-
-      <div class="tv-banner__footer-text">
-        {{ section.settings.bottom_text | escape }}
-      </div>
-
-    {% endif %}
+    <div class="tv-banner__footer-text">
+      {{ section.settings.bottom_text }}
+    </div>
 
   </footer>
 
-</section>
+</div>
 
 
 {% schema %}
@@ -285,6 +259,7 @@
       "label": "Header button link"
     },
 
+
     {
       "type": "header",
       "content": "Main Artwork"
@@ -303,6 +278,7 @@
       "label": "Bottom artwork",
       "info": "Figma frame: 890 × 402px"
     },
+
 
     {
       "type": "header",
@@ -335,6 +311,7 @@
       "id": "main_button_link",
       "label": "Main button link"
     },
+
 
     {
       "type": "header",
