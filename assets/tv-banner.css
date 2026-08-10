@@ -1,0 +1,796 @@
+/* ==========================================================
+   TV PAGE — FIGMA DESKTOP CANVAS
+
+   Figma:
+   Width:  1440px
+   Height: 2000px
+
+   Layout:
+   Banner:       878px
+   Gap:           90px
+   Product grid: 981px
+
+   878 + 90 + 981 = 1949px
+
+   Remaining 51px is available as Figma/frame breathing room.
+   ========================================================== */
+
+.tv-page {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 2000px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+  box-sizing: border-box;
+  background: #ffffff;
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================
+   REMOVE THEME / SHOPIFY SECTION SPACING
+   ========================================================== */
+
+.tv-page > .shopify-section {
+  width: 100%;
+  max-width: 2000px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   BANNER
+   ========================================================== */
+
+.tv-page > .tv-banner-section {
+  width: 100%;
+  max-width: 1440px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================
+   PRODUCT GRID SECTION
+   ========================================================== */
+
+.tv-page > .tv-product-grid-section {
+  width: 100%;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================
+   IMPORTANT:
+   At desktop, the complete page stays inside the 1440px
+   Figma frame.
+
+   At smaller screens, allow it to become fluid.
+   ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-page {
+    width: 100%;
+    max-width: 1440px;
+
+    min-height: auto;
+
+    gap: 90px;
+  }
+
+}
+
+/* ==========================================================
+   TV BANNER
+   Exact Figma frame:
+   1440 × 878px
+   ========================================================== */
+
+.tv-page .tv-banner {
+  position: relative;
+
+  flex: 0 0 878px;
+
+  width: 1440px;
+  height: 878px;
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  aspect-ratio: auto;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   TV BANNER HEADER
+   ========================================================== */
+
+.tv-page .tv-banner__header {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 1440px;
+  height: 64px;
+
+  box-sizing: border-box;
+
+  background: #f5f5f5;
+
+  z-index: 10;
+}
+
+
+.tv-page .tv-banner__header-inner {
+  position: relative;
+
+  width: 1440px;
+  height: 64px;
+
+  margin: 0;
+  padding: 10px 50px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ==========================================================
+   HEADER LOGO
+   ========================================================== */
+
+.tv-page .tv-banner__logo {
+  position: absolute;
+
+  left: 50px;
+  top: 50%;
+
+  width: 151.44px;
+  height: 19px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+
+  z-index: 2;
+}
+
+
+.tv-page .tv-banner__logo-image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  max-width: 100%;
+}
+
+
+.tv-page .tv-banner__brand-text {
+  display: block;
+
+  color: #000000;
+
+  font-family: 'Jost', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   HEADER MESSAGE
+   ========================================================== */
+
+.tv-page .tv-banner__header-message {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 260px;
+  height: 14px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #000000;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 13px;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   HEADER BUTTON
+   ========================================================== */
+
+.tv-page .tv-banner__header-button {
+  position: absolute;
+
+  right: 50px;
+  top: 50%;
+
+  width: 207px;
+  height: 44px;
+
+  transform: translateY(-50%);
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: #fff544;
+  color: #000000;
+
+  border: 0;
+  border-radius: 0;
+
+  text-decoration: none;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+
+.tv-page .tv-banner__header-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: #000000;
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  z-index: 0;
+}
+
+
+.tv-page .tv-banner__header-button:hover::before,
+.tv-page .tv-banner__header-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+
+.tv-page .tv-banner__header-button:hover,
+.tv-page .tv-banner__header-button:focus-visible {
+  color: #ffffff;
+}
+
+
+.tv-page .tv-banner__header-button-text {
+  position: absolute;
+
+  left: 19.81%;
+  right: 30.92%;
+
+  top: 26.51%;
+  bottom: 25.76%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.tv-page .tv-banner__header-button-arrow {
+  position: absolute;
+
+  left: 77.78%;
+  right: 10.63%;
+
+  top: 50%;
+
+  height: 0;
+
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.tv-page .tv-banner__header-arrow-line {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+
+  border-top: 1.5px solid currentColor;
+}
+
+
+.tv-page .tv-banner__header-arrow-head {
+  position: absolute;
+
+  right: 0;
+  top: 50%;
+
+  width: 8px;
+  height: 8px;
+
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+
+.tv-page .tv-banner__header-button:hover
+.tv-banner__header-button-arrow,
+.tv-page .tv-banner__header-button:focus-visible
+.tv-banner__header-button-arrow {
+  transform: translate(6px, -50%);
+}
+
+
+/* ==========================================================
+   BANNER MAIN
+   Exact Figma:
+   top    64px
+   height 780px
+   ========================================================== */
+
+.tv-page .tv-banner__main {
+  position: absolute;
+
+  left: 0;
+  top: 64px;
+
+  width: 1440px;
+  height: 780px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+
+/* ==========================================================
+   ARTWORK
+   ========================================================== */
+
+.tv-page .tv-banner__artwork {
+  position: absolute;
+
+  margin: 0;
+  padding: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+
+.tv-page .tv-banner__artwork-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  max-width: none;
+
+  object-fit: fill;
+}
+
+
+/* TOP ARTWORK
+   1440 × 390
+*/
+
+.tv-page .tv-banner__artwork--top {
+  left: 0;
+  top: 0;
+
+  width: 1440px;
+  height: 390px;
+}
+
+
+/* BOTTOM ARTWORK
+   x: 550
+   y: 378
+   890 × 402
+*/
+
+.tv-page .tv-banner__artwork--bottom {
+  left: 550px;
+  top: 378px;
+
+  width: 890px;
+  height: 402px;
+}
+
+
+/* ==========================================================
+   BANNER CONTENT
+   ========================================================== */
+
+.tv-page .tv-banner__content {
+  position: absolute;
+
+  inset: 0;
+
+  width: 1440px;
+  height: 780px;
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+
+.tv-page .tv-banner__content > * {
+  pointer-events: auto;
+}
+
+
+/* ==========================================================
+   HEADING
+   Figma:
+   x = 67
+   y = 433 relative to main
+   459 × 70
+   ========================================================== */
+
+.tv-page .tv-banner__heading {
+  position: absolute;
+
+  left: 67px;
+  top: 433px;
+
+  width: 459px;
+  height: 70px;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  color: #000000;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+
+  font-size: 70px;
+  line-height: 70px;
+
+  letter-spacing: normal;
+
+  border: 0;
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+   ========================================================== */
+
+.tv-page .tv-banner__description {
+  position: absolute;
+
+  left: 67px;
+  top: 545px;
+
+  width: 483px;
+  height: 84px;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  color: #000000;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 20px;
+  line-height: 28px;
+}
+
+
+/* ==========================================================
+   MAIN BUTTON
+   ========================================================== */
+
+.tv-page .tv-banner__main-button {
+  position: absolute;
+
+  left: 67px;
+  top: 679px;
+
+  width: 220px;
+  height: 50px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: #000000;
+  color: #ffffff;
+
+  border: 0;
+  border-radius: 0;
+
+  text-decoration: none;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+
+.tv-page .tv-banner__main-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: #ffffff;
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  z-index: 0;
+}
+
+
+.tv-page .tv-banner__main-button:hover::before,
+.tv-page .tv-banner__main-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+
+.tv-page .tv-banner__main-button:hover,
+.tv-page .tv-banner__main-button:focus-visible {
+  color: #000000;
+}
+
+
+.tv-page .tv-banner__main-button-text {
+  position: absolute;
+
+  left: 25.03%;
+  right: 35.42%;
+
+  top: 28.51%;
+  bottom: 29.49%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2;
+
+  color: currentColor;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
+  line-height: 20px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.tv-page .tv-banner__main-button-arrow {
+  position: absolute;
+
+  left: 77.78%;
+  right: 10.63%;
+
+  top: 50%;
+
+  height: 0;
+
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.tv-page .tv-banner__main-arrow-line {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+
+  border-top: 1.5px solid currentColor;
+}
+
+
+.tv-page .tv-banner__main-arrow-head {
+  position: absolute;
+
+  right: 0;
+  top: 50%;
+
+  width: 8px;
+  height: 8px;
+
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+
+.tv-page .tv-banner__main-button:hover
+.tv-banner__main-button-arrow,
+.tv-page .tv-banner__main-button:focus-visible
+.tv-banner__main-button-arrow {
+  transform: translate(7px, -50%);
+}
+
+
+/* ==========================================================
+   FOOTER
+   Figma:
+   y      = 844
+   height = 34
+   ========================================================== */
+
+.tv-page .tv-banner__footer {
+  position: absolute;
+
+  left: 0;
+  top: 844px;
+
+  width: 1440px;
+  height: 34px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 50px;
+
+  background: #f5f5f5;
+
+  z-index: 5;
+}
+
+
+.tv-page .tv-banner__footer-text {
+  width: 451px;
+  height: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #000000;
+
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
+  line-height: 13px;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   BANNER FOCUS
+   ========================================================== */
+
+.tv-page .tv-banner__header-button:focus-visible,
+.tv-page .tv-banner__main-button:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   BANNER RESET
+   ========================================================== */
+
+.tv-page .tv-banner img {
+  max-width: none;
+}
+
+.tv-page .tv-banner,
+.tv-page .tv-banner * {
+  box-sizing: border-box;
+}

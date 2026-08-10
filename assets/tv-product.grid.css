@@ -1,0 +1,338 @@
+/* ==========================================================
+   TV PRODUCT GRID
+   Figma desktop canvas:
+   1440px
+
+   Product grid:
+   1339px
+   3 × 433px
+   20px gaps
+   ========================================================== */
+
+.tv-product-grid-section {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   CONTENT FRAME
+   ========================================================== */
+
+.tv-product-grid {
+  width: 100%;
+  max-width: 1339px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+
+/* ==========================================================
+   HEADING
+   ========================================================== */
+
+.tv-product-grid__heading {
+  width: 372px;
+  height: 43px;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  font-family: 'Lustria', serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 120%;
+
+  color: #000000;
+}
+
+
+/* ==========================================================
+   PRODUCT ITEMS FRAME
+
+   Figma Frame 1000009723
+
+   Heading:
+   43px
+
+   Gap:
+   30px
+
+   Therefore:
+   items start at Y = 73px
+   ========================================================== */
+
+.tv-product-grid__items {
+  width: 1339px;
+  height: 908px;
+
+  margin-top: 30px;
+  margin-left: 0;
+
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  align-items: flex-start;
+  align-content: flex-start;
+
+  gap: 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   ITEM
+   ========================================================== */
+
+.tv-product-grid__item {
+  position: relative;
+  width: 433px;
+  height: 444px;
+  flex: 0 0 433px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   IMAGE WRAPPER
+   ========================================================== */
+
+.tv-product-grid__image-wrapper {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #f3f3f3;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   IMAGE
+   ========================================================== */
+
+.tv-product-grid__image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  object-fit: cover;
+  object-position: center;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   PLACEHOLDER
+   ========================================================== */
+
+.tv-product-grid__placeholder {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f3f3;
+
+  color: #777777;
+
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+}
+
+
+/* ==========================================================
+   HOTSPOT
+   ========================================================== */
+
+.tv-product-grid__hotspot {
+  position: absolute;
+
+  left: var(--hotspot-x);
+  top: var(--hotspot-y);
+
+  width: 22px;
+  height: 22px;
+
+  margin: 0;
+  padding: 0;
+
+  transform: translate(-50%, -50%);
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 5;
+
+  appearance: none;
+}
+
+
+/* ==========================================================
+   HOTSPOT CIRCLE
+   ========================================================== */
+
+.tv-product-grid__hotspot-circle {
+  position: relative;
+
+  display: flex;
+
+  width: 22px;
+  height: 22px;
+
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  border-radius: 50%;
+
+  background: rgba(248, 248, 248, 0.9);
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+
+/* ==========================================================
+   PLUS
+   ========================================================== */
+
+.tv-product-grid__hotspot-plus,
+.tv-product-grid__hotspot-plus::after {
+  position: absolute;
+
+  display: block;
+
+  content: "";
+
+  background: #000000;
+}
+
+
+.tv-product-grid__hotspot-plus {
+  width: 9px;
+  height: 1.5px;
+}
+
+
+.tv-product-grid__hotspot-plus::after {
+  width: 1.5px;
+  height: 9px;
+
+  left: 3.75px;
+  top: -3.75px;
+}
+
+
+/* ==========================================================
+   HOVER
+   ========================================================== */
+
+.tv-product-grid__hotspot:hover
+.tv-product-grid__hotspot-circle,
+
+.tv-product-grid__hotspot:focus-visible
+.tv-product-grid__hotspot-circle {
+  transform: scale(1.1);
+
+  background: #ffffff;
+}
+
+
+/* ==========================================================
+   FOCUS
+   ========================================================== */
+
+.tv-product-grid__hotspot:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   DESKTOP → TABLET
+   ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-product-grid {
+    width: calc(100% - 100px);
+    max-width: 1339px;
+  }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media screen and (max-width: 749px) {
+
+  .tv-product-grid {
+    width: calc(100% - 32px);
+    max-width: none;
+  }
+
+
+  .tv-product-grid__heading {
+    width: 100%;
+    height: auto;
+
+    margin-bottom: 20px;
+
+    font-size: 28px;
+  }
+
+
+  .tv-product-grid__items {
+    grid-template-columns: 1fr;
+
+    grid-auto-rows: auto;
+
+    row-gap: 12px;
+  }
+
+
+  .tv-product-grid__item {
+    height: auto;
+
+    aspect-ratio: 433 / 444;
+  }
+
+}
