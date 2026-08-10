@@ -176,7 +176,6 @@
 
 .tv-product-grid__hotspot {
   position: absolute;
-
   left: var(--hotspot-x);
   top: var(--hotspot-y);
 
@@ -195,11 +194,10 @@
 
   cursor: pointer;
 
-  z-index: 5;
+  z-index: 50;
 
   appearance: none;
 }
-
 
 /* ==========================================================
    HOTSPOT CIRCLE
@@ -216,18 +214,14 @@
   align-items: center;
   justify-content: center;
 
-  box-sizing: border-box;
-
   border-radius: 50%;
 
   background: rgba(248, 248, 248, 0.9);
 
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease;
+  border: 1px solid #000;
+
+  box-sizing: border-box;
 }
-
-
 /* ==========================================================
    PLUS
    ========================================================== */
