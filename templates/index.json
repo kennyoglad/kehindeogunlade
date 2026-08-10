@@ -26,34 +26,10 @@
     "tv_product_grid": {
       "type": "tv-product-grid",
       "blocks": {
-        "product_nLbU4p": {
+        "product_nEnxDh": {
           "type": "product",
           "settings": {
-            "product": "dark-denim-top",
-            "hotspot_x": 60,
-            "hotspot_y": 50
-          }
-        },
-        "product_YNUBdH": {
-          "type": "product",
-          "settings": {
-            "product": "classic-varsity-top",
-            "hotspot_x": 60,
-            "hotspot_y": 50
-          }
-        },
-        "product_VBjFRR": {
-          "type": "product",
-          "settings": {
-            "product": "classic-leather-jacket",
-            "hotspot_x": 60,
-            "hotspot_y": 50
-          }
-        },
-        "product_wCkjBp": {
-          "type": "product",
-          "settings": {
-            "product": "chequered-red-shirt",
+            "product": "black-leather-bag",
             "hotspot_x": 60,
             "hotspot_y": 50
           }
@@ -66,22 +42,46 @@
             "hotspot_y": 50
           }
         },
-        "product_nEnxDh": {
+        "product_wCkjBp": {
           "type": "product",
           "settings": {
-            "product": "black-leather-bag",
+            "product": "chequered-red-shirt",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_VBjFRR": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_YNUBdH": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top",
+            "hotspot_x": 60,
+            "hotspot_y": 50
+          }
+        },
+        "product_nLbU4p": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
             "hotspot_x": 60,
             "hotspot_y": 50
           }
         }
       },
       "block_order": [
-        "product_nLbU4p",
-        "product_YNUBdH",
-        "product_VBjFRR",
-        "product_wCkjBp",
+        "product_nEnxDh",
         "product_3ec68z",
-        "product_nEnxDh"
+        "product_wCkjBp",
+        "product_VBjFRR",
+        "product_YNUBdH",
+        "product_nLbU4p"
       ],
       "settings": {
         "heading": "Tisso vison in the wild"
