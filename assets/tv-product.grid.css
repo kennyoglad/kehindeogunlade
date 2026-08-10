@@ -1,16 +1,16 @@
 /* ==========================================================
-   PRODUCT GRID — MASTER DESKTOP POSITION
-   Figma:
-   parent frame = 1337 × 981
-   gap from banner = 90px
+   TV PRODUCT GRID
+   Figma desktop canvas:
+   1440px
+
+   Product grid:
+   1339px
+   3 × 433px
+   20px gaps
    ========================================================== */
 
-.tv-page .tv-product-grid-section {
-  width: 1337px;
-  height: 981px;
-
-  flex: 0 0 981px;
-
+.tv-product-grid-section {
+  width: 100%;
   margin: 0;
   padding: 0;
 
@@ -19,14 +19,14 @@
 
 
 /* ==========================================================
-   PRODUCT GRID CONTENT
+   CONTENT FRAME
    ========================================================== */
 
-.tv-page .tv-product-grid {
-  width: 1337px;
-  max-width: none;
+.tv-product-grid {
+  width: 1339px;
+  max-width: calc(100% - 100px);
 
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 
   box-sizing: border-box;
@@ -36,12 +36,10 @@
 
 
 /* ==========================================================
-   PRODUCT GRID HEADING
-   Figma:
-   372 × 43
+   HEADING
    ========================================================== */
 
-.tv-page .tv-product-grid__heading {
+.tv-product-grid__heading {
   width: 372px;
   height: 43px;
 
@@ -56,29 +54,31 @@
   font-family: 'Lustria', serif;
   font-size: 36px;
   font-weight: 400;
-  line-height: 43.2px;
+  line-height: 120%;
 
   color: #000000;
 }
 
 
 /* ==========================================================
-   PRODUCT GRID ITEMS
-   Figma:
-   433 × 444
-   20px gaps
+   IMAGE GRID
+
+   433 + 20 + 433 + 20 + 433
+   = 1339px
+
+   444px image height
+   20px vertical gap
    ========================================================== */
 
-.tv-page .tv-product-grid__items {
-  width: 1339px;
+.tv-product-grid__items {
+  width: 100%;
 
   display: grid;
 
   grid-template-columns:
-    repeat(3, 433px);
+    repeat(3, minmax(0, 1fr));
 
-  grid-template-rows:
-    repeat(2, 444px);
+  grid-auto-rows: 444px;
 
   column-gap: 20px;
   row-gap: 20px;
@@ -88,13 +88,13 @@
 
 
 /* ==========================================================
-   PRODUCT ITEM
+   ITEM
    ========================================================== */
 
-.tv-page .tv-product-grid__item {
+.tv-product-grid__item {
   position: relative;
 
-  width: 433px;
+  width: 100%;
   height: 444px;
 
   margin: 0;
@@ -108,11 +108,11 @@
    IMAGE WRAPPER
    ========================================================== */
 
-.tv-page .tv-product-grid__image-wrapper {
+.tv-product-grid__image-wrapper {
   position: relative;
 
-  width: 433px;
-  height: 444px;
+  width: 100%;
+  height: 100%;
 
   overflow: hidden;
 
@@ -123,14 +123,14 @@
 
 
 /* ==========================================================
-   PRODUCT IMAGE
+   IMAGE
    ========================================================== */
 
-.tv-page .tv-product-grid__image {
+.tv-product-grid__image {
   display: block;
 
-  width: 433px;
-  height: 444px;
+  width: 100%;
+  height: 100%;
 
   max-width: none;
 
@@ -148,11 +148,11 @@
    PLACEHOLDER
    ========================================================== */
 
-.tv-page .tv-product-grid__placeholder {
+.tv-product-grid__placeholder {
   display: flex;
 
-  width: 433px;
-  height: 444px;
+  width: 100%;
+  height: 100%;
 
   align-items: center;
   justify-content: center;
@@ -167,10 +167,10 @@
 
 
 /* ==========================================================
-   HOTSPOTS
+   HOTSPOT
    ========================================================== */
 
-.tv-page .tv-product-grid__hotspot {
+.tv-product-grid__hotspot {
   position: absolute;
 
   left: var(--hotspot-x);
@@ -197,7 +197,11 @@
 }
 
 
-.tv-page .tv-product-grid__hotspot-circle {
+/* ==========================================================
+   HOTSPOT CIRCLE
+   ========================================================== */
+
+.tv-product-grid__hotspot-circle {
   position: relative;
 
   display: flex;
@@ -220,8 +224,12 @@
 }
 
 
-.tv-page .tv-product-grid__hotspot-plus,
-.tv-page .tv-product-grid__hotspot-plus::after {
+/* ==========================================================
+   PLUS
+   ========================================================== */
+
+.tv-product-grid__hotspot-plus,
+.tv-product-grid__hotspot-plus::after {
   position: absolute;
 
   display: block;
@@ -232,13 +240,13 @@
 }
 
 
-.tv-page .tv-product-grid__hotspot-plus {
+.tv-product-grid__hotspot-plus {
   width: 9px;
   height: 1.5px;
 }
 
 
-.tv-page .tv-product-grid__hotspot-plus::after {
+.tv-product-grid__hotspot-plus::after {
   width: 1.5px;
   height: 9px;
 
@@ -247,10 +255,14 @@
 }
 
 
-.tv-page .tv-product-grid__hotspot:hover
+/* ==========================================================
+   HOVER
+   ========================================================== */
+
+.tv-product-grid__hotspot:hover
 .tv-product-grid__hotspot-circle,
 
-.tv-page .tv-product-grid__hotspot:focus-visible
+.tv-product-grid__hotspot:focus-visible
 .tv-product-grid__hotspot-circle {
   transform: scale(1.1);
 
@@ -258,114 +270,65 @@
 }
 
 
-.tv-page .tv-product-grid__hotspot:focus-visible {
+/* ==========================================================
+   FOCUS
+   ========================================================== */
+
+.tv-product-grid__hotspot:focus-visible {
   outline: 2px solid #000000;
   outline-offset: 3px;
 }
 
 
 /* ==========================================================
-   IMPORTANT:
-   Do NOT use viewport-based desktop widths here.
-
-   These old rules were the source of the mismatch:
-
-   width: min(1339px, calc(100% - 100px));
-   width: calc(100% - 80px);
-
-   The product grid must stay attached to the 1440px
-   master canvas.
+   DESKTOP → TABLET
    ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-product-grid {
+    width: calc(100% - 100px);
+    max-width: 1339px;
+  }
+
+}
 
 
 /* ==========================================================
    MOBILE
-   Keep mobile responsive separately from the desktop
-   Figma canvas.
    ========================================================== */
 
 @media screen and (max-width: 749px) {
 
-  .tv-page {
-    width: 100%;
-    min-width: 0;
-    height: auto;
-
-    margin: 0;
-    gap: 40px;
-
-    overflow: hidden;
-  }
-
-
-  .tv-page .tv-banner {
-    width: 100%;
-    height: auto;
-    min-height: 0;
-
-    flex: none;
-
-    aspect-ratio: 1440 / 878;
-  }
-
-
-  .tv-page .tv-product-grid-section {
+  .tv-product-grid {
     width: calc(100% - 32px);
-    height: auto;
-
-    flex: none;
+    max-width: none;
   }
 
 
-  .tv-page .tv-product-grid {
-    width: 100%;
-  }
-
-
-  .tv-page .tv-product-grid__heading {
+  .tv-product-grid__heading {
     width: 100%;
     height: auto;
 
     margin-bottom: 20px;
 
     font-size: 28px;
-    line-height: 120%;
   }
 
 
-  .tv-page .tv-product-grid__items {
-    width: 100%;
-
+  .tv-product-grid__items {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
+
+    grid-auto-rows: auto;
 
     row-gap: 12px;
   }
 
 
-  .tv-page .tv-product-grid__item {
-    width: 100%;
+  .tv-product-grid__item {
     height: auto;
 
     aspect-ratio: 433 / 444;
-  }
-
-
-  .tv-page .tv-product-grid__image-wrapper {
-    width: 100%;
-    height: 100%;
-  }
-
-
-  .tv-page .tv-product-grid__image {
-    width: 100%;
-    height: 100%;
-  }
-
-
-  .tv-page .tv-product-grid__placeholder {
-    width: 100%;
-    height: 100%;
   }
 
 }
