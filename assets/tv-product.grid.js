@@ -1,31 +1,71 @@
 (() => {
   'use strict';
 
-  const popup = document.getElementById('tv-product-popup');
+  const popup = document.getElementById(
+    'tv-product-popup'
+  );
 
   if (!popup) {
     return;
   }
 
-  const image = document.getElementById('tv-product-popup-image');
-  const title = document.getElementById('tv-product-popup-title');
-  const price = document.getElementById('tv-product-popup-price');
-  const description = document.getElementById('tv-product-popup-description');
-  const optionsContainer = document.getElementById('tv-product-popup-options');
-  const form = document.getElementById('tv-product-popup-form');
-  const errorElement = document.getElementById('tv-product-popup-error');
+
+  const image = document.getElementById(
+    'tv-product-popup-image'
+  );
+
+  const title = document.getElementById(
+    'tv-product-popup-title'
+  );
+
+  const price = document.getElementById(
+    'tv-product-popup-price'
+  );
+
+  const description = document.getElementById(
+    'tv-product-popup-description'
+  );
+
+  const optionsContainer =
+    document.getElementById(
+      'tv-product-popup-options'
+    );
+
+  const form = document.getElementById(
+    'tv-product-popup-form'
+  );
+
+  const errorElement =
+    document.getElementById(
+      'tv-product-popup-error'
+    );
+
+
+  if (
+    !image ||
+    !title ||
+    !price ||
+    !description ||
+    !optionsContainer ||
+    !form ||
+    !errorElement
+  ) {
+    return;
+  }
+
 
   let currentProduct = null;
   let selectedOptions = [];
   let selectedVariant = null;
 
-  /*
-   * Shopify product selected in the Theme Editor.
-   *
-   * This value is inserted from Liquid below.
-   */
+
+  /* ========================================================
+     AUTOMATIC COMPANION PRODUCT
+     ======================================================== */
+
   const autoAddProductHandle =
     popup.dataset.autoAddProductHandle || '';
+
 
   /* ========================================================
      OPEN POPUP
@@ -33,28 +73,46 @@
 
   async function openProduct(productHandle) {
 
+    if (!productHandle) {
+      return;
+    }
+
     popup.classList.add('is-open');
     popup.classList.add('is-loading');
 
-    popup.setAttribute('aria-hidden', 'false');
+    popup.setAttribute(
+      'aria-hidden',
+      'false'
+    );
 
-    document.body.classList.add('tv-product-popup-open');
+    document.body.classList.add(
+      'tv-product-popup-open'
+    );
 
     resetPopup();
+
 
     try {
 
       const response = await fetch(
-        `/products/${productHandle}.js`
+        `/products/${encodeURIComponent(productHandle)}.js`
       );
 
       if (!response.ok) {
-        throw new Error('Unable to load product.');
+        throw new Error(
+          'Unable to load product.'
+        );
       }
 
-      currentProduct = await response.json();
 
-      renderProduct(currentProduct);
+      currentProduct =
+        await response.json();
+
+
+      renderProduct(
+        currentProduct
+      );
+
 
     } catch (error) {
 
@@ -64,10 +122,15 @@
         'Sorry, this product could not be loaded.'
       );
 
+
     } finally {
 
-      popup.classList.remove('is-loading');
+      popup.classList.remove(
+        'is-loading'
+      );
+
     }
+
   }
 
 
@@ -77,9 +140,14 @@
 
   function closePopup() {
 
-    popup.classList.remove('is-open');
+    popup.classList.remove(
+      'is-open'
+    );
 
-    popup.setAttribute('aria-hidden', 'true');
+    popup.setAttribute(
+      'aria-hidden',
+      'true'
+    );
 
     document.body.classList.remove(
       'tv-product-popup-open'
@@ -88,6 +156,7 @@
     currentProduct = null;
     selectedOptions = [];
     selectedVariant = null;
+
   }
 
 
@@ -98,19 +167,25 @@
   function resetPopup() {
 
     image.removeAttribute('src');
+
     image.alt = '';
 
     title.textContent = '';
+
     price.textContent = '';
+
     description.innerHTML = '';
 
     optionsContainer.innerHTML = '';
 
     errorElement.hidden = true;
+
     errorElement.textContent = '';
 
     selectedOptions = [];
+
     selectedVariant = null;
+
   }
 
 
@@ -120,66 +195,73 @@
 
   function renderProduct(product) {
 
-    title.textContent = product.title;
+    title.textContent =
+      product.title || '';
 
-    price.textContent = formatMoney(
-      product.price
-    );
+    price.textContent =
+      formatMoney(
+        product.price
+      );
 
     description.innerHTML =
       product.description || '';
 
+
     if (product.featured_image) {
 
-      image.src = product.featured_image;
+      image.src =
+        product.featured_image;
 
-      image.alt = product.title;
+      image.alt =
+        product.title || '';
+
     }
 
-    renderOptions(product);
+
+    renderOptions(
+      product
+    );
 
     updateSelectedVariant();
+
   }
 
 
   /* ========================================================
-     RENDER VARIANTS
+     RENDER OPTIONS
      ======================================================== */
 
   function renderOptions(product) {
 
     optionsContainer.innerHTML = '';
 
-    /*
-     * Shopify's product JSON contains:
-     *
-     * product.options
-     *
-     * Example:
-     *
-     * [
-     *   {
-     *     name: "Color",
-     *     values: ["White", "Black"]
-     *   },
-     *   {
-     *     name: "Size",
-     *     values: ["Small", "Medium", "Large"]
-     *   }
-     * ]
-     */
+    selectedOptions = [];
+
+
+    if (
+      !product.options ||
+      !product.options.length
+    ) {
+      return;
+    }
+
 
     product.options.forEach(
       (option, optionIndex) => {
 
         const fieldset =
-          document.createElement('fieldset');
+          document.createElement(
+            'fieldset'
+          );
 
         fieldset.className =
           'tv-product-popup__option';
 
+
         const legend =
-          document.createElement('legend');
+          document.createElement(
+            'legend'
+          );
 
         legend.className =
           'tv-product-popup__option-title';
@@ -187,31 +269,43 @@
         legend.textContent =
           option.name;
 
-        fieldset.appendChild(legend);
+
+        fieldset.appendChild(
+          legend
+        );
+
 
         const values =
-          document.createElement('div');
+          document.createElement(
+            'div'
+          );
 
         values.className =
           'tv-product-popup__values';
+
 
         values.style.setProperty(
           '--option-count',
           option.values.length
         );
 
+
         option.values.forEach(
           (value, valueIndex) => {
 
             const button =
-              document.createElement('button');
+              document.createElement(
+                'button'
+              );
 
             button.type = 'button';
 
             button.className =
               'tv-product-popup__value';
 
-            button.textContent = value;
+            button.textContent =
+              value;
+
 
             button.dataset.optionIndex =
               optionIndex;
@@ -219,18 +313,19 @@
             button.dataset.optionValue =
               value;
 
-            /*
-             * First value of each option is
-             * selected initially.
-             */
+
             if (valueIndex === 0) {
+
               button.classList.add(
                 'is-selected'
               );
 
-              selectedOptions[optionIndex] =
-                value;
+              selectedOptions[
+                optionIndex
+              ] = value;
+
             }
+
 
             button.addEventListener(
               'click',
@@ -244,15 +339,26 @@
               }
             );
 
-            values.appendChild(button);
+
+            values.appendChild(
+              button
+            );
+
           }
         );
 
-        fieldset.appendChild(values);
 
-        optionsContainer.appendChild(fieldset);
+        fieldset.appendChild(
+          values
+        );
+
+        optionsContainer.appendChild(
+          fieldset
+        );
+
       }
     );
+
   }
 
 
@@ -265,13 +371,16 @@
     value
   ) {
 
-    selectedOptions[optionIndex] =
-      value;
+    selectedOptions[
+      optionIndex
+    ] = value;
+
 
     const buttons =
       optionsContainer.querySelectorAll(
         `[data-option-index="${optionIndex}"]`
       );
+
 
     buttons.forEach(
       button => {
@@ -280,15 +389,18 @@
           'is-selected',
           button.dataset.optionValue === value
         );
+
       }
     );
 
+
     updateSelectedVariant();
+
   }
 
 
   /* ========================================================
-     FIND SELECTED VARIANT
+     FIND VARIANT
      ======================================================== */
 
   function updateSelectedVariant() {
@@ -297,12 +409,16 @@
       return;
     }
 
+
     selectedVariant =
       currentProduct.variants.find(
         variant => {
 
           return variant.options.every(
-            (optionValue, index) => {
+            (
+              optionValue,
+              index
+            ) => {
 
               return (
                 optionValue ===
@@ -314,6 +430,7 @@
 
         }
       );
+
 
     if (
       selectedVariant &&
@@ -327,7 +444,9 @@
     } else {
 
       clearError();
+
     }
+
   }
 
 
@@ -341,6 +460,7 @@
 
     clearError();
 
+
     if (!selectedVariant) {
 
       showError(
@@ -349,6 +469,7 @@
 
       return;
     }
+
 
     if (!selectedVariant.available) {
 
@@ -359,10 +480,17 @@
       return;
     }
 
+
     const submitButton =
       form.querySelector(
         '.tv-product-popup__add'
       );
+
+
+    if (!submitButton) {
+      return;
+    }
+
 
     submitButton.disabled = true;
 
@@ -370,10 +498,11 @@
       'is-adding'
     );
 
+
     try {
 
       /*
-       * Always add the selected product first.
+       * Always add selected product first.
        */
 
       await addVariantToCart(
@@ -383,11 +512,8 @@
 
 
       /*
-       * Check for the special condition:
-       *
-       * Color = Black
-       * Size  = Medium
-       *
+       * Black + Medium:
+       * automatically add companion product.
        */
 
       if (
@@ -398,11 +524,12 @@
       ) {
 
         await addCompanionProduct();
+
       }
 
 
       /*
-       * Tell Shopify/theme that the cart changed.
+       * Notify theme/cart components.
        */
 
       document.dispatchEvent(
@@ -418,11 +545,6 @@
       );
 
 
-      /*
-       * Open/refresh the theme cart drawer
-       * if the theme exposes a common method.
-       */
-
       if (
         window.Shopify &&
         typeof window.Shopify.onCartUpdate ===
@@ -430,10 +552,12 @@
       ) {
 
         window.Shopify.onCartUpdate();
+
       }
 
 
       closePopup();
+
 
     } catch (error) {
 
@@ -444,14 +568,18 @@
         'Unable to add the product to cart.'
       );
 
+
     } finally {
 
-      submitButton.disabled = false;
+      submitButton.disabled =
+        false;
 
       submitButton.classList.remove(
         'is-adding'
       );
+
     }
+
   }
 
 
@@ -464,32 +592,43 @@
     quantity
   ) {
 
-    const response = await fetch(
-      `${window.Shopify.routes.root}cart/add.js`,
-      {
-        method: 'POST',
+    const root =
+      window.Shopify &&
+      window.Shopify.routes &&
+      window.Shopify.routes.root
+        ? window.Shopify.routes.root
+        : '/';
 
-        headers: {
-          'Content-Type':
-            'application/json',
 
-          'Accept':
-            'application/json'
-        },
+    const response =
+      await fetch(
+        `${root}cart/add.js`,
+        {
+          method: 'POST',
 
-        body: JSON.stringify({
-          items: [
-            {
-              id: variantId,
-              quantity: quantity
-            }
-          ]
-        })
-      }
-    );
+          headers: {
+            'Content-Type':
+              'application/json',
+
+            'Accept':
+              'application/json'
+          },
+
+          body: JSON.stringify({
+            items: [
+              {
+                id: variantId,
+                quantity: quantity
+              }
+            ]
+          })
+        }
+      );
+
 
     const data =
       await response.json();
+
 
     if (!response.ok) {
 
@@ -498,9 +637,12 @@
         data.message ||
         'Unable to add product.'
       );
+
     }
 
+
     return data;
+
   }
 
 
@@ -514,42 +656,39 @@
       return;
     }
 
-    /*
-     * Fetch Soft Winter Jacket dynamically.
-     */
 
-    const response = await fetch(
-      `/products/${autoAddProductHandle}.js`
-    );
+    const response =
+      await fetch(
+        `/products/${encodeURIComponent(autoAddProductHandle)}.js`
+      );
+
 
     if (!response.ok) {
 
       throw new Error(
         'Unable to load the automatic product.'
       );
+
     }
+
 
     const companionProduct =
       await response.json();
 
 
-    /*
-     * Pick the first available variant.
-     *
-     * If Soft Winter Jacket only has one variant,
-     * that variant is used.
-     */
-
     const companionVariant =
       companionProduct.variants.find(
-        variant => variant.available
+        variant =>
+          variant.available
       );
+
 
     if (!companionVariant) {
 
       throw new Error(
         'The automatic product is unavailable.'
       );
+
     }
 
 
@@ -557,11 +696,12 @@
       companionVariant.id,
       1
     );
+
   }
 
 
   /* ========================================================
-     BLACK + MEDIUM CHECK
+     BLACK + MEDIUM
      ======================================================== */
 
   function isBlackAndMediumVariant(
@@ -577,8 +717,10 @@
       return false;
     }
 
+
     let color = '';
     let size = '';
+
 
     product.options.forEach(
       (option, index) => {
@@ -588,28 +730,44 @@
             .toLowerCase()
             .trim();
 
+
+        const variantValue =
+          variant.options[index];
+
+
+        if (!variantValue) {
+          return;
+        }
+
+
         if (name === 'color') {
 
           color =
-            variant.options[index]
+            variantValue
               .toLowerCase()
               .trim();
+
         }
+
 
         if (name === 'size') {
 
           size =
-            variant.options[index]
+            variantValue
               .toLowerCase()
               .trim();
+
         }
+
       }
     );
+
 
     return (
       color === 'black' &&
       size === 'medium'
     );
+
   }
 
 
@@ -617,9 +775,7 @@
      MONEY
      ======================================================== */
 
-  function formatMoney(
-    cents
-  ) {
+  function formatMoney(cents) {
 
     if (
       window.Shopify &&
@@ -630,12 +786,15 @@
       return window.Shopify.formatMoney(
         cents
       );
+
     }
 
+
     return (
-      (cents / 100).toFixed(2)
-      + '€'
+      (Number(cents) / 100).toFixed(2) +
+      '€'
     );
+
   }
 
 
@@ -648,14 +807,20 @@
     errorElement.textContent =
       message;
 
-    errorElement.hidden = false;
+    errorElement.hidden =
+      false;
+
   }
+
 
   function clearError() {
 
-    errorElement.textContent = '';
+    errorElement.textContent =
+      '';
 
-    errorElement.hidden = true;
+    errorElement.hidden =
+      true;
+
   }
 
 
@@ -672,18 +837,27 @@
           '.tv-product-grid__hotspot'
         );
 
+
       if (!hotspot) {
         return;
       }
 
+
       const handle =
         hotspot.dataset.productHandle;
+
 
       if (!handle) {
         return;
       }
 
-      openProduct(handle);
+
+      event.preventDefault();
+
+      openProduct(
+        handle
+      );
+
     }
   );
 
@@ -703,7 +877,9 @@
       ) {
 
         closePopup();
+
       }
+
     }
   );
 
@@ -724,7 +900,9 @@
       ) {
 
         closePopup();
+
       }
+
     }
   );
 
