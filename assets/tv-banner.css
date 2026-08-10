@@ -46,7 +46,7 @@
 
 .tv-page > .shopify-section {
   width: 100%;
-  max-width: none;
+  max-width: 2000px;
 
   margin: 0;
   padding: 0;
