@@ -1,88 +1,390 @@
-<section class="tv-product-grid-section">
+{{ 'tv-product-grid.css' | asset_url | stylesheet_tag }}
 
-  <div class="tv-product-grid">
+<section
+  id="tv-product-grid-{{ section.id }}"
+  class="tv-product-grid"
+  data-section-id="{{ section.id }}"
+>
+  <div class="tv-product-grid__container">
 
-    <div class="tv-product-grid__heading-wrapper">
+    {% if section.settings.heading != blank %}
       <h2 class="tv-product-grid__heading">
         {{ section.settings.heading }}
       </h2>
-    </div>
+    {% endif %}
 
     <div class="tv-product-grid__items">
 
       {% for block in section.blocks %}
-
         {% assign product = block.settings.product %}
 
-        <article
-          class="tv-product-grid__item"
-          {{ block.shopify_attributes }}
-        >
+        {% if product != blank %}
 
-          <div class="tv-product-grid__image-wrapper">
+          {% assign featured_image = product.featured_image %}
 
-            {% if block.settings.image != blank %}
+          <article
+            class="tv-product-card"
+            {{ block.shopify_attributes }}
+            data-product-id="{{ product.id }}"
+          >
 
-              {{
-                block.settings.image
-                | image_url: width: 1000
-                | image_tag:
-                  class: 'tv-product-grid__image',
-                  loading: 'lazy',
-                  widths: '433, 650, 866, 1000',
-                  sizes: '(min-width: 990px) 433px, (min-width: 750px) 33vw, 100vw',
-                  alt: block.settings.image.alt | default: section.settings.heading
-              }}
+            <div class="tv-product-card__image-wrapper">
 
-            {% else %}
+              {% if featured_image != blank %}
 
-              <div class="tv-product-grid__placeholder">
-                <span>Image {{ forloop.index }}</span>
-              </div>
+                {{
+                  featured_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '375, 550, 750, 900, 1200',
+                    sizes: '(min-width: 990px) 33vw, 100vw',
+                    class: 'tv-product-card__image',
+                    alt: featured_image.alt | default: product.title
+                }}
 
-            {% endif %}
+              {% else %}
 
+                <div class="tv-product-card__image-placeholder">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
 
-            {% if product != blank %}
+              {% endif %}
+
+              {% comment %}
+                Product hotspot.
+                Position is controlled from the Theme Customizer.
+              {% endcomment %}
 
               <button
                 type="button"
-                class="tv-product-grid__hotspot"
+                class="tv-product-hotspot"
                 style="
                   --hotspot-x: {{ block.settings.hotspot_x }}%;
                   --hotspot-y: {{ block.settings.hotspot_y }}%;
                 "
-                data-product-id="{{ product.id }}"
-                data-product-handle="{{ product.handle }}"
                 aria-label="View {{ product.title | escape }}"
+                aria-controls="tv-product-popup-{{ section.id }}-{{ block.id }}"
+                aria-expanded="false"
               >
-                <span class="tv-product-grid__hotspot-circle">
-                  <span class="tv-product-grid__hotspot-plus"></span>
+                <span class="tv-product-hotspot__circle">
+                  <span class="tv-product-hotspot__plus"></span>
                 </span>
               </button>
 
-            {% endif %}
+            </div>
+
+          </article>
+
+
+          {% comment %}
+            PRODUCT POPUP
+          {% endcomment %}
+
+          <div
+            id="tv-product-popup-{{ section.id }}-{{ block.id }}"
+            class="tv-product-popup"
+            aria-hidden="true"
+            data-popup
+          >
+
+            <div
+              class="tv-product-popup__overlay"
+              data-popup-close
+            ></div>
+
+            <div
+              class="tv-product-popup__content"
+              role="dialog"
+              aria-modal="true"
+              aria-label="{{ product.title | escape }}"
+            >
+
+              <button
+                type="button"
+                class="tv-product-popup__close"
+                data-popup-close
+                aria-label="Close"
+              >
+                &times;
+              </button>
+
+
+              <div class="tv-product-popup__top">
+
+                <div class="tv-product-popup__image">
+
+                  {% if featured_image != blank %}
+
+                    {{
+                      featured_image
+                      | image_url: width: 900
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'tv-product-popup__image-element',
+                        alt: featured_image.alt | default: product.title
+                    }}
+
+                  {% endif %}
+
+                </div>
+
+
+                <div class="tv-product-popup__details">
+
+                  <h3 class="tv-product-popup__title">
+                    {{ product.title }}
+                  </h3>
+
+                  <div class="tv-product-popup__price">
+
+                    {% if product.compare_at_price > product.price %}
+
+                      <span class="tv-product-popup__price-current">
+                        {{ product.price | money }}
+                      </span>
+
+                      <span class="tv-product-popup__price-compare">
+                        {{ product.compare_at_price | money }}
+                      </span>
+
+                    {% else %}
+
+                      <span>
+                        {{ product.price | money }}
+                      </span>
+
+                    {% endif %}
+
+                  </div>
+
+                  {% if product.description != blank %}
+
+                    <div class="tv-product-popup__description">
+                      {{ product.description | strip_html | truncate: 180 }}
+                    </div>
+
+                  {% endif %}
+
+                </div>
+
+              </div>
+
+
+              {% if product.available %}
+
+                <a
+                  href="{{ product.url }}"
+                  class="tv-product-popup__button"
+                >
+                  <span>VIEW PRODUCT</span>
+
+                  <span class="tv-product-popup__arrow">
+                    →
+                  </span>
+                </a>
+
+              {% else %}
+
+                <div class="tv-product-popup__sold-out">
+                  SOLD OUT
+                </div>
+
+              {% endif %}
+
+            </div>
 
           </div>
 
-        </article>
+        {% endif %}
 
       {% endfor %}
 
     </div>
 
   </div>
-
 </section>
 
 
-{% schema %}
+<script>
+  (function () {
+    const section = document.getElementById(
+      'tv-product-grid-{{ section.id }}'
+    );
 
+    if (!section) return;
+
+    const hotspots = section.querySelectorAll(
+      '.tv-product-hotspot'
+    );
+
+    const popups = section.querySelectorAll(
+      '[data-popup]'
+    );
+
+
+    function openPopup(hotspot) {
+      const popupId = hotspot.getAttribute(
+        'aria-controls'
+      );
+
+      if (!popupId) return;
+
+      const popup = document.getElementById(
+        popupId
+      );
+
+      if (!popup) return;
+
+
+      /*
+       * Close any other popup.
+       */
+
+      popups.forEach(function (item) {
+        item.classList.remove('is-open');
+        item.setAttribute(
+          'aria-hidden',
+          'true'
+        );
+      });
+
+      hotspots.forEach(function (item) {
+        item.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+      });
+
+
+      /*
+       * Open selected popup.
+       */
+
+      popup.classList.add('is-open');
+
+      popup.setAttribute(
+        'aria-hidden',
+        'false'
+      );
+
+      hotspot.setAttribute(
+        'aria-expanded',
+        'true'
+      );
+
+      document.documentElement.classList.add(
+        'tv-product-popup-open'
+      );
+
+      document.body.classList.add(
+        'tv-product-popup-open'
+      );
+    }
+
+
+    function closePopup(popup) {
+      if (!popup) return;
+
+      popup.classList.remove('is-open');
+
+      popup.setAttribute(
+        'aria-hidden',
+        'true'
+      );
+
+      hotspots.forEach(function (item) {
+        item.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+      });
+
+      document.documentElement.classList.remove(
+        'tv-product-popup-open'
+      );
+
+      document.body.classList.remove(
+        'tv-product-popup-open'
+      );
+    }
+
+
+    /*
+     * HOTSPOT CLICK
+     */
+
+    hotspots.forEach(function (hotspot) {
+
+      hotspot.addEventListener(
+        'click',
+        function () {
+          openPopup(hotspot);
+        }
+      );
+
+    });
+
+
+    /*
+     * CLOSE BUTTON / OVERLAY
+     */
+
+    popups.forEach(function (popup) {
+
+      const closeElements =
+        popup.querySelectorAll(
+          '[data-popup-close]'
+        );
+
+      closeElements.forEach(function (element) {
+
+        element.addEventListener(
+          'click',
+          function () {
+            closePopup(popup);
+          }
+        );
+
+      });
+
+    });
+
+
+    /*
+     * ESC KEY
+     */
+
+    document.addEventListener(
+      'keydown',
+      function (event) {
+
+        if (event.key !== 'Escape') return;
+
+        popups.forEach(function (popup) {
+
+          if (
+            popup.classList.contains(
+              'is-open'
+            )
+          ) {
+            closePopup(popup);
+          }
+
+        });
+
+      }
+    );
+
+  })();
+</script>
+
+
+{% schema %}
 {
   "name": "TV Product Grid",
   "tag": "section",
-  "class": "tv-product-grid-section",
-
+  "class": "section-tv-product-grid",
   "settings": [
     {
       "type": "text",
@@ -91,18 +393,11 @@
       "default": "Tisso vison in the wild"
     }
   ],
-
   "blocks": [
     {
-      "type": "product_image",
-      "name": "Product image",
-
+      "type": "product",
+      "name": "Product",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Lifestyle image"
-        },
         {
           "type": "product",
           "id": "product",
@@ -114,9 +409,9 @@
           "label": "Hotspot horizontal position",
           "min": 0,
           "max": 100,
-          "step": 0.1,
+          "step": 1,
           "unit": "%",
-          "default": 50
+          "default": 60
         },
         {
           "type": "range",
@@ -124,64 +419,37 @@
           "label": "Hotspot vertical position",
           "min": 0,
           "max": 100,
-          "step": 0.1,
+          "step": 1,
           "unit": "%",
           "default": 50
         }
       ]
     }
   ],
-
   "presets": [
     {
       "name": "TV Product Grid",
-
       "blocks": [
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 59.2,
-            "hotspot_y": 53.6
-          }
+          "type": "product"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 82.4,
-            "hotspot_y": 50
-          }
+          "type": "product"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 60.3,
-            "hotspot_y": 18.5
-          }
+          "type": "product"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 69.7,
-            "hotspot_y": 16
-          }
+          "type": "product"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 49,
-            "hotspot_y": 23.4
-          }
+          "type": "product"
         },
         {
-          "type": "product_image",
-          "settings": {
-            "hotspot_x": 73.1,
-            "hotspot_y": 36.9
-          }
+          "type": "product"
         }
       ]
     }
   ]
 }
-
 {% endschema %}
