@@ -1,23 +1,5 @@
 /* ==========================================================
    TV PRODUCT GRID
-
-   Figma:
-
-   Outer frame:
-   1337px wide
-   981px high
-
-   Heading:
-   372 × 43px
-
-   Heading → product grid:
-   30px
-
-   Product grid:
-   1339px
-   3 columns
-   20px gap
-
    ========================================================== */
 
 .tv-product-grid-section {
@@ -27,22 +9,18 @@
   box-sizing: border-box;
 }
 
-
-/* ==========================================================
-   MAIN FRAME
-   ========================================================== */
-
 .tv-product-grid {
-  width: 100%;
-  max-width: 1339px;
+  width: 1339px;
+  max-width: calc(100% - 32px);
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
 }
 
-
 /* ==========================================================
    HEADING
+   Figma:
+   372 × 43px
    ========================================================== */
 
 .tv-product-grid__heading {
@@ -65,31 +43,18 @@
   color: #000000;
 }
 
-
 /* ==========================================================
-   PRODUCT GRID
-
-   Figma Frame 1000009723
-
-   Width:
-   1339px
-
-   Height:
-   908px
-
-   Gap:
-   20px
-
-   3 columns × 433px
+   PRODUCTS FRAME
+   Figma:
+   1339 × 908px
+   gap: 20px
    ========================================================== */
 
 .tv-product-grid__items {
-  width: 1339px;
+  width: 100%;
   height: 908px;
 
-  margin-top: 30px;
-  margin-left: 0;
-
+  margin: 30px 0 0;
   padding: 0;
 
   display: flex;
@@ -104,9 +69,10 @@
   box-sizing: border-box;
 }
 
-
 /* ==========================================================
    PRODUCT ITEM
+   Figma:
+   433 × 444px
    ========================================================== */
 
 .tv-product-grid__item {
@@ -123,7 +89,6 @@
   box-sizing: border-box;
 }
 
-
 /* ==========================================================
    IMAGE WRAPPER
    ========================================================== */
@@ -134,6 +99,9 @@
   width: 100%;
   height: 100%;
 
+  margin: 0;
+  padding: 0;
+
   overflow: hidden;
 
   background: #f3f3f3;
@@ -141,9 +109,8 @@
   box-sizing: border-box;
 }
 
-
 /* ==========================================================
-   PRODUCT IMAGE
+   IMAGE
    ========================================================== */
 
 .tv-product-grid__image {
@@ -162,7 +129,6 @@
 
   box-sizing: border-box;
 }
-
 
 /* ==========================================================
    PLACEHOLDER
@@ -183,19 +149,9 @@
 
   font-family: 'Jost', sans-serif;
   font-size: 16px;
+
+  box-sizing: border-box;
 }
-
-
-/* ==========================================================
-   PRODUCT DATA
-
-   JSON is present in the DOM but visually hidden.
-   ========================================================== */
-
-.tv-product-grid__product-data {
-  display: none;
-}
-
 
 /* ==========================================================
    HOTSPOT
@@ -225,8 +181,8 @@
   z-index: 10;
 
   appearance: none;
+  -webkit-appearance: none;
 }
-
 
 /* ==========================================================
    HOTSPOT CIRCLE
@@ -254,9 +210,8 @@
     background-color 180ms ease;
 }
 
-
 /* ==========================================================
-   HOTSPOT PLUS
+   PLUS
    ========================================================== */
 
 .tv-product-grid__hotspot-plus,
@@ -283,9 +238,8 @@
   top: -3.75px;
 }
 
-
 /* ==========================================================
-   HOTSPOT HOVER
+   HOVER / FOCUS
    ========================================================== */
 
 .tv-product-grid__hotspot:hover
@@ -294,55 +248,48 @@
 .tv-product-grid__hotspot:focus-visible
 .tv-product-grid__hotspot-circle {
   transform: scale(1.1);
-
   background: #ffffff;
 }
-
-
-/* ==========================================================
-   HOTSPOT FOCUS
-   ========================================================== */
 
 .tv-product-grid__hotspot:focus-visible {
   outline: 2px solid #000000;
   outline-offset: 3px;
 }
 
-
 /* ==========================================================
-   TABLET / SMALL DESKTOP
+   TABLET
    ========================================================== */
 
 @media screen and (max-width: 1439px) {
-
   .tv-product-grid {
     width: calc(100% - 100px);
     max-width: 1339px;
   }
 
   .tv-product-grid__items {
-    width: 100%;
+    height: auto;
   }
 
   .tv-product-grid__item {
+    flex-basis: calc(
+      (100% - 40px) / 3
+    );
+
     width: calc(
       (100% - 40px) / 3
     );
 
-    flex-basis: calc(
-      (100% - 40px) / 3
-    );
+    height: auto;
+
+    aspect-ratio: 433 / 444;
   }
-
 }
-
 
 /* ==========================================================
    MOBILE
    ========================================================== */
 
 @media screen and (max-width: 749px) {
-
   .tv-product-grid {
     width: calc(100% - 32px);
     max-width: none;
@@ -352,30 +299,28 @@
     width: 100%;
     height: auto;
 
-    margin: 0 0 20px;
-
     font-size: 28px;
+    line-height: 120%;
   }
 
   .tv-product-grid__items {
     width: 100%;
     height: auto;
 
-    margin-top: 0;
+    margin-top: 20px;
 
+    display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
 
     gap: 12px;
   }
 
   .tv-product-grid__item {
     width: 100%;
-    height: auto;
-
     flex: 0 0 auto;
+
+    height: auto;
 
     aspect-ratio: 433 / 444;
   }
-
 }
