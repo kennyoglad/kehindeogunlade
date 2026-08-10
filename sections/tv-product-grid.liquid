@@ -1,9 +1,13 @@
+tv-product-grid.liquid
+
 <div class="tv-product-grid">
 
   {% if section.settings.heading != blank %}
+
     <h2 class="tv-product-grid__heading">
       {{ section.settings.heading }}
     </h2>
+
   {% endif %}
 
   <div class="tv-product-grid__items">
@@ -26,7 +30,7 @@
                 class: 'tv-product-grid__image',
                 loading: 'lazy',
                 widths: '433, 650, 866',
-                sizes: '(min-width: 1400px) 433px, 33vw, 100vw'
+                sizes: '(min-width: 750px) 433px, 100vw'
             }}
 
           {% else %}
