@@ -10,61 +10,82 @@
   }
 
 
-  const image = document.getElementById(
-    'tv-product-popup-image'
-  );
+  /* ========================================================
+     ELEMENTS
+     ======================================================== */
 
-  const title = document.getElementById(
-    'tv-product-popup-title'
-  );
+  const image =
+    document.getElementById(
+      'tv-product-popup-image'
+    );
 
-  const price = document.getElementById(
-    'tv-product-popup-price'
-  );
+  const title =
+    document.getElementById(
+      'tv-product-popup-title'
+    );
 
-  const description = document.getElementById(
-    'tv-product-popup-description'
-  );
+  const price =
+    document.getElementById(
+      'tv-product-popup-price'
+    );
+
+  const description =
+    document.getElementById(
+      'tv-product-popup-description'
+    );
 
   const optionsContainer =
     document.getElementById(
       'tv-product-popup-options'
     );
 
-  const form = document.getElementById(
-    'tv-product-popup-form'
-  );
+  const form =
+    document.getElementById(
+      'tv-product-popup-form'
+    );
 
   const errorElement =
     document.getElementById(
       'tv-product-popup-error'
     );
 
-
-  if (
-    !image ||
-    !title ||
-    !price ||
-    !description ||
-    !optionsContainer ||
-    !form ||
-    !errorElement
-  ) {
-    return;
-  }
-
-
-  let currentProduct = null;
-  let selectedOptions = [];
-  let selectedVariant = null;
+  const submitButton =
+    form.querySelector(
+      '.tv-product-popup__add'
+    );
 
 
   /* ========================================================
-     AUTOMATIC COMPANION PRODUCT
+     STATE
+     ======================================================== */
+
+  let currentProduct = null;
+
+  let selectedOptions = [];
+
+  let selectedVariant = null;
+
+  let lastFocusedElement = null;
+
+
+  /* ========================================================
+     AUTOMATIC PRODUCT
      ======================================================== */
 
   const autoAddProductHandle =
     popup.dataset.autoAddProductHandle || '';
+
+
+  /* ========================================================
+     SHOPIFY ROOT
+     ======================================================== */
+
+  const shopifyRoot =
+    window.Shopify &&
+    window.Shopify.routes &&
+    window.Shopify.routes.root
+      ? window.Shopify.routes.root
+      : '/';
 
 
   /* ========================================================
@@ -77,7 +98,12 @@
       return;
     }
 
+    lastFocusedElement =
+      document.activeElement;
+
+
     popup.classList.add('is-open');
+
     popup.classList.add('is-loading');
 
     popup.setAttribute(
@@ -95,8 +121,16 @@
     try {
 
       const response = await fetch(
-        `/products/${encodeURIComponent(productHandle)}.js`
+        `/products/${encodeURIComponent(
+          productHandle
+        )}.js`,
+        {
+          headers: {
+            Accept: 'application/json'
+          }
+        }
       );
+
 
       if (!response.ok) {
         throw new Error(
@@ -114,6 +148,19 @@
       );
 
 
+      requestAnimationFrame(() => {
+
+        const closeButton =
+          popup.querySelector(
+            '[data-popup-close]'
+          );
+
+        if (closeButton) {
+          closeButton.focus();
+        }
+
+      });
+
     } catch (error) {
 
       console.error(error);
@@ -121,7 +168,6 @@
       showError(
         'Sorry, this product could not be loaded.'
       );
-
 
     } finally {
 
@@ -154,14 +200,27 @@
     );
 
     currentProduct = null;
+
     selectedOptions = [];
+
     selectedVariant = null;
+
+
+    if (
+      lastFocusedElement &&
+      typeof lastFocusedElement.focus ===
+        'function'
+    ) {
+
+      lastFocusedElement.focus();
+
+    }
 
   }
 
 
   /* ========================================================
-     RESET
+     RESET POPUP
      ======================================================== */
 
   function resetPopup() {
@@ -198,10 +257,12 @@
     title.textContent =
       product.title || '';
 
+
     price.textContent =
       formatMoney(
         product.price
       );
+
 
     description.innerHTML =
       product.description || '';
@@ -221,6 +282,7 @@
     renderOptions(
       product
     );
+
 
     updateSelectedVariant();
 
@@ -242,7 +304,9 @@
       !product.options ||
       !product.options.length
     ) {
+
       return;
+
     }
 
 
@@ -290,15 +354,29 @@
         );
 
 
+        /*
+         * Default to the first available
+         * combination where possible.
+         */
+
+        const firstValue =
+          option.values[0] || '';
+
+        selectedOptions[
+          optionIndex
+        ] = firstValue;
+
+
         option.values.forEach(
-          (value, valueIndex) => {
+          (value) => {
 
             const button =
               document.createElement(
                 'button'
               );
 
-            button.type = 'button';
+            button.type =
+              'button';
 
             button.className =
               'tv-product-popup__value';
@@ -306,23 +384,20 @@
             button.textContent =
               value;
 
-
             button.dataset.optionIndex =
-              optionIndex;
+              String(optionIndex);
 
             button.dataset.optionValue =
               value;
 
 
-            if (valueIndex === 0) {
+            if (
+              value === firstValue
+            ) {
 
               button.classList.add(
                 'is-selected'
               );
-
-              selectedOptions[
-                optionIndex
-              ] = value;
 
             }
 
@@ -351,6 +426,7 @@
         fieldset.appendChild(
           values
         );
+
 
         optionsContainer.appendChild(
           fieldset
@@ -383,11 +459,12 @@
 
 
     buttons.forEach(
-      button => {
+      (button) => {
 
         button.classList.toggle(
           'is-selected',
-          button.dataset.optionValue === value
+          button.dataset.optionValue ===
+            value
         );
 
       }
@@ -400,7 +477,7 @@
 
 
   /* ========================================================
-     FIND VARIANT
+     FIND SELECTED VARIANT
      ======================================================== */
 
   function updateSelectedVariant() {
@@ -412,13 +489,10 @@
 
     selectedVariant =
       currentProduct.variants.find(
-        variant => {
+        (variant) => {
 
           return variant.options.every(
-            (
-              optionValue,
-              index
-            ) => {
+            (optionValue, index) => {
 
               return (
                 optionValue ===
@@ -432,10 +506,18 @@
       );
 
 
-    if (
-      selectedVariant &&
-      !selectedVariant.available
-    ) {
+    if (!selectedVariant) {
+
+      showError(
+        'This combination is unavailable.'
+      );
+
+      return;
+
+    }
+
+
+    if (!selectedVariant.available) {
 
       showError(
         'This variant is currently unavailable.'
@@ -444,6 +526,24 @@
     } else {
 
       clearError();
+
+    }
+
+
+    /*
+     * Update price when a variant has
+     * its own price.
+     */
+
+    if (
+      typeof selectedVariant.price ===
+        'number'
+    ) {
+
+      price.textContent =
+        formatMoney(
+          selectedVariant.price
+        );
 
     }
 
@@ -461,6 +561,17 @@
     clearError();
 
 
+    if (!currentProduct) {
+
+      showError(
+        'Please select a product.'
+      );
+
+      return;
+
+    }
+
+
     if (!selectedVariant) {
 
       showError(
@@ -468,6 +579,7 @@
       );
 
       return;
+
     }
 
 
@@ -478,17 +590,7 @@
       );
 
       return;
-    }
 
-
-    const submitButton =
-      form.querySelector(
-        '.tv-product-popup__add'
-      );
-
-
-    if (!submitButton) {
-      return;
     }
 
 
@@ -502,7 +604,7 @@
     try {
 
       /*
-       * Always add selected product first.
+       * Always add the selected product first.
        */
 
       await addVariantToCart(
@@ -512,8 +614,10 @@
 
 
       /*
-       * Black + Medium:
-       * automatically add companion product.
+       * Special condition:
+       *
+       * Color = Black
+       * Size  = Medium
        */
 
       if (
@@ -529,7 +633,7 @@
 
 
       /*
-       * Notify theme/cart components.
+       * Notify the theme.
        */
 
       document.dispatchEvent(
@@ -545,8 +649,14 @@
       );
 
 
+      /*
+       * Refresh common Shopify/theme
+       * cart components when available.
+       */
+
       if (
-        window.Shopify &&
+        typeof window.Shopify !==
+          'undefined' &&
         typeof window.Shopify.onCartUpdate ===
           'function'
       ) {
@@ -554,6 +664,18 @@
         window.Shopify.onCartUpdate();
 
       }
+
+
+      /*
+       * Refresh cart drawer if the theme
+       * exposes its common update methods.
+       */
+
+      document.dispatchEvent(
+        new CustomEvent(
+          'cart:update'
+        )
+      );
 
 
       closePopup();
@@ -568,11 +690,9 @@
         'Unable to add the product to cart.'
       );
 
-
     } finally {
 
-      submitButton.disabled =
-        false;
+      submitButton.disabled = false;
 
       submitButton.classList.remove(
         'is-adding'
@@ -592,17 +712,9 @@
     quantity
   ) {
 
-    const root =
-      window.Shopify &&
-      window.Shopify.routes &&
-      window.Shopify.routes.root
-        ? window.Shopify.routes.root
-        : '/';
-
-
     const response =
       await fetch(
-        `${root}cart/add.js`,
+        `${shopifyRoot}cart/add.js`,
         {
           method: 'POST',
 
@@ -610,7 +722,7 @@
             'Content-Type':
               'application/json',
 
-            'Accept':
+            Accept:
               'application/json'
           },
 
@@ -618,7 +730,7 @@
             items: [
               {
                 id: variantId,
-                quantity: quantity
+                quantity
               }
             ]
           })
@@ -647,19 +759,28 @@
 
 
   /* ========================================================
-     COMPANION PRODUCT
+     AUTOMATIC COMPANION PRODUCT
      ======================================================== */
 
   async function addCompanionProduct() {
 
     if (!autoAddProductHandle) {
+
       return;
+
     }
 
 
     const response =
       await fetch(
-        `/products/${encodeURIComponent(autoAddProductHandle)}.js`
+        `/products/${encodeURIComponent(
+          autoAddProductHandle
+        )}.js`,
+        {
+          headers: {
+            Accept: 'application/json'
+          }
+        }
       );
 
 
@@ -678,7 +799,7 @@
 
     const companionVariant =
       companionProduct.variants.find(
-        variant =>
+        (variant) =>
           variant.available
       );
 
@@ -701,7 +822,7 @@
 
 
   /* ========================================================
-     BLACK + MEDIUM
+     BLACK + MEDIUM CHECK
      ======================================================== */
 
   function isBlackAndMediumVariant(
@@ -714,11 +835,14 @@
       !variant ||
       !product.options
     ) {
+
       return false;
+
     }
 
 
     let color = '';
+
     let size = '';
 
 
@@ -726,24 +850,20 @@
       (option, index) => {
 
         const name =
-          option.name
+          String(
+            option.name || ''
+          )
             .toLowerCase()
             .trim();
-
-
-        const variantValue =
-          variant.options[index];
-
-
-        if (!variantValue) {
-          return;
-        }
 
 
         if (name === 'color') {
 
           color =
-            variantValue
+            String(
+              variant.options[index] ||
+              ''
+            )
               .toLowerCase()
               .trim();
 
@@ -753,7 +873,10 @@
         if (name === 'size') {
 
           size =
-            variantValue
+            String(
+              variant.options[index] ||
+              ''
+            )
               .toLowerCase()
               .trim();
 
@@ -775,7 +898,9 @@
      MONEY
      ======================================================== */
 
-  function formatMoney(cents) {
+  function formatMoney(
+    cents
+  ) {
 
     if (
       window.Shopify &&
@@ -790,9 +915,23 @@
     }
 
 
-    return (
-      (Number(cents) / 100).toFixed(2) +
-      '€'
+    const currency =
+      window.Shopify &&
+      window.Shopify.currency &&
+      window.Shopify.currency.active
+        ? window.Shopify.currency.active
+        : 'EUR';
+
+
+    return new Intl.NumberFormat(
+      document.documentElement.lang ||
+        'en',
+      {
+        style: 'currency',
+        currency
+      }
+    ).format(
+      Number(cents || 0) / 100
     );
 
   }
@@ -802,7 +941,9 @@
      ERROR
      ======================================================== */
 
-  function showError(message) {
+  function showError(
+    message
+  ) {
 
     errorElement.textContent =
       message;
@@ -830,7 +971,7 @@
 
   document.addEventListener(
     'click',
-    event => {
+    (event) => {
 
       const hotspot =
         event.target.closest(
@@ -854,6 +995,7 @@
 
       event.preventDefault();
 
+
       openProduct(
         handle
       );
@@ -868,7 +1010,7 @@
 
   popup.addEventListener(
     'click',
-    event => {
+    (event) => {
 
       if (
         event.target.closest(
@@ -890,7 +1032,7 @@
 
   document.addEventListener(
     'keydown',
-    event => {
+    (event) => {
 
       if (
         event.key === 'Escape' &&
