@@ -1,101 +1,50 @@
-<div class="tv-product-grid">
+<section
+  class="tv-product-grid-section"
+  data-section-id="{{ section.id }}"
+>
+  <div class="tv-product-grid">
 
-  {% if section.settings.heading != blank %}
+    {% if section.settings.heading != blank %}
+      <h2 class="tv-product-grid__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
 
-    <h2 class="tv-product-grid__heading">
-      {{ section.settings.heading }}
-    </h2>
+    <div class="tv-product-grid__items">
 
-  {% endif %}
+      {% for block in section.blocks %}
 
+        {% assign product = block.settings.product %}
 
-  <div class="tv-product-grid__items">
+        <article
+          class="tv-product-grid__item"
+          {{ block.shopify_attributes }}
+        >
 
-    {% for block in section.blocks %}
+          {% if product != blank %}
 
-      {% assign product = block.settings.product %}
+            <div class="tv-product-grid__image-wrapper">
 
-      <article
-        class="tv-product-grid__item"
-        {{ block.shopify_attributes }}
-      >
+              {% if product.featured_image != blank %}
 
-        {% if product != blank %}
+                {{
+                  product.featured_image
+                  | image_url: width: 866
+                  | image_tag:
+                    class: 'tv-product-grid__image',
+                    loading: 'lazy',
+                    widths: '433, 650, 866',
+                    sizes: '(min-width: 1440px) 433px, calc(100vw - 32px)'
+                }}
 
-          <div class="tv-product-grid__image-wrapper">
+              {% else %}
 
-            {% if product.featured_image != blank %}
+                <div class="tv-product-grid__placeholder">
+                  No product image
+                </div>
 
-              {{
-                product.featured_image
-                | image_url: width: 866
-                | image_tag:
-                  class: 'tv-product-grid__image',
-                  loading: 'lazy',
-                  widths: '433, 650, 866',
-                  sizes: '(min-width: 1440px) 433px, 33vw, 100vw',
-                  alt: product.featured_image.alt | default: product.title
-              }}
+              {% endif %}
 
-            {% else %}
-
-              <div class="tv-product-grid__placeholder">
-                No image available
-              </div>
-
-            {% endif %}
-
-
-            {%- comment -%}
-              Product data is embedded directly into the page.
-
-              JavaScript reads this JSON when the hotspot is clicked.
-              This means:
-              - title is dynamic
-              - price is dynamic
-              - description is dynamic
-              - variants are dynamic
-              - variant IDs are dynamic
-              - product image is dynamic
-            {%- endcomment -%}
-
-            <script
-              type="application/json"
-              class="tv-product-grid__product-data"
-            >
-              {
-                "id": {{ product.id | json }},
-                "handle": {{ product.handle | json }},
-                "title": {{ product.title | json }},
-                "description": {{ product.description | json }},
-                "description_html": {{ product.description | json }},
-                "url": {{ product.url | json }},
-                "featured_image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 900 | json }}{% else %}null{% endif %},
-                "featured_image_alt": {% if product.featured_image %}{{ product.featured_image.alt | default: product.title | json }}{% else %}{{ product.title | json }}{% endif %},
-                "price": {{ product.price | json }},
-                "price_formatted": {{ product.price | money | json }},
-                "available": {{ product.available | json }},
-                "options": {{ product.options | json }},
-                "variants": [
-                  {% for variant in product.variants %}
-                    {
-                      "id": {{ variant.id | json }},
-                      "title": {{ variant.title | json }},
-                      "available": {{ variant.available | json }},
-                      "price": {{ variant.price | json }},
-                      "price_formatted": {{ variant.price | money | json }},
-                      "option1": {{ variant.option1 | json }},
-                      "option2": {{ variant.option2 | json }},
-                      "option3": {{ variant.option3 | json }},
-                      "featured_image": {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 900 | json }}{% else %}null{% endif %}
-                    }{% unless forloop.last %},{% endunless %}
-                  {% endfor %}
-                ]
-              }
-            </script>
-
-
-            {% if product != blank %}
 
               <button
                 type="button"
@@ -105,44 +54,39 @@
                   --hotspot-y: {{ block.settings.hotspot_y }}%;
                 "
                 aria-label="View {{ product.title | escape }}"
-                data-product-hotspot
+                data-product-handle="{{ product.handle }}"
+                data-product-id="{{ product.id }}"
               >
 
                 <span
                   class="tv-product-grid__hotspot-circle"
                   aria-hidden="true"
                 >
-
                   <span class="tv-product-grid__hotspot-plus"></span>
-
                 </span>
 
               </button>
 
-            {% endif %}
-
-          </div>
-
-        {% else %}
-
-          <div class="tv-product-grid__image-wrapper">
-
-            <div class="tv-product-grid__placeholder">
-              Select a product
             </div>
 
-          </div>
+          {% else %}
 
-        {% endif %}
+            <div class="tv-product-grid__image-wrapper">
+              <div class="tv-product-grid__placeholder">
+                Select a product
+              </div>
+            </div>
 
-      </article>
+          {% endif %}
 
-    {% endfor %}
+        </article>
+
+      {% endfor %}
+
+    </div>
 
   </div>
-
-</div>
-
+</section>
 
 {% schema %}
 {
