@@ -1,92 +1,31 @@
 (() => {
   'use strict';
 
-  const popup = document.getElementById(
-    'tv-product-popup'
-  );
+  const popup = document.getElementById('tv-product-popup');
 
   if (!popup) {
     return;
   }
 
-
-  /* ========================================================
-     ELEMENTS
-     ======================================================== */
-
-  const image =
-    document.getElementById(
-      'tv-product-popup-image'
-    );
-
-  const title =
-    document.getElementById(
-      'tv-product-popup-title'
-    );
-
-  const price =
-    document.getElementById(
-      'tv-product-popup-price'
-    );
-
-  const description =
-    document.getElementById(
-      'tv-product-popup-description'
-    );
-
-  const optionsContainer =
-    document.getElementById(
-      'tv-product-popup-options'
-    );
-
-  const form =
-    document.getElementById(
-      'tv-product-popup-form'
-    );
-
-  const errorElement =
-    document.getElementById(
-      'tv-product-popup-error'
-    );
-
-  const submitButton =
-    form.querySelector(
-      '.tv-product-popup__add'
-    );
-
-
-  /* ========================================================
-     STATE
-     ======================================================== */
+  const image = document.getElementById('tv-product-popup-image');
+  const title = document.getElementById('tv-product-popup-title');
+  const price = document.getElementById('tv-product-popup-price');
+  const description = document.getElementById('tv-product-popup-description');
+  const optionsContainer = document.getElementById('tv-product-popup-options');
+  const form = document.getElementById('tv-product-popup-form');
+  const errorElement = document.getElementById('tv-product-popup-error');
 
   let currentProduct = null;
-
   let selectedOptions = [];
-
   let selectedVariant = null;
 
-  let lastFocusedElement = null;
-
-
-  /* ========================================================
-     AUTOMATIC PRODUCT
-     ======================================================== */
-
+  /*
+   * Shopify product selected in the Theme Editor.
+   *
+   * This value is inserted from Liquid below.
+   */
   const autoAddProductHandle =
     popup.dataset.autoAddProductHandle || '';
-
-
-  /* ========================================================
-     SHOPIFY ROOT
-     ======================================================== */
-
-  const shopifyRoot =
-    window.Shopify &&
-    window.Shopify.routes &&
-    window.Shopify.routes.root
-      ? window.Shopify.routes.root
-      : '/';
-
 
   /* ========================================================
      OPEN POPUP
@@ -94,72 +33,28 @@
 
   async function openProduct(productHandle) {
 
-    if (!productHandle) {
-      return;
-    }
-
-    lastFocusedElement =
-      document.activeElement;
-
-
     popup.classList.add('is-open');
-
     popup.classList.add('is-loading');
 
-    popup.setAttribute(
-      'aria-hidden',
-      'false'
-    );
+    popup.setAttribute('aria-hidden', 'false');
 
-    document.body.classList.add(
-      'tv-product-popup-open'
-    );
+    document.body.classList.add('tv-product-popup-open');
 
     resetPopup();
-
 
     try {
 
       const response = await fetch(
-        `/products/${encodeURIComponent(
-          productHandle
-        )}.js`,
-        {
-          headers: {
-            Accept: 'application/json'
-          }
-        }
+        `/products/${productHandle}.js`
       );
-
 
       if (!response.ok) {
-        throw new Error(
-          'Unable to load product.'
-        );
+        throw new Error('Unable to load product.');
       }
 
+      currentProduct = await response.json();
 
-      currentProduct =
-        await response.json();
-
-
-      renderProduct(
-        currentProduct
-      );
-
-
-      requestAnimationFrame(() => {
-
-        const closeButton =
-          popup.querySelector(
-            '[data-popup-close]'
-          );
-
-        if (closeButton) {
-          closeButton.focus();
-        }
-
-      });
+      renderProduct(currentProduct);
 
     } catch (error) {
 
@@ -171,12 +66,8 @@
 
     } finally {
 
-      popup.classList.remove(
-        'is-loading'
-      );
-
+      popup.classList.remove('is-loading');
     }
-
   }
 
 
@@ -186,65 +77,40 @@
 
   function closePopup() {
 
-    popup.classList.remove(
-      'is-open'
-    );
+    popup.classList.remove('is-open');
 
-    popup.setAttribute(
-      'aria-hidden',
-      'true'
-    );
+    popup.setAttribute('aria-hidden', 'true');
 
     document.body.classList.remove(
       'tv-product-popup-open'
     );
 
     currentProduct = null;
-
     selectedOptions = [];
-
     selectedVariant = null;
-
-
-    if (
-      lastFocusedElement &&
-      typeof lastFocusedElement.focus ===
-        'function'
-    ) {
-
-      lastFocusedElement.focus();
-
-    }
-
   }
 
 
   /* ========================================================
-     RESET POPUP
+     RESET
      ======================================================== */
 
   function resetPopup() {
 
     image.removeAttribute('src');
-
     image.alt = '';
 
     title.textContent = '';
-
     price.textContent = '';
-
     description.innerHTML = '';
 
     optionsContainer.innerHTML = '';
 
     errorElement.hidden = true;
-
     errorElement.textContent = '';
 
     selectedOptions = [];
-
     selectedVariant = null;
-
   }
 
 
@@ -254,78 +120,66 @@
 
   function renderProduct(product) {
 
-    title.textContent =
-      product.title || '';
+    title.textContent = product.title;
 
-
-    price.textContent =
-      formatMoney(
-        product.price
-      );
-
+    price.textContent = formatMoney(
+      product.price
+    );
 
     description.innerHTML =
       product.description || '';
 
-
     if (product.featured_image) {
 
-      image.src =
-        product.featured_image;
+      image.src = product.featured_image;
 
-      image.alt =
-        product.title || '';
-
+      image.alt = product.title;
     }
 
-
-    renderOptions(
-      product
-    );
-
+    renderOptions(product);
 
     updateSelectedVariant();
-
   }
 
 
   /* ========================================================
-     RENDER OPTIONS
+     RENDER VARIANTS
      ======================================================== */
 
   function renderOptions(product) {
 
     optionsContainer.innerHTML = '';
 
-    selectedOptions = [];
-
-
-    if (
-      !product.options ||
-      !product.options.length
-    ) {
-
-      return;
-
-    }
-
+    /*
+     * Shopify's product JSON contains:
+     *
+     * product.options
+     *
+     * Example:
+     *
+     * [
+     *   {
+     *     name: "Color",
+     *     values: ["White", "Black"]
+     *   },
+     *   {
+     *     name: "Size",
+     *     values: ["Small", "Medium", "Large"]
+     *   }
+     * ]
+     */
 
     product.options.forEach(
       (option, optionIndex) => {
 
         const fieldset =
-          document.createElement(
-            'fieldset'
-          );
+          document.createElement('fieldset');
 
         fieldset.className =
           'tv-product-popup__option';
 
-
         const legend =
-          document.createElement(
-            'legend'
-          );
+          document.createElement('legend');
 
         legend.className =
           'tv-product-popup__option-title';
@@ -333,74 +187,50 @@
         legend.textContent =
           option.name;
 
-
-        fieldset.appendChild(
-          legend
-        );
-
+        fieldset.appendChild(legend);
 
         const values =
-          document.createElement(
-            'div'
-          );
+          document.createElement('div');
 
         values.className =
           'tv-product-popup__values';
-
 
         values.style.setProperty(
           '--option-count',
           option.values.length
         );
 
-
-        /*
-         * Default to the first available
-         * combination where possible.
-         */
-
-        const firstValue =
-          option.values[0] || '';
-
-        selectedOptions[
-          optionIndex
-        ] = firstValue;
-
-
         option.values.forEach(
-          (value) => {
+          (value, valueIndex) => {
 
             const button =
-              document.createElement(
-                'button'
-              );
+              document.createElement('button');
 
-            button.type =
-              'button';
+            button.type = 'button';
 
             button.className =
               'tv-product-popup__value';
 
-            button.textContent =
-              value;
+            button.textContent = value;
 
             button.dataset.optionIndex =
-              String(optionIndex);
+              optionIndex;
 
             button.dataset.optionValue =
               value;
 
-
-            if (
-              value === firstValue
-            ) {
-
+            /*
+             * First value of each option is
+             * selected initially.
+             */
+            if (valueIndex === 0) {
               button.classList.add(
                 'is-selected'
               );
 
+              selectedOptions[optionIndex] =
+                value;
             }
-
 
             button.addEventListener(
               'click',
@@ -414,27 +244,15 @@
               }
             );
 
-
-            values.appendChild(
-              button
-            );
-
+            values.appendChild(button);
           }
         );
 
+        fieldset.appendChild(values);
 
-        fieldset.appendChild(
-          values
-        );
-
-
-        optionsContainer.appendChild(
-          fieldset
-        );
-
+        optionsContainer.appendChild(fieldset);
       }
     );
-
   }
 
 
@@ -447,32 +265,25 @@
     value
   ) {
 
-    selectedOptions[
-      optionIndex
-    ] = value;
-
+    selectedOptions[optionIndex] =
+      value;
 
     const buttons =
       optionsContainer.querySelectorAll(
         `[data-option-index="${optionIndex}"]`
       );
 
-
     buttons.forEach(
-      (button) => {
+      button => {
 
         button.classList.toggle(
           'is-selected',
-          button.dataset.optionValue ===
-            value
+          button.dataset.optionValue === value
         );
-
       }
     );
 
-
     updateSelectedVariant();
-
   }
 
 
@@ -486,10 +297,9 @@
       return;
     }
 
-
     selectedVariant =
       currentProduct.variants.find(
-        (variant) => {
+        variant => {
 
           return variant.options.every(
             (optionValue, index) => {
@@ -505,19 +315,10 @@
         }
       );
 
-
-    if (!selectedVariant) {
-
-      showError(
-        'This combination is unavailable.'
-      );
-
-      return;
-
-    }
-
-
-    if (!selectedVariant.available) {
+    if (
+      selectedVariant &&
+      !selectedVariant.available
+    ) {
 
       showError(
         'This variant is currently unavailable.'
@@ -526,27 +327,7 @@
     } else {
 
       clearError();
-
     }
-
-
-    /*
-     * Update price when a variant has
-     * its own price.
-     */
-
-    if (
-      typeof selectedVariant.price ===
-        'number'
-    ) {
-
-      price.textContent =
-        formatMoney(
-          selectedVariant.price
-        );
-
-    }
-
   }
 
 
@@ -560,18 +341,6 @@
 
     clearError();
 
-
-    if (!currentProduct) {
-
-      showError(
-        'Please select a product.'
-      );
-
-      return;
-
-    }
-
-
     if (!selectedVariant) {
 
       showError(
@@ -579,9 +348,7 @@
       );
 
       return;
-
     }
-
 
     if (!selectedVariant.available) {
 
@@ -590,16 +357,18 @@
       );
 
       return;
-
     }
 
+    const submitButton =
+      form.querySelector(
+        '.tv-product-popup__add'
+      );
 
     submitButton.disabled = true;
 
     submitButton.classList.add(
       'is-adding'
     );
-
 
     try {
 
@@ -614,10 +383,11 @@
 
 
       /*
-       * Special condition:
+       * Check for the special condition:
        *
        * Color = Black
        * Size  = Medium
+       *
        */
 
       if (
@@ -628,12 +398,11 @@
       ) {
 
         await addCompanionProduct();
-
       }
 
 
       /*
-       * Notify the theme.
+       * Tell Shopify/theme that the cart changed.
        */
 
       document.dispatchEvent(
@@ -650,36 +419,21 @@
 
 
       /*
-       * Refresh common Shopify/theme
-       * cart components when available.
+       * Open/refresh the theme cart drawer
+       * if the theme exposes a common method.
        */
 
       if (
-        typeof window.Shopify !==
-          'undefined' &&
+        window.Shopify &&
         typeof window.Shopify.onCartUpdate ===
           'function'
       ) {
 
         window.Shopify.onCartUpdate();
-
       }
 
 
-      /*
-       * Refresh cart drawer if the theme
-       * exposes its common update methods.
-       */
-
-      document.dispatchEvent(
-        new CustomEvent(
-          'cart:update'
-        )
-      );
-
-
       closePopup();
-
 
     } catch (error) {
 
@@ -697,9 +451,7 @@
       submitButton.classList.remove(
         'is-adding'
       );
-
     }
-
   }
 
 
@@ -712,35 +464,32 @@
     quantity
   ) {
 
-    const response =
-      await fetch(
-        `${shopifyRoot}cart/add.js`,
-        {
-          method: 'POST',
+    const response = await fetch(
+      `${window.Shopify.routes.root}cart/add.js`,
+      {
+        method: 'POST',
 
-          headers: {
-            'Content-Type':
-              'application/json',
+        headers: {
+          'Content-Type':
+            'application/json',
 
-            Accept:
-              'application/json'
-          },
+          'Accept':
+            'application/json'
+        },
 
-          body: JSON.stringify({
-            items: [
-              {
-                id: variantId,
-                quantity
-              }
-            ]
-          })
-        }
-      );
-
+        body: JSON.stringify({
+          items: [
+            {
+              id: variantId,
+              quantity: quantity
+            }
+          ]
+        })
+      }
+    );
 
     const data =
       await response.json();
-
 
     if (!response.ok) {
 
@@ -749,67 +498,58 @@
         data.message ||
         'Unable to add product.'
       );
-
     }
 
-
     return data;
-
   }
 
 
   /* ========================================================
-     AUTOMATIC COMPANION PRODUCT
+     COMPANION PRODUCT
      ======================================================== */
 
   async function addCompanionProduct() {
 
     if (!autoAddProductHandle) {
-
       return;
-
     }
 
+    /*
+     * Fetch Soft Winter Jacket dynamically.
+     */
 
-    const response =
-      await fetch(
-        `/products/${encodeURIComponent(
-          autoAddProductHandle
-        )}.js`,
-        {
-          headers: {
-            Accept: 'application/json'
-          }
-        }
-      );
-
+    const response = await fetch(
+      `/products/${autoAddProductHandle}.js`
+    );
 
     if (!response.ok) {
 
       throw new Error(
         'Unable to load the automatic product.'
       );
-
     }
-
 
     const companionProduct =
       await response.json();
 
 
+    /*
+     * Pick the first available variant.
+     *
+     * If Soft Winter Jacket only has one variant,
+     * that variant is used.
+     */
+
     const companionVariant =
       companionProduct.variants.find(
-        (variant) =>
-          variant.available
+        variant => variant.available
       );
-
 
     if (!companionVariant) {
 
       throw new Error(
         'The automatic product is unavailable.'
       );
-
     }
 
 
@@ -817,7 +557,6 @@
       companionVariant.id,
       1
     );
-
   }
 
 
@@ -835,62 +574,42 @@
       !variant ||
       !product.options
     ) {
-
       return false;
-
     }
 
-
     let color = '';
-
     let size = '';
-
 
     product.options.forEach(
       (option, index) => {
 
         const name =
-          String(
-            option.name || ''
-          )
+          option.name
             .toLowerCase()
             .trim();
-
 
         if (name === 'color') {
 
           color =
-            String(
-              variant.options[index] ||
-              ''
-            )
+            variant.options[index]
               .toLowerCase()
               .trim();
-
         }
-
 
         if (name === 'size') {
 
           size =
-            String(
-              variant.options[index] ||
-              ''
-            )
+            variant.options[index]
               .toLowerCase()
               .trim();
-
         }
-
       }
     );
-
 
     return (
       color === 'black' &&
       size === 'medium'
     );
-
   }
 
 
@@ -911,29 +630,12 @@
       return window.Shopify.formatMoney(
         cents
       );
-
     }
 
-
-    const currency =
-      window.Shopify &&
-      window.Shopify.currency &&
-      window.Shopify.currency.active
-        ? window.Shopify.currency.active
-        : 'EUR';
-
-
-    return new Intl.NumberFormat(
-      document.documentElement.lang ||
-        'en',
-      {
-        style: 'currency',
-        currency
-      }
-    ).format(
-      Number(cents || 0) / 100
+    return (
+      (cents / 100).toFixed(2)
+      + '€'
     );
-
   }
 
 
@@ -941,27 +643,19 @@
      ERROR
      ======================================================== */
 
-  function showError(
-    message
-  ) {
+  function showError(message) {
 
     errorElement.textContent =
       message;
 
-    errorElement.hidden =
-      false;
-
+    errorElement.hidden = false;
   }
-
 
   function clearError() {
 
-    errorElement.textContent =
-      '';
+    errorElement.textContent = '';
 
-    errorElement.hidden =
-      true;
-
+    errorElement.hidden = true;
   }
 
 
@@ -971,35 +665,25 @@
 
   document.addEventListener(
     'click',
-    (event) => {
+    event => {
 
       const hotspot =
         event.target.closest(
           '.tv-product-grid__hotspot'
         );
 
-
       if (!hotspot) {
         return;
       }
 
-
       const handle =
         hotspot.dataset.productHandle;
-
 
       if (!handle) {
         return;
       }
 
-
-      event.preventDefault();
-
-
-      openProduct(
-        handle
-      );
-
+      openProduct(handle);
     }
   );
 
@@ -1010,7 +694,7 @@
 
   popup.addEventListener(
     'click',
-    (event) => {
+    event => {
 
       if (
         event.target.closest(
@@ -1019,9 +703,7 @@
       ) {
 
         closePopup();
-
       }
-
     }
   );
 
@@ -1032,7 +714,7 @@
 
   document.addEventListener(
     'keydown',
-    (event) => {
+    event => {
 
       if (
         event.key === 'Escape' &&
@@ -1042,9 +724,7 @@
       ) {
 
         closePopup();
-
       }
-
     }
   );
 
