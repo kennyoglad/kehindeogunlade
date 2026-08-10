@@ -6,7 +6,7 @@
    Product grid:
    1339px
    3 × 433px
-   20px gaps .tv-product-grid__items 
+   20px gaps
    ========================================================== */
 
 .tv-product-grid-section {
@@ -23,14 +23,11 @@
    ========================================================== */
 
 .tv-product-grid {
-  width: 1339px;
-  max-width: calc(100% - 100px);
-
+  width: 100%;
+  max-width: 1339px;
   margin: 0 auto;
   padding: 0;
-
   box-sizing: border-box;
-
   background: #ffffff;
 }
 
@@ -72,17 +69,11 @@
 
 .tv-product-grid__items {
   width: 100%;
-
   display: grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
+  grid-template-columns: repeat(3, 433px);
   grid-auto-rows: 444px;
-
   column-gap: 20px;
   row-gap: 20px;
-
   box-sizing: border-box;
 }
 
@@ -93,13 +84,10 @@
 
 .tv-product-grid__item {
   position: relative;
-
   width: 100%;
   height: 444px;
-
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
