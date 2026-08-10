@@ -15,7 +15,7 @@
 
    We do NOT make the Shopify section full-width here.
    The inner .tv-product-grid controls the Figma width.
-   ========================================================= */
+
 
 .tv-product-grid-section {
   width: 100%;
@@ -23,7 +23,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+   ========================================================= */
 
+
+.tv-banner {
+  --tv-black: #000000;
+  --tv-white: #ffffff;
+  --tv-gray: #f5f5f5;
+  --tv-yellow: #fff544;
+
+  position: relative;
+
+  width: 100%;
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
 
 /* =========================================================
    FIGMA CONTENT FRAME
