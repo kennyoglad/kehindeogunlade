@@ -1,5 +1,3 @@
-tv-product-grid.liquid
-
 <div class="tv-product-grid">
 
   {% if section.settings.heading != blank %}
@@ -9,6 +7,7 @@ tv-product-grid.liquid
     </h2>
 
   {% endif %}
+
 
   <div class="tv-product-grid__items">
 
@@ -30,7 +29,7 @@ tv-product-grid.liquid
                 class: 'tv-product-grid__image',
                 loading: 'lazy',
                 widths: '433, 650, 866',
-                sizes: '(min-width: 750px) 433px, 100vw'
+                sizes: '(min-width: 1440px) 433px, 33vw, 100vw'
             }}
 
           {% else %}
@@ -57,7 +56,10 @@ tv-product-grid.liquid
               data-product-id="{{ block.settings.product.id }}"
             >
 
-              <span class="tv-product-grid__hotspot-circle">
+              <span
+                class="tv-product-grid__hotspot-circle"
+                aria-hidden="true"
+              >
                 <span class="tv-product-grid__hotspot-plus"></span>
               </span>
 
@@ -74,6 +76,29 @@ tv-product-grid.liquid
   </div>
 
 </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    document
+      .querySelectorAll('.tv-product-grid__hotspot')
+      .forEach(function (hotspot) {
+
+        hotspot.addEventListener('click', function () {
+
+          const productUrl = this.dataset.productUrl;
+
+          if (productUrl) {
+            window.location.href = productUrl;
+          }
+
+        });
+
+      });
+
+  });
+</script>
 
 
 {% schema %}
