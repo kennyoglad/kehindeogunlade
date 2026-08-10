@@ -1,25 +1,35 @@
 /* ==========================================================
    TV PRODUCT GRID
-   Figma desktop canvas:
-   1440px
+
+   Figma:
+
+   Outer frame:
+   1337px wide
+   981px high
+
+   Heading:
+   372 × 43px
+
+   Heading → product grid:
+   30px
 
    Product grid:
    1339px
-   3 × 433px
-   20px gaps
+   3 columns
+   20px gap
+
    ========================================================== */
 
 .tv-product-grid-section {
   width: 100%;
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
 
 /* ==========================================================
-   CONTENT FRAME
+   MAIN FRAME
    ========================================================== */
 
 .tv-product-grid {
@@ -28,7 +38,6 @@
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  background: #ffffff;
 }
 
 
@@ -58,18 +67,20 @@
 
 
 /* ==========================================================
-   PRODUCT ITEMS FRAME
+   PRODUCT GRID
 
    Figma Frame 1000009723
 
-   Heading:
-   43px
+   Width:
+   1339px
+
+   Height:
+   908px
 
    Gap:
-   30px
+   20px
 
-   Therefore:
-   items start at Y = 73px
+   3 columns × 433px
    ========================================================== */
 
 .tv-product-grid__items {
@@ -95,18 +106,23 @@
 
 
 /* ==========================================================
-   ITEM
+   PRODUCT ITEM
    ========================================================== */
 
 .tv-product-grid__item {
   position: relative;
+
   width: 433px;
   height: 444px;
+
   flex: 0 0 433px;
+
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
 }
+
 
 /* ==========================================================
    IMAGE WRAPPER
@@ -127,7 +143,7 @@
 
 
 /* ==========================================================
-   IMAGE
+   PRODUCT IMAGE
    ========================================================== */
 
 .tv-product-grid__image {
@@ -171,6 +187,17 @@
 
 
 /* ==========================================================
+   PRODUCT DATA
+
+   JSON is present in the DOM but visually hidden.
+   ========================================================== */
+
+.tv-product-grid__product-data {
+  display: none;
+}
+
+
+/* ==========================================================
    HOTSPOT
    ========================================================== */
 
@@ -195,7 +222,7 @@
 
   cursor: pointer;
 
-  z-index: 5;
+  z-index: 10;
 
   appearance: none;
 }
@@ -220,7 +247,7 @@
 
   border-radius: 50%;
 
-  background: rgba(248, 248, 248, 0.9);
+  background: rgba(248, 248, 248, 0.92);
 
   transition:
     transform 180ms ease,
@@ -229,7 +256,7 @@
 
 
 /* ==========================================================
-   PLUS
+   HOTSPOT PLUS
    ========================================================== */
 
 .tv-product-grid__hotspot-plus,
@@ -243,12 +270,10 @@
   background: #000000;
 }
 
-
 .tv-product-grid__hotspot-plus {
   width: 9px;
   height: 1.5px;
 }
-
 
 .tv-product-grid__hotspot-plus::after {
   width: 1.5px;
@@ -260,7 +285,7 @@
 
 
 /* ==========================================================
-   HOVER
+   HOTSPOT HOVER
    ========================================================== */
 
 .tv-product-grid__hotspot:hover
@@ -275,7 +300,7 @@
 
 
 /* ==========================================================
-   FOCUS
+   HOTSPOT FOCUS
    ========================================================== */
 
 .tv-product-grid__hotspot:focus-visible {
@@ -285,7 +310,7 @@
 
 
 /* ==========================================================
-   DESKTOP → TABLET
+   TABLET / SMALL DESKTOP
    ========================================================== */
 
 @media screen and (max-width: 1439px) {
@@ -293,6 +318,20 @@
   .tv-product-grid {
     width: calc(100% - 100px);
     max-width: 1339px;
+  }
+
+  .tv-product-grid__items {
+    width: 100%;
+  }
+
+  .tv-product-grid__item {
+    width: calc(
+      (100% - 40px) / 3
+    );
+
+    flex-basis: calc(
+      (100% - 40px) / 3
+    );
   }
 
 }
@@ -309,28 +348,32 @@
     max-width: none;
   }
 
-
   .tv-product-grid__heading {
     width: 100%;
     height: auto;
 
-    margin-bottom: 20px;
+    margin: 0 0 20px;
 
     font-size: 28px;
   }
 
-
   .tv-product-grid__items {
-    grid-template-columns: 1fr;
+    width: 100%;
+    height: auto;
 
-    grid-auto-rows: auto;
+    margin-top: 0;
 
-    row-gap: 12px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    gap: 12px;
   }
 
-
   .tv-product-grid__item {
+    width: 100%;
     height: auto;
+
+    flex: 0 0 auto;
 
     aspect-ratio: 433 / 444;
   }
