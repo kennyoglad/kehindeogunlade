@@ -5,33 +5,28 @@
    Width:  1440px
    Height: 2000px
 
+   Layout:
    Banner:       878px
    Gap:           90px
    Product grid: 981px
 
    878 + 90 + 981 = 1949px
 
-   Remaining 51px is Figma/frame breathing room.
+   Remaining 51px is available as Figma/frame breathing room.
    ========================================================== */
 
 .tv-page {
   position: relative;
-
   width: 100%;
   max-width: 1440px;
   min-height: 2000px;
-
   margin: 0 auto;
   padding: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 90px;
-
   box-sizing: border-box;
-
   background: #ffffff;
 
   overflow: hidden;
@@ -39,34 +34,63 @@
 
 
 /* ==========================================================
-   SHOPIFY SECTION RESET
+   REMOVE THEME / SHOPIFY SECTION SPACING
    ========================================================== */
 
 .tv-page > .shopify-section {
   width: 100%;
-  max-width: 1440px;
-
+  max-width: 2000px;
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
 
 /* ==========================================================
-   BANNER SECTION
+   BANNER
    ========================================================== */
 
 .tv-page > .tv-banner-section {
   width: 100%;
   max-width: 1440px;
-
   flex: 0 0 auto;
-
   margin: 0;
   padding: 0;
 }
 
+
+/* ==========================================================
+   PRODUCT GRID SECTION
+   ========================================================== */
+
+.tv-page > .tv-product-grid-section {
+  width: 100%;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================
+   IMPORTANT:
+   At desktop, the complete page stays inside the 1440px
+   Figma frame.
+
+   At smaller screens, allow it to become fluid.
+   ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-page {
+    width: 100%;
+    max-width: 1440px;
+
+    min-height: auto;
+
+    gap: 90px;
+  }
+
+}
 
 /* ==========================================================
    TV BANNER
@@ -77,26 +101,25 @@
 .tv-page .tv-banner {
   position: relative;
 
+  flex: 0 0 878px;
+
   width: 1440px;
   height: 878px;
-
   max-width: none;
 
   margin: 0;
   padding: 0;
 
-  flex: 0 0 878px;
+  aspect-ratio: auto;
 
   overflow: hidden;
 
   box-sizing: border-box;
-
-  background: #ffffff;
 }
 
 
 /* ==========================================================
-   HEADER
+   TV BANNER HEADER
    ========================================================== */
 
 .tv-page .tv-banner__header {
@@ -114,6 +137,7 @@
 
   z-index: 10;
 }
+
 
 .tv-page .tv-banner__header-inner {
   position: relative;
@@ -133,7 +157,7 @@
 
 
 /* ==========================================================
-   LOGO
+   HEADER LOGO
    ========================================================== */
 
 .tv-page .tv-banner__logo {
@@ -153,6 +177,7 @@
   z-index: 2;
 }
 
+
 .tv-page .tv-banner__logo-image {
   display: block;
 
@@ -161,6 +186,7 @@
 
   max-width: 100%;
 }
+
 
 .tv-page .tv-banner__brand-text {
   display: block;
@@ -245,6 +271,7 @@
   cursor: pointer;
 }
 
+
 .tv-page .tv-banner__header-button::before {
   content: "";
 
@@ -261,15 +288,18 @@
   z-index: 0;
 }
 
+
 .tv-page .tv-banner__header-button:hover::before,
 .tv-page .tv-banner__header-button:focus-visible::before {
   transform: translateX(0);
 }
 
+
 .tv-page .tv-banner__header-button:hover,
 .tv-page .tv-banner__header-button:focus-visible {
   color: #ffffff;
 }
+
 
 .tv-page .tv-banner__header-button-text {
   position: absolute;
@@ -298,6 +328,7 @@
   white-space: nowrap;
 }
 
+
 .tv-page .tv-banner__header-button-arrow {
   position: absolute;
 
@@ -316,6 +347,7 @@
     transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+
 .tv-page .tv-banner__header-arrow-line {
   position: absolute;
 
@@ -326,6 +358,7 @@
 
   border-top: 1.5px solid currentColor;
 }
+
 
 .tv-page .tv-banner__header-arrow-head {
   position: absolute;
@@ -344,6 +377,7 @@
     rotate(45deg);
 }
 
+
 .tv-page .tv-banner__header-button:hover
 .tv-banner__header-button-arrow,
 .tv-page .tv-banner__header-button:focus-visible
@@ -353,10 +387,10 @@
 
 
 /* ==========================================================
-   MAIN
-   Figma:
-   top    = 64px
-   height = 780px
+   BANNER MAIN
+   Exact Figma:
+   top    64px
+   height 780px
    ========================================================== */
 
 .tv-page .tv-banner__main {
@@ -393,6 +427,7 @@
   overflow: hidden;
 }
 
+
 .tv-page .tv-banner__artwork-image {
   display: block;
 
@@ -408,10 +443,9 @@
 }
 
 
-/* ==========================================================
-   TOP ARTWORK
+/* TOP ARTWORK
    1440 × 390
-   ========================================================== */
+*/
 
 .tv-page .tv-banner__artwork--top {
   left: 0;
@@ -422,12 +456,11 @@
 }
 
 
-/* ==========================================================
-   BOTTOM ARTWORK
-   x = 550
-   y = 378
+/* BOTTOM ARTWORK
+   x: 550
+   y: 378
    890 × 402
-   ========================================================== */
+*/
 
 .tv-page .tv-banner__artwork--bottom {
   left: 550px;
@@ -439,7 +472,7 @@
 
 
 /* ==========================================================
-   CONTENT
+   BANNER CONTENT
    ========================================================== */
 
 .tv-page .tv-banner__content {
@@ -455,6 +488,7 @@
   pointer-events: none;
 }
 
+
 .tv-page .tv-banner__content > * {
   pointer-events: auto;
 }
@@ -462,12 +496,10 @@
 
 /* ==========================================================
    HEADING
-
    Figma:
    x = 67
-   y = 433
-   width = 459
-   height = 70
+   y = 433 relative to main
+   459 × 70
    ========================================================== */
 
 .tv-page .tv-banner__heading {
@@ -533,10 +565,6 @@
   line-height: 28px;
 }
 
-.tv-page .tv-banner__description p {
-  margin: 0;
-}
-
 
 /* ==========================================================
    MAIN BUTTON
@@ -572,6 +600,7 @@
   cursor: pointer;
 }
 
+
 .tv-page .tv-banner__main-button::before {
   content: "";
 
@@ -588,15 +617,18 @@
   z-index: 0;
 }
 
+
 .tv-page .tv-banner__main-button:hover::before,
 .tv-page .tv-banner__main-button:focus-visible::before {
   transform: translateX(0);
 }
 
+
 .tv-page .tv-banner__main-button:hover,
 .tv-page .tv-banner__main-button:focus-visible {
   color: #000000;
 }
+
 
 .tv-page .tv-banner__main-button-text {
   position: absolute;
@@ -628,6 +660,7 @@
   white-space: nowrap;
 }
 
+
 .tv-page .tv-banner__main-button-arrow {
   position: absolute;
 
@@ -646,6 +679,7 @@
     transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+
 .tv-page .tv-banner__main-arrow-line {
   position: absolute;
 
@@ -656,6 +690,7 @@
 
   border-top: 1.5px solid currentColor;
 }
+
 
 .tv-page .tv-banner__main-arrow-head {
   position: absolute;
@@ -673,6 +708,7 @@
     translateY(-50%)
     rotate(45deg);
 }
+
 
 .tv-page .tv-banner__main-button:hover
 .tv-banner__main-button-arrow,
@@ -711,6 +747,7 @@
   z-index: 5;
 }
 
+
 .tv-page .tv-banner__footer-text {
   width: 451px;
   height: 14px;
@@ -735,7 +772,7 @@
 
 
 /* ==========================================================
-   FOCUS
+   BANNER FOCUS
    ========================================================== */
 
 .tv-page .tv-banner__header-button:focus-visible,
@@ -746,7 +783,7 @@
 
 
 /* ==========================================================
-   RESET
+   BANNER RESET
    ========================================================== */
 
 .tv-page .tv-banner img {
@@ -756,193 +793,3 @@
 .tv-page .tv-banner,
 .tv-page .tv-banner * {
   box-sizing: border-box;
-}
-
-
-/* ==========================================================
-   FLUID TABLET
-   ========================================================== */
-
-@media screen and (max-width: 1439px) {
-
-  .tv-page .tv-banner {
-    width: 100%;
-    height: auto;
-
-    aspect-ratio: 1440 / 878;
-  }
-
-  .tv-page .tv-banner__header,
-  .tv-page .tv-banner__header-inner,
-  .tv-page .tv-banner__main,
-  .tv-page .tv-banner__content,
-  .tv-page .tv-banner__footer {
-    transform-origin: top left;
-  }
-
-  .tv-page .tv-banner__header,
-  .tv-page .tv-banner__header-inner,
-  .tv-page .tv-banner__main,
-  .tv-page .tv-banner__content,
-  .tv-page .tv-banner__footer {
-    width: 1440px;
-  }
-
-  .tv-page .tv-banner__header,
-  .tv-page .tv-banner__main,
-  .tv-page .tv-banner__footer {
-    left: 0;
-  }
-
-}
-
-
-/* ==========================================================
-   MOBILE
-   ========================================================== */
-
-@media screen and (max-width: 749px) {
-
-  .tv-page {
-    gap: 50px;
-    min-height: auto;
-  }
-
-  .tv-page .tv-banner {
-    width: 100%;
-    height: auto;
-    min-height: 720px;
-
-    aspect-ratio: auto;
-  }
-
-  .tv-page .tv-banner__header {
-    position: relative;
-
-    width: 100%;
-    height: 64px;
-  }
-
-  .tv-page .tv-banner__header-inner {
-    width: 100%;
-    height: 64px;
-
-    padding: 10px 16px;
-  }
-
-  .tv-page .tv-banner__logo {
-    left: 16px;
-    width: auto;
-    max-width: 140px;
-  }
-
-  .tv-page .tv-banner__brand-text {
-    font-size: 16px;
-  }
-
-  .tv-page .tv-banner__header-message {
-    display: none;
-  }
-
-  .tv-page .tv-banner__header-button {
-    right: 16px;
-
-    width: 145px;
-    height: 40px;
-  }
-
-  .tv-page .tv-banner__header-button-text {
-    left: 12%;
-    right: 25%;
-
-    font-size: 13px;
-  }
-
-  .tv-page .tv-banner__header-button-arrow {
-    left: 78%;
-    right: 9%;
-  }
-
-  .tv-page .tv-banner__main {
-    position: relative;
-
-    top: auto;
-    left: auto;
-
-    width: 100%;
-    height: 610px;
-  }
-
-  .tv-page .tv-banner__artwork--top {
-    width: 100%;
-    height: 250px;
-  }
-
-  .tv-page .tv-banner__artwork--bottom {
-    left: 20%;
-    top: 300px;
-
-    width: 80%;
-    height: 310px;
-  }
-
-  .tv-page .tv-banner__content {
-    position: absolute;
-
-    width: 100%;
-    height: 100%;
-  }
-
-  .tv-page .tv-banner__heading {
-    left: 24px;
-    top: 310px;
-
-    width: calc(100% - 48px);
-    height: auto;
-
-    font-size: clamp(42px, 11vw, 64px);
-    line-height: 1;
-  }
-
-  .tv-page .tv-banner__description {
-    left: 24px;
-    top: 390px;
-
-    width: calc(100% - 48px);
-    height: auto;
-
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .tv-page .tv-banner__main-button {
-    left: 24px;
-    top: 510px;
-
-    width: 220px;
-    height: 50px;
-  }
-
-  .tv-page .tv-banner__footer {
-    position: relative;
-
-    left: auto;
-    top: auto;
-
-    width: 100%;
-    height: 46px;
-
-    padding: 8px 16px;
-  }
-
-  .tv-page .tv-banner__footer-text {
-    width: 100%;
-    height: auto;
-
-    font-size: 11px;
-    line-height: 14px;
-
-    white-space: normal;
-  }
-
-}
