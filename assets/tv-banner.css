@@ -1,24 +1,27 @@
 /* ==========================================================
-   TV PAGE — MASTER FIGMA CANVAS
-   Figma desktop:
-   1440 × 2000px
+   TV PAGE — FIGMA DESKTOP CANVAS
 
-   Structure:
-   TV Banner        1440 × 878px
-   Gap                    90px
-   TV Product Grid   1337 × 981px
-   Remaining space        51px
+   Figma:
+   Width:  1440px
+   Height: 2000px
 
-   IMPORTANT:
-   All desktop sections are positioned inside this single
-   fixed-width canvas so browser zoom scales the complete
-   composition consistently.
+   Layout:
+   Banner:       878px
+   Gap:           90px
+   Product grid: 981px
+
+   878 + 90 + 981 = 1949px
+
+   Remaining 51px is available as Figma/frame breathing room.
    ========================================================== */
 
 .tv-page {
-  width: 1440px;
-  min-width: 1440px;
-  height: 2000px;
+  position: relative;
+
+  width: 100%;
+  max-width: 1440px;
+
+  min-height: 2000px;
 
   margin: 0 auto;
   padding: 0;
@@ -36,6 +39,73 @@
   overflow: hidden;
 }
 
+
+/* ==========================================================
+   REMOVE THEME / SHOPIFY SECTION SPACING
+   ========================================================== */
+
+.tv-page > .shopify-section {
+  width: 100%;
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   BANNER
+   ========================================================== */
+
+.tv-page > .tv-banner-section {
+  width: 100%;
+  max-width: 1440px;
+
+  flex: 0 0 auto;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================
+   PRODUCT GRID SECTION
+   ========================================================== */
+
+.tv-page > .tv-product-grid-section {
+  width: 100%;
+
+  flex: 0 0 auto;
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   IMPORTANT:
+   At desktop, the complete page stays inside the 1440px
+   Figma frame.
+
+   At smaller screens, allow it to become fluid.
+   ========================================================== */
+
+@media screen and (max-width: 1439px) {
+
+  .tv-page {
+    width: 100%;
+    max-width: 1440px;
+
+    min-height: auto;
+
+    gap: 90px;
+  }
+
+}
 
 /* ==========================================================
    TV BANNER
