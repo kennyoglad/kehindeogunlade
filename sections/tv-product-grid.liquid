@@ -41,6 +41,14 @@
           {% endif %}
 
 
+          {% comment %}
+            Product hotspot
+
+            The hotspot is only rendered when a product
+            has been assigned to this image block in
+            the Shopify Theme Customizer.
+          {% endcomment %}
+
           {% if block.settings.product != blank %}
 
             <button
@@ -60,7 +68,9 @@
                 class="tv-product-grid__hotspot-circle"
                 aria-hidden="true"
               >
-                <span class="tv-product-grid__hotspot-plus"></span>
+                <span
+                  class="tv-product-grid__hotspot-plus"
+                ></span>
               </span>
 
             </button>
