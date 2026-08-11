@@ -39,7 +39,8 @@
     {%- render 'stylesheets' -%}
     {{ 'tv-banner.css' | asset_url | stylesheet_tag }}
     {{ 'tv-product.grid.css' | asset_url | stylesheet_tag }}
-    {{ 'tv-product.grid.js' | asset_url | script_tag }}
+    <script src="{{ 'tv-product.grid.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'tv-product.modal.js' | asset_url }}" defer="defer"></script>
 
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
