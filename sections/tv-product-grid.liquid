@@ -191,32 +191,48 @@
                 
                           {% for value in option.values %}
                 
-                            <button
-                              type="button"
-                              class="tv-product-popup__color{% if forloop.first %} active{% endif %}"
-                              data-option-name="{{ option.name }}"
-                              data-option-value="{{ value | downcase }}"
-                              style="
-                                --tv-color-accent:
-                                {% case value | downcase %}
-                                  {% when 'white' %}#FFFFFF
-                                  {% when 'black' %}#000000
-                                  {% when 'blue' %}#0D499F
-                                  {% when 'red' %}#B20F36
-                                  {% when 'grey' %}#AFAFB7
-                                  {% when 'gray' %}#AFAFB7
-                                  {% when 'green' %}#4D8B31
-                                  {% when 'brown' %}#7A4A2E
-                                  {% when 'orange' %}#DD7A1D
-                                  {% when 'beige' %}#DCC7A1
-                                  {% when 'pink' %}#E6A5B8
-                                  {% when 'yellow' %}#E4C63C
-                                  {% else %}#DDDDDD
-                                {% endcase %}
-                              "
-                            >
-                                {{ value }}
-                            </button>
+                            {% for value in option.values %}
+
+  {% assign accent = '#DDDDDD' %}
+
+  {% case value | downcase %}
+    {% when 'white' %}
+      {% assign accent = '#FFFFFF' %}
+    {% when 'black' %}
+      {% assign accent = '#000000' %}
+    {% when 'blue' %}
+      {% assign accent = '#0D499F' %}
+    {% when 'red' %}
+      {% assign accent = '#B20F36' %}
+    {% when 'grey' %}
+      {% assign accent = '#AFAFB7' %}
+    {% when 'gray' %}
+      {% assign accent = '#AFAFB7' %}
+    {% when 'green' %}
+      {% assign accent = '#4D8B31' %}
+    {% when 'brown' %}
+      {% assign accent = '#7A4A2E' %}
+    {% when 'orange' %}
+      {% assign accent = '#DD7A1D' %}
+    {% when 'beige' %}
+      {% assign accent = '#DCC7A1' %}
+    {% when 'pink' %}
+      {% assign accent = '#E6A5B8' %}
+    {% when 'yellow' %}
+      {% assign accent = '#E4C63C' %}
+  {% endcase %}
+
+  <button
+      type="button"
+      class="tv-product-popup__color{% if forloop.first %} active{% endif %}"
+      data-option-name="{{ option.name }}"
+      data-option-value="{{ value | downcase }}"
+      style="--tv-color-accent: {{ accent }};"
+  >
+      {{ value }}
+  </button>
+
+{% endfor %}
                 
                           {% endfor %}
                 
