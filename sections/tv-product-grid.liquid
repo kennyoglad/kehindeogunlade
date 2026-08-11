@@ -227,7 +227,7 @@
   data-option-value="{{ value | downcase }}"
   style="--tv-color-accent: {{ accent }};"
 >
-  {{ value }}
+  {{ value | json }}
 </button>
                 
                           {% endfor %}
