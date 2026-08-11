@@ -173,16 +173,76 @@
 
               {% if product.available %}
 
-                <a
-                  href="{{ product.url }}"
-                  class="tv-product-popup__button"
-                >
-                  <span>VIEW PRODUCT</span>
-
-                  <span class="tv-product-popup__arrow">
-                    →
-                  </span>
-                </a>
+                <form class="tv-product-popup__form">
+                  {% for option in product.options_with_values %}
+                
+                    {% if option.name == 'Color' %}
+              
+                      <div class="tv-product-popup__option">
+                
+                        <label class="tv-product-popup__label">
+                          {{ option.name }}
+                        </label>
+                
+                        <div class="tv-product-popup__colors">
+                
+                          {% for value in option.values %}
+                            <button
+                              type="button"
+                              class="tv-product-popup__color"
+                              data-option-name="{{ option.name }}"
+                              data-option-value="{{ value }}"
+                            >
+                              {{ value }}
+                            </button>
+                          {% endfor %}
+                
+                        </div>
+                
+                      </div>
+                
+                    {% else %}
+                
+                      <div class="tv-product-popup__option">
+                
+                        <label class="tv-product-popup__label">
+                          {{ option.name }}
+                        </label>
+                
+                        <select
+                          class="tv-product-popup__select"
+                          data-option-name="{{ option.name }}"
+                        >
+                
+                          <option value="">
+                            Choose your {{ option.name | downcase }}
+                          </option>
+                
+                          {% for value in option.values %}
+                            <option value="{{ value }}">
+                              {{ value }}
+                            </option>
+                          {% endfor %}
+                
+                        </select>
+                
+                      </div>
+                
+                    {% endif %}
+                
+                  {% endfor %}
+                
+                  <button
+                      type="button"
+                      class="tv-product-popup__add"
+                      data-product-id="{{ product.id }}"
+                  >
+                      <span>ADD TO CART</span>
+                
+                      <span class="tv-product-popup__arrow">→</span>
+                  </button>
+                
+                </form>
 
               {% else %}
 
