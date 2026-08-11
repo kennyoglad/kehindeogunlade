@@ -58,11 +58,18 @@
 
               <button
                 type="button"
-                class="tv-product-popup__color"
-                data-option-name="{{ option.name }}"
-                data-option-value="{{ value | downcase }}"
+                class="tv-product-hotspot"
+                style="
+                  --hotspot-x: {{ block.settings.hotspot_x }}%;
+                  --hotspot-y: {{ block.settings.hotspot_y }}%;
+                "
+                aria-label="View {{ product.title | escape }}"
+                aria-controls="tv-product-popup-{{ section.id }}-{{ block.id }}"
+                aria-expanded="false"
               >
-                {{ value }}
+                <span class="tv-product-hotspot__circle">
+                  <span class="tv-product-hotspot__plus"></span>
+                </span>
               </button>
 
             </div>
@@ -186,30 +193,12 @@
                 
                             <button
                               type="button"
-                              class="tv-product-popup__color{% if forloop.first %} active{% endif %}"
+                              class="tv-product-popup__color"
                               data-option-name="{{ option.name }}"
                               data-option-value="{{ value }}"
-                              style="
-                              --color-strip:
-                              {% case value | downcase %}
-                                  {% when 'white' %}#FFFFFF
-                                  {% when 'black' %}#000000
-                                  {% when 'blue' %}#0D499F
-                                  {% when 'red' %}#B20F36
-                                  {% when 'grey' %}#AFAFB7
-                                  {% when 'gray' %}#AFAFB7
-                                  {% when 'green' %}#4D8B31
-                                  {% when 'brown' %}#7A4A2E
-                                  {% when 'beige' %}#DCC7A1
-                                  {% when 'orange' %}#DD7A1D
-                                  {% when 'pink' %}#E9A3B2
-                                  {% when 'yellow' %}#E3C443
-                                  {% else %}#DDDDDD
-                              {% endcase %}
-                              "
-                          >
+                            >
                               {{ value }}
-                          </button>
+                            </button>
                 
                           {% endfor %}
                 
@@ -474,70 +463,6 @@
     );
 
   })();
-
-
-/* ==========================================================
-   PRODUCT COLOR ACCENTS
-========================================================== */
-
-const colorMap = {
-    white: "#FFFFFF",
-    black: "#000000",
-    blue: "#0D499F",
-    red: "#B20F36",
-    grey: "#AFAFB7",
-    gray: "#AFAFB7",
-    green: "#4D8B31",
-    brown: "#7A4A2E",
-    beige: "#DCC7A1",
-    orange: "#DD7A1D",
-    yellow: "#E4C63C",
-    pink: "#E6A5B8",
-    cream: "#F4E8D2",
-    navy: "#1E315B"
-};
-
-document.querySelectorAll(".tv-product-popup__colors").forEach(function(group){
-
-    const buttons = group.querySelectorAll(".tv-product-popup__color");
-
-    buttons.forEach(function(button){
-
-        const value = button.dataset.optionValue;
-
-        button.style.setProperty(
-            "--tv-color-accent",
-            colorMap[value] || "#DDDDDD"
-        );/* ==========================================================
-   COLOR BUTTON SELECTION
-========================================================== */
-
-document.querySelectorAll(".tv-product-popup__colors").forEach(function(group){
-
-    const buttons = group.querySelectorAll(".tv-product-popup__color");
-
-    buttons.forEach(function(button){
-
-        button.addEventListener("click", function(){
-
-            buttons.forEach(function(btn){
-                btn.classList.remove("active");
-            });
-
-            this.classList.add("active");
-
-        });
-
-    });
-
-});
-
-    });
-
-});
-
-
-
 </script>
 
 
