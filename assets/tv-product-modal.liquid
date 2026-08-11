@@ -1,0 +1,159 @@
+{%- comment -%}
+  snippets/tv-product-modal.liquid
+  ------------------------------------------------------------
+  Renders one product popup/modal.
+  Usage (from a loop in tv-product-grid.liquid):
+    {% render 'tv-product-modal', product: product, section: section, block: block %}
+------------------------------------------------------------ {%- endcomment -%}
+
+{%- assign popup_id = 'tv-product-popup-' | append: section.id | append: '-' | append: block.id -%}
+
+<div
+  id="{{ popup_id }}"
+  class="tv-product-popup"
+  aria-hidden="true"
+  data-popup
+  data-product-handle="{{ product.handle }}"
+>
+
+  <div class="tv-product-popup__overlay" data-popup-close></div>
+
+  <div
+    class="tv-product-popup__content"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ product.title | escape }}"
+  >
+
+    <button
+      type="button"
+      class="tv-product-popup__close"
+      data-popup-close
+      aria-label="Close"
+    >&times;</button>
+
+    <div class="tv-product-popup__top">
+
+      <div class="tv-product-popup__image">
+        {% if product.featured_image != blank %}
+          {{
+            product.featured_image
+            | image_url: width: 300
+            | image_tag:
+              loading: 'lazy',
+              class: 'tv-product-popup__image-element',
+              alt: product.featured_image.alt | default: product.title
+          }}
+        {% endif %}
+      </div>
+
+      <div class="tv-product-popup__details">
+
+        <h3 class="tv-product-popup__title">{{ product.title }}</h3>
+
+        <div class="tv-product-popup__price" data-price>
+          <span class="tv-product-popup__price-current" data-price-current>
+            {{ product.selected_or_first_available_variant.price | money }}
+          </span>
+          {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+            <span class="tv-product-popup__price-compare" data-price-compare>
+              {{ product.selected_or_first_available_variant.compare_at_price | money }}
+            </span>
+          {% endif %}
+        </div>
+
+        {% if product.description != blank %}
+          <div class="tv-product-popup__description">
+            {{ product.description | strip_html | truncate: 180 }}
+          </div>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+    <form
+      class="tv-product-popup__form"
+      data-product-form
+      data-product-id="{{ product.id }}"
+    >
+
+      {%- comment -%} Full variant data for the JS to match against {%- endcomment -%}
+      <script type="application/json" data-product-json>
+        {{ product.variants | json }}
+      </script>
+
+      {% for option in product.options_with_values %}
+
+        {% assign option_name_downcase = option.name | downcase %}
+
+        <div
+          class="tv-product-popup__option"
+          data-option-index="{{ forloop.index0 }}"
+          data-option-name="{{ option.name | escape }}"
+        >
+
+          <div class="tv-product-popup__label">{{ option.name }}</div>
+
+          {% if option_name_downcase == 'color' or option_name_downcase == 'colour' %}
+
+            <div class="tv-product-popup__colors" role="group" aria-label="{{ option.name }}">
+              {% for value in option.values %}
+                <button
+                  type="button"
+                  class="tv-product-popup__color{% if forloop.first %} active{% endif %}"
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+                  data-option-value="{{ value | escape }}"
+                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                  style="--swatch-color: {{ value.swatch.color | default: value | downcase }};"
+                >
+                  {{ value }}
+                </button>
+              {% endfor %}
+            </div>
+
+          {% else %}
+
+            <select
+              class="tv-product-popup__select"
+              data-option-select
+              data-option-index="{{ forloop.index0 }}"
+            >
+              <option value="" disabled selected>Choose your {{ option_name_downcase }}</option>
+              {% for value in option.values %}
+                <option value="{{ value | escape }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+
+          {% endif %}
+
+        </div>
+
+      {% endfor %}
+
+      <input
+        type="hidden"
+        name="id"
+        data-selected-variant-id
+        value="{{ product.selected_or_first_available_variant.id }}"
+      >
+
+      <button
+        type="submit"
+        class="tv-product-popup__add"
+        data-add-to-cart
+        {% unless product.available %}disabled{% endunless %}
+      >
+        <span data-add-to-cart-text>
+          {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+        </span>
+        <span class="tv-product-popup__arrow" aria-hidden="true">→</span>
+      </button>
+
+      <div class="tv-product-popup__error" data-form-error hidden></div>
+
+    </form>
+
+  </div>
+
+</div>
