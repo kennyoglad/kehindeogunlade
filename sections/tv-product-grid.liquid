@@ -193,11 +193,29 @@
                 
                             <button
                               type="button"
-                              class="tv-product-popup__color"
+                              class="tv-product-popup__color{% if forloop.first %} active{% endif %}"
                               data-option-name="{{ option.name }}"
-                              data-option-value="{{ value }}"
+                              data-option-value="{{ value | downcase }}"
+                              style="
+                                --tv-color-accent:
+                                {% case value | downcase %}
+                                  {% when 'white' %}#FFFFFF
+                                  {% when 'black' %}#000000
+                                  {% when 'blue' %}#0D499F
+                                  {% when 'red' %}#B20F36
+                                  {% when 'grey' %}#AFAFB7
+                                  {% when 'gray' %}#AFAFB7
+                                  {% when 'green' %}#4D8B31
+                                  {% when 'brown' %}#7A4A2E
+                                  {% when 'orange' %}#DD7A1D
+                                  {% when 'beige' %}#DCC7A1
+                                  {% when 'pink' %}#E6A5B8
+                                  {% when 'yellow' %}#E4C63C
+                                  {% else %}#DDDDDD
+                                {% endcase %}
+                              "
                             >
-                              {{ value }}
+                                {{ value }}
                             </button>
                 
                           {% endfor %}
