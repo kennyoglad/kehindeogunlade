@@ -219,16 +219,22 @@
     {% assign accent = "#E4C63C" %}
 {% endcase %}
 
+
+
+
+
+
+
+
+
+
 <button
   type="button"
   class="tv-product-popup__color"
-  data-option-name="{{ option.name }}"
-  data-option-value="{{ value | downcase }}"
   style="--tv-color-accent: {{ accent }};"
 >
-  {{ value }}
+  {{ value }} - {{ accent }}
 </button>
-                
                           {% endfor %}
                 
                         </div>
