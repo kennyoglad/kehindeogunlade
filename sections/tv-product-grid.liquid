@@ -174,10 +174,13 @@
               {% if product.available %}
 
                 <form class="tv-product-popup__form">
+
+                 
+                
                   {% for option in product.options_with_values %}
                 
                     {% if option.name == 'Color' %}
-              
+                
                       <div class="tv-product-popup__option">
                 
                         <label class="tv-product-popup__label">
@@ -187,6 +190,7 @@
                         <div class="tv-product-popup__colors">
                 
                           {% for value in option.values %}
+                
                             <button
                               type="button"
                               class="tv-product-popup__color"
@@ -195,13 +199,27 @@
                             >
                               {{ value }}
                             </button>
+                
                           {% endfor %}
                 
                         </div>
                 
                       </div>
                 
-                    {% else %}
+                    {% endif %}
+                
+                  {% endfor %}
+                
+                
+                  {%- comment -%}
+                    ==========================================================
+                    ALL OTHER OPTIONS — AFTER COLOR
+                    ==========================================================
+                  {%- endcomment -%}
+                
+                  {% for option in product.options_with_values %}
+                
+                    {% unless option.name == 'Color' %}
                 
                       <div class="tv-product-popup__option">
                 
@@ -219,27 +237,35 @@
                           </option>
                 
                           {% for value in option.values %}
+                
                             <option value="{{ value }}">
                               {{ value }}
                             </option>
+                
                           {% endfor %}
                 
                         </select>
                 
                       </div>
                 
-                    {% endif %}
+                    {% endunless %}
                 
                   {% endfor %}
                 
-                  <button
-                      type="button"
-                      class="tv-product-popup__add"
-                      data-product-id="{{ product.id }}"
-                  >
-                      <span>ADD TO CART</span>
                 
-                      <span class="tv-product-popup__arrow">→</span>
+                  {%- comment -%}
+                    ==========================================================
+                    ADD TO CART
+                    ==========================================================
+                  {%- endcomment -%}
+                
+                  <button
+                    type="button"
+                    class="tv-product-popup__add"
+                    data-product-id="{{ product.id }}"
+                  >
+                    <span>ADD TO CART</span>
+                    <span class="tv-product-popup__arrow">→</span>
                   </button>
                 
                 </form>
