@@ -189,11 +189,10 @@
                 
                         <div class="tv-product-popup__colors">
                 
-                          {% for value in option.values %}
-                
-                          {% assign accent = "#DDDDDD" %}
+                          {% assign colour = value | strip | downcase %}
+{% assign accent = "#DDDDDD" %}
 
-{% case value | downcase %}
+{% case colour %}
   {% when 'white' %}
     {% assign accent = "#FFFFFF" %}
   {% when 'black' %}
