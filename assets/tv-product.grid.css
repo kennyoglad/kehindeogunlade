@@ -596,101 +596,130 @@
 }
 
 
-/*==============================================================
-COLOR OPTIONS
-==============================================================*/
+/* ==========================================================
+   COLOR OPTIONS
 
-.tv-product-popup__colors{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    border:.5px solid #000;
-    overflow:hidden;
+   Figma:
+   Component width = 271px
+
+   The buttons are rendered dynamically from
+   product.options_with_values.
+   ========================================================== */
+
+.tv-product-popup__colors {
+  width: 271px;
+  min-height: 41px;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  box-sizing: border-box;
+  border: 0.5px solid #000000;
 }
 
-/*==============================================================
-COLOR BUTTON
-==============================================================*/
 
-.tv-product-popup__color{
+/* ==========================================================
+   COLOR BUTTON
 
-    position:relative;
+   Figma:
+   Jost
+   18px
+   Weight: 400
+   Line height: 100%
+   Letter spacing: -0.02em
+   Capitalize
+   ========================================================== */
 
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-
-    width:100%;
-    height:40px;
-
-    padding-left:18px;
-
-    background:#fff;
-
-    color:#000;
-
-    border:0;
-
-    font-family:"Jost",sans-serif;
-    font-size:18px;
-    font-weight:400;
-    line-height:100%;
-    letter-spacing:-.02em;
-    text-transform:capitalize;
-
-    cursor:pointer;
-
-    transition:
-        background .2s,
-        color .2s;
+.tv-product-popup__color {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 0 10px 0 18px;
+  border: 0;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
+  font-family: "Jost", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
-/* vertical divider */
 
-.tv-product-popup__color + .tv-product-popup__color{
+/* ==========================================================
+   DIVIDER BETWEEN COLOR BUTTONS
 
-    border-left:.5px solid #000;
+   Figma has a thin vertical divider.
+   ========================================================== */
+
+.tv-product-popup__color + .tv-product-popup__color {
+  border-left: 0.5px solid #000000;
 }
 
-/* accent strip */
 
-.tv-product-popup__color::before{
+/* ==========================================================
+   COLOR ACCENT BAR
 
-    content:"";
+   Thin vertical accent on the left edge.
 
-    position:absolute;
+   The actual color can later be supplied dynamically
+   from JavaScript/Liquid.
 
-    top:0;
-    left:0;
+   Default = white.
+   ========================================================== */
 
-    width:6px;
-    height:100%;
+.tv-product-popup__color::before {
+  content: "";
 
-    background:var(--color-strip);
+  position: absolute;
 
-    border-right:.5px solid #000;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 4px;
+
+  background: var(--tv-color-accent, #ffffff);
+
+  border-right: 0.5px solid #000000;
+
+  box-sizing: border-box;
 }
 
-/* hover */
 
-.tv-product-popup__color:hover{
+/* ==========================================================
+   COLOR HOVER
+   ========================================================== */
 
-    background:#f8f8f8;
+.tv-product-popup__color:hover {
+  background: #f8f8f8;
 }
 
-/* selected */
 
-.tv-product-popup__color.active{
+/* ==========================================================
+   COLOR ACTIVE
 
-    background:#000;
+   Do NOT turn the complete button black.
+   The Figma design keeps the option white.
+   ========================================================== */
 
-    color:#fff;
-}
+.tv-product-popup__color.active {
+  background: #ffffff;
 
-/* keep strip visible */
-
-.tv-product-popup__color.active::before{
-
-    background:var(--color-strip);
+  color: #000000;
 }
 
 
