@@ -83,5 +83,16 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {% assign auto_add_product = all_products['soft-winter-jacket'] %}
+<script>
+  window.tvAutoAddVariants = {
+    {% if auto_add_product %}
+      "{{ auto_add_product.handle }}": {{ auto_add_product.selected_or_first_available_variant.id | json }}
+    {% endif %}
+  };
+</script>
+{{ 'tv-product.modal.js' | asset_url | script_tag }}
+
   </body>
 </html>
