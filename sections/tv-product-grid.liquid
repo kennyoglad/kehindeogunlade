@@ -189,53 +189,44 @@
                 
                         <div class="tv-product-popup__colors">
                 
-                          {% assign colour = value | strip | downcase %}
-{% assign accent = "#DDDDDD" %}
+                         {% for value in option.values %}
+  {% assign colour = value | strip | downcase %}
+  {% assign accent = "#DDDDDD" %}
 
-{% case colour %}
-  {% when 'white' %}
-    {% assign accent = "#FFFFFF" %}
-  {% when 'black' %}
-    {% assign accent = "#000000" %}
-  {% when 'blue' %}
-    {% assign accent = "#0D499F" %}
-  {% when 'red' %}
-    {% assign accent = "#B20F36" %}
-  {% when 'grey' %}
-    {% assign accent = "#AFAFB7" %}
-  {% when 'gray' %}
-    {% assign accent = "#AFAFB7" %}
-  {% when 'green' %}
-    {% assign accent = "#4D8B31" %}
-  {% when 'brown' %}
-    {% assign accent = "#7A4A2E" %}
-  {% when 'orange' %}
-    {% assign accent = "#DD7A1D" %}
-  {% when 'beige' %}
-    {% assign accent = "#DCC7A1" %}
-  {% when 'pink' %}
-    {% assign accent = "#E6A5B8" %}
-  {% when 'yellow' %}
-    {% assign accent = "#E4C63C" %}
-{% endcase %}
+  {% case colour %}
+    {% when 'white' %}
+      {% assign accent = "#FFFFFF" %}
+    {% when 'black' %}
+      {% assign accent = "#000000" %}
+    {% when 'blue' %}
+      {% assign accent = "#0D499F" %}
+    {% when 'red' %}
+      {% assign accent = "#B20F36" %}
+    {% when 'grey', 'gray' %}
+      {% assign accent = "#AFAFB7" %}
+    {% when 'green' %}
+      {% assign accent = "#4D8B31" %}
+    {% when 'brown' %}
+      {% assign accent = "#7A4A2E" %}
+    {% when 'orange' %}
+      {% assign accent = "#DD7A1D" %}
+    {% when 'beige' %}
+      {% assign accent = "#DCC7A1" %}
+    {% when 'pink' %}
+      {% assign accent = "#E6A5B8" %}
+    {% when 'yellow' %}
+      {% assign accent = "#E4C63C" %}
+  {% endcase %}
 
-
-
-
-
-
-
-
-
-
-<button
-  type="button"
-  class="tv-product-popup__color"
-  style="--tv-color-accent: {{ accent }};"
->
-  {{ value }} - {{ accent }}
-</button>
-                          {% endfor %}
+  <button
+    type="button"
+    class="tv-product-popup__color"
+    style="--tv-color-accent: {{ accent }};"
+    data-color="{{ value | escape }}"
+  >
+    {{ value }}
+  </button>
+{% endfor %}
                 
                         </div>
                 
