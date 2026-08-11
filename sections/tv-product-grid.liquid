@@ -481,6 +481,28 @@
     );
 
   })();
+
+
+document.querySelectorAll(".tv-product-popup__colors").forEach(function(group){
+
+    const buttons = group.querySelectorAll(".tv-product-popup__color");
+
+    buttons.forEach(function(button){
+
+        button.addEventListener("click",function(){
+
+            buttons.forEach(function(btn){
+                btn.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+});
+
 </script>
 
 
