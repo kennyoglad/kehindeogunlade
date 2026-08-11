@@ -701,15 +701,6 @@
 
 
 /* ==========================================================
-   COLOR HOVER
-   ========================================================== */
-
-.tv-product-popup__color:hover {
-  background: #f8f8f8;
-}
-
-
-/* ==========================================================
    COLOR ACTIVE
 
    Do NOT turn the complete button black.
@@ -717,11 +708,14 @@
    ========================================================== */
 
 .tv-product-popup__color.active {
-  background: #ffffff;
-
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
 }
 
+
+.tv-product-popup__color.active::before{
+    background: var(--tv-color-accent);
+}
 
 /* ==========================================================
    SIZE OPTION
