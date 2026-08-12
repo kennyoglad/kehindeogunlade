@@ -948,34 +948,24 @@ MOBILE — MAX WIDTH 749px
 
   .tv-page .tv-banner__logo {
     position: absolute;
-
     left: 50%;
     top: 23px;
-
     width: 151.44px;
     height: 19px;
-
     margin: 0;
     padding: 0;
-
     transform: translateX(-50%);
-
     display: flex;
     align-items: center;
-
     z-index: 10;
-
     box-sizing: border-box;
   }
 
   .tv-page .tv-banner__logo-image {
     display: block;
-
     width: 151.44px;
     height: 19px;
-
     max-width: none;
-
     margin: 0;
     padding: 0;
   }
@@ -1031,18 +1021,33 @@ height = 421px
 The canvas itself stays the size of the viewport.
 The 686px artwork is positioned INSIDE it.
 ======================================================== */
+/* ========================================================
+MOBILE HERO CANVAS
+
+375.44px × 421px Figma hero frame.
+
+The canvas is the clipping viewport.
+The artwork itself is 686px wide.
+======================================================== */
 
 .tv-page .tv-banner__canvas {
   position: absolute;
+
   left: 0;
   top: 0;
+
   width: 100%;
   height: 421px;
+
   margin: 0;
   padding: 0;
+
   overflow: hidden;
+
   box-sizing: border-box;
+
   background: transparent;
+
   z-index: 1;
 }
 
@@ -1050,33 +1055,43 @@ The 686px artwork is positioned INSIDE it.
 /* ========================================================
 MOBILE BANNER ARTWORK
 
-Figma: banner-mobile.svg
+Figma:
 
-width = 686px
-left  = calc(50% - 686px/2 + 15.5px)
-top   = 37.29%
+width  = 686px
+left   = calc(50% - 686px/2 + 15.5px)
+top    = 37.29%
 bottom = 0%
 
-The artwork is intentionally wider than the
-375.44px canvas and is clipped on both sides.
+The 686px artwork is intentionally wider than
+the 375.44px canvas and is clipped on both sides.
 ======================================================== */
+
 .tv-page .tv-banner__canvas::before {
   content: "";
+
   position: absolute;
+
   width: 686px;
+
   left: calc(50% - 686px / 2 + 15.5px);
+
   top: 37.29%;
   bottom: 0;
+
   margin: 0;
   padding: 0;
-  background-image: url('{{ 'banner-mobile.svg' | asset_url }}');
+
+  background-image: var(--tv-banner-artwork-mobile);
+
   background-repeat: no-repeat;
+
   background-size: 686px auto;
   background-position: 0 0;
+
   background-color: transparent;
+
   z-index: 0;
 }
- 
 
   /* ========================================================
   MOBILE CONTENT LAYER
