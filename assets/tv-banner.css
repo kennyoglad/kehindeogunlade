@@ -1050,21 +1050,41 @@ MOBILE — MAX WIDTH 749px
   elements anymore.
   ======================================================== */
 
- .tv-page .tv-banner__canvas {
+
+
+  .tv-page .tv-banner__canvas {
   position: absolute;
-  left: calc(50% - 343px + 15.5px);
-  top: 157px;
+
+  /* Figma:
+     width = 686px
+     left = calc(50% - 686px/2 + 15.5px)
+  */
+  left: calc(50% - 686px / 2 + 15.5px);
+
+  /* Figma:
+     top = 37.29%
+     bottom = 0%
+  */
+  top: 37.29%;
+  bottom: 0;
+
   width: 686px;
-  height: 264px;
+
   margin: 0;
   padding: 0;
+
   overflow: hidden;
   box-sizing: border-box;
+
   z-index: 1;
+
   background-image: url('{{ 'banner-mobile.svg' | asset_url }}');
   background-repeat: no-repeat;
+
+  /* The artwork frame itself is 686px wide */
   background-size: 686px auto;
   background-position: 0 0;
+
   background-color: transparent;
 }
 
