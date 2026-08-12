@@ -1,7 +1,3 @@
-html,
-body {
-  background-color: #000000 !important;
-}
 
 /* ==========================================================
 TV PAGE — FIGMA DESKTOP CANVAS
@@ -1132,34 +1128,48 @@ The artwork itself is 686px wide.
   }
 
 
+  /* ========================================================
+  MOBILE DESCRIPTION
 
+  Figma:
+  width  = 340px
+  height = 42px
+  top    = 103px
+  font   = 16px
+  line   = 21px
+  ======================================================== */
 
-/* ========================================================
-MOBILE DESCRIPTION
-Hidden by default.
-Only enabled inside the mobile breakpoint.
-======================================================== */
+  .tv-page .tv-banner__description {
+  position: absolute;
+  left: 50%;
+  top: 103px;
+  width: 340px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+  /* Desktop description is hidden on mobile */
+.tv-page .tv-banner__description--desktop {
+  display: none !important;
+}
 
 .tv-page .tv-banner__description--mobile {
-  display: none;
+  display: flex !important;
 }
 
-
-/* ========================================================
-MOBILE
-======================================================== */
-
-@media screen and (max-width: 749px) {
-
-  .tv-page .tv-banner__description--desktop {
-    display: none;
-  }
-
-  .tv-page .tv-banner__description--mobile {
-    display: flex;
-  }
-
-}
   /* ========================================================
   MOBILE MAIN BUTTON
 
