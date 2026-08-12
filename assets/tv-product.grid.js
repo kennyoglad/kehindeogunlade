@@ -918,6 +918,6 @@ if (document.readyState === 'loading') {
   initializeProductGrids();
 }
 
-})();
+
 
 })();
