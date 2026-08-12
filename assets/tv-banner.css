@@ -1174,37 +1174,36 @@ the 375.44px canvas and is clipped on both sides.
   ======================================================== */
 
   .tv-page .tv-banner__description {
-    position: absolute;
+  position: absolute;
+  left: 50%;
+  top: 103px;
+  width: 340px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  box-sizing: border-box;
+}
 
-    left: 50%;
-    top: 103px;
+  /* Desktop description is hidden on mobile */
+.tv-page .tv-banner__description--desktop {
+  display: none !important;
+}
 
-    width: 340px;
-    height: 42px;
-
-    margin: 0;
-    padding: 0;
-
-    transform: translateX(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #000000;
-
-    font-family: 'Jost', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-
-    font-size: 16px;
-    line-height: 21px;
-
-    text-align: center;
-
-    box-sizing: border-box;
-  }
-
+/* Mobile description */
+.tv-page .tv-banner__description--mobile {
+  display: flex;
+}
 
   /* ========================================================
   MOBILE MAIN BUTTON
