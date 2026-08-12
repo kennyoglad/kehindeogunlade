@@ -800,7 +800,15 @@ body {
   box-sizing: border-box;
 }
 
+/* ==========================================================
+   MOBILE MENU BUTTON
+   Hidden by default.
+   Desktop layout remains completely unchanged.
+   ========================================================== */
 
+.tv-page .tv-banner__menu {
+  display: none;
+}
 /* ==========================================================
    TV BANNER — MOBILE
    Figma mobile: 375.44 × 520px
@@ -1003,15 +1011,7 @@ body {
 
 }
 
-/* ==========================================================
-   MOBILE MENU BUTTON
-   Hidden by default.
-   Desktop layout remains completely unchanged.
-   ========================================================== */
 
-.tv-page .tv-banner__menu {
-  display: none;
-}
 
   /* ========================================================
      MAIN HERO
