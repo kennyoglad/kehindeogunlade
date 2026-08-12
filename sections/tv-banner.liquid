@@ -115,96 +115,49 @@
 
   <main class="tv-banner__main">
 
-    <div class="tv-banner__canvas">
+  <div
+    class="tv-banner__canvas"
+    style="background-image: url('{{ 'banner.svg' | asset_url }}');"
+  >
 
+    <div class="tv-banner__content">
 
-      <!-- TOP ARTWORK -->
-      <div class="tv-banner__artwork tv-banner__artwork--top">
+      {% if section.settings.heading != blank %}
+        <h1 class="tv-banner__heading">
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
 
-        <img
-          src="{{ 'artworktop.png' | asset_url }}"
-          class="tv-banner__artwork-image"
-          alt="Gift Guide artwork"
-          loading="eager"
-          width="1440"
-          height="390"
+      {% if section.settings.description != blank %}
+        <div class="tv-banner__description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.main_button_text != blank %}
+        <a
+          href="{{ section.settings.main_button_link | default: '#' }}"
+          class="tv-banner__main-button"
         >
+          <span class="tv-banner__main-button-text">
+            {{ section.settings.main_button_text }}
+          </span>
 
-      </div>
-
-
-      <!-- BOTTOM ARTWORK -->
-      <div class="tv-banner__artwork tv-banner__artwork--bottom">
-
-        <img
-          src="{{ 'artworkbottom.png' | asset_url }}"
-          class="tv-banner__artwork-image"
-          alt="Gift Guide artwork"
-          loading="eager"
-          width="890"
-          height="402"
-        >
-
-      </div>
-
-
-      <!-- ==================================================
-           MAIN CONTENT
-           ================================================== -->
-
-      <div class="tv-banner__content">
-
-
-        <!-- HEADING -->
-        {% if section.settings.heading != blank %}
-
-          <h1 class="tv-banner__heading">
-            {{ section.settings.heading }}
-          </h1>
-
-        {% endif %}
-
-
-        <!-- DESCRIPTION -->
-        {% if section.settings.description != blank %}
-
-          <div class="tv-banner__description">
-            {{ section.settings.description }}
-          </div>
-
-        {% endif %}
-
-
-        <!-- MAIN BUTTON -->
-        {% if section.settings.main_button_text != blank %}
-
-          <a
-            href="{{ section.settings.main_button_link | default: '#' }}"
-            class="tv-banner__main-button"
+          <span
+            class="tv-banner__main-button-arrow"
+            aria-hidden="true"
           >
-
-            <span class="tv-banner__main-button-text">
-              {{ section.settings.main_button_text }}
-            </span>
-
-            <span
-              class="tv-banner__main-button-arrow"
-              aria-hidden="true"
-            >
-              <span class="tv-banner__main-arrow-line"></span>
-              <span class="tv-banner__main-arrow-head"></span>
-            </span>
-
-          </a>
-
-        {% endif %}
-
-
-      </div>
+            <span class="tv-banner__main-arrow-line"></span>
+            <span class="tv-banner__main-arrow-head"></span>
+          </span>
+        </a>
+      {% endif %}
 
     </div>
 
-  </main>
+  </div>
+
+</main>
 
 
   <!-- ======================================================
