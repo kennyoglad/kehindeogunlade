@@ -1011,75 +1011,64 @@ MOBILE — MAX WIDTH 749px
 
 
 /* ========================================================
-MOBILE HERO CANVAS
+MOBILE HERO CANVAS / FIGMA ARTWORK FRAME
 
-375.44px × 421px Figma hero frame.
+Figma hero:
+375px × 421px
 
-The canvas is the clipping viewport.
-The artwork itself is 686px wide.
+Figma artwork frame:
+width = 686px
+left  = calc(50% - 686px/2 + 15.5px)
+top   = 37.29%
+bottom = 0
+
+The 686px frame intentionally extends outside
+the 375px mobile hero and is clipped by the hero.
 ======================================================== */
 
 .tv-page .tv-banner__canvas {
   position: absolute;
 
-  left: 0;
-  top: 0;
+  /* Figma horizontal position */
+  left: calc(50% - 686px / 2 + 15.5px);
 
-  width: 100%;
-  height: 421px;
+  /* Figma vertical position */
+  top: 37.29%;
+
+  /* 686px Figma artwork frame */
+  width: 686px;
+
+  /*
+    Main hero is 421px high.
+    421 × 37.29% ≈ 157px.
+    Therefore:
+    421 - 157 = 264px
+  */
+  height: 264px;
 
   margin: 0;
   padding: 0;
 
   overflow: hidden;
-
   box-sizing: border-box;
 
-  background: transparent;
-
   z-index: 1;
-}
 
-
-/* ========================================================
-MOBILE BANNER ARTWORK
-
-Figma:
-
-width  = 686px
-left   = calc(50% - 686px/2 + 15.5px)
-top    = 37.29%
-bottom = 0%
-
-The 686px artwork is intentionally wider than
-the 375.44px canvas and is clipped on both sides.
-======================================================== */
-
-.tv-page .tv-banner__canvas::before {
-  content: "";
-
-  position: absolute;
-
-  width: 686px;
-
-  left: calc(50% - 686px / 2 + 15.5px);
-
-  top: 37.29%;
-  bottom: 0;
-
-  margin: 0;
-  padding: 0;
-
-  background-image: var(--tv-banner-artwork-mobile);
+  /* The actual mobile SVG */
+  background-image: url('{{ 'banner-mobile.svg' | asset_url }}');
 
   background-repeat: no-repeat;
 
-  background-size: 686px auto;
+  /*
+    IMPORTANT:
+    The SVG is rendered at exactly the Figma
+    artwork-frame width.
+  */
+  background-size: 686px 264px;
+
   background-position: 0 0;
 
   background-color: transparent;
-
-  z-index: 0;
 }
 
   /* ========================================================
@@ -1186,11 +1175,21 @@ the 375.44px canvas and is clipped on both sides.
 
   /* Desktop description is hidden on mobile */
 .tv-page .tv-banner__description--desktop {
-  display: none !important;
+  display: block;
 }
 
 .tv-page .tv-banner__description--mobile {
-  display: flex !important;
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .tv-page .tv-banner__description--desktop {
+    display: none;
+  }
+
+  .tv-page .tv-banner__description--mobile {
+    display: flex;
+  }
 }
 
   /* ========================================================
