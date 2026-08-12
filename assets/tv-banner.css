@@ -791,28 +791,20 @@ MOBILE — MAX WIDTH 749px
   width = 375.44px
   gap   = 40px
   ======================================================== */
-
   .tv-page {
     width: 100%;
     max-width: 100%;
     min-height: auto;
-
     margin: 0;
     padding: 0;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
     gap: 40px;
-
     background: #ffffff;
-
     overflow: hidden;
-
     box-sizing: border-box;
   }
-
 
   /* ========================================================
   TV BANNER
@@ -827,25 +819,17 @@ MOBILE — MAX WIDTH 749px
 
   .tv-page .tv-banner {
     position: relative;
-
     width: 100%;
     max-width: 100%;
-
     height: 520px;
     min-height: 520px;
-
     flex: 0 0 520px;
-
     margin: 0;
     padding: 0;
-
     overflow: hidden;
-
     background: #ffffff;
-
     box-sizing: border-box;
   }
-
 
   /* ========================================================
   MOBILE HEADER
@@ -856,41 +840,28 @@ MOBILE — MAX WIDTH 749px
 
   .tv-page .tv-banner__header {
     position: absolute;
-
     left: 0;
     top: 0;
-
     width: 100%;
     height: 65px;
-
     margin: 0;
     padding: 0;
-
     background: #f7f7f7;
-
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-
     z-index: 100;
-
     box-sizing: border-box;
   }
-
 
   /* ========================================================
   HEADER INNER
   ======================================================== */
-
   .tv-page .tv-banner__header-inner {
     position: relative;
-
     width: 100%;
     height: 65px;
-
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
-
     display: block;
   }
 
