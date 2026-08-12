@@ -392,10 +392,9 @@ body {
 
 
 /* ==========================================================
-   BANNER MAIN
-   Exact Figma:
-   top    64px
-   height 780px
+   BANNER MAIN — DESKTOP
+   Figma: 1440 × 780px
+   Starts below 64px header
    ========================================================== */
 
 .tv-page .tv-banner__main {
@@ -407,6 +406,9 @@ body {
   width: 1440px;
   height: 780px;
 
+  margin: 0;
+  padding: 0;
+
   box-sizing: border-box;
 
   overflow: hidden;
@@ -416,83 +418,53 @@ body {
 
 
 /* ==========================================================
-   ARTWORK
+   MERGED BANNER ARTWORK
+   banner.svg = complete 1440 × 780 artwork
    ========================================================== */
 
-.tv-page .tv-banner__artwork {
-  position: absolute;
-
-  margin: 0;
-  padding: 0;
-
-  z-index: 1;
-
-  pointer-events: none;
-
-  overflow: hidden;
-}
-
-
-.tv-page .tv-banner__artwork-image {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  max-width: none;
-
-  object-fit: fill;
-}
-
-
-/* TOP ARTWORK
-   1440 × 390
-*/
-
-.tv-page .tv-banner__artwork--top {
-  left: 0;
-  top: 0;
+.tv-page .tv-banner__canvas {
+  position: relative;
 
   width: 1440px;
-  height: 390px;
-}
+  height: 780px;
 
+  margin: 0;
+  padding: 0;
 
-/* BOTTOM ARTWORK
-   x: 550
-   y: 378
-   890 × 402
-*/
+  box-sizing: border-box;
 
-.tv-page .tv-banner__artwork--bottom {
-  left: 550px;
-  top: 378px;
+  overflow: hidden;
 
-  width: 890px;
-  height: 402px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 1440px 780px;
 }
 
 
 /* ==========================================================
    BANNER CONTENT
+   Content remains positioned against the
+   1440 × 780 Figma frame.
    ========================================================== */
 
 .tv-page .tv-banner__content {
   position: absolute;
 
-  inset: 0;
+  left: 0;
+  top: 0;
 
   width: 1440px;
   height: 780px;
 
-  z-index: 3;
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  z-index: 2;
 
   pointer-events: none;
 }
-
 
 .tv-page .tv-banner__content > * {
   pointer-events: auto;
