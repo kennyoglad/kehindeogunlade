@@ -1393,6 +1393,21 @@ MOBILE — MAX WIDTH 749px
   }
 
 
+.tv-page .tv-banner__footer-text--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .tv-page .tv-banner__footer-text--desktop {
+    display: none;
+  }
+
+  .tv-page .tv-banner__footer-text--mobile {
+    display: flex;
+  }
+}
+
+  
   /* ========================================================
   MOBILE ARTWORK ELEMENTS
 
