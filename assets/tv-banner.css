@@ -1174,6 +1174,21 @@ The artwork itself is 686px wide.
   display: flex !important;
 }
 
+
+
+  /* ========================================================
+DESCRIPTION VISIBILITY
+Desktop shows the full description.
+Mobile shows only the mobile description.
+======================================================== */
+
+.tv-banner__description--mobile {
+  display: none;
+}
+
+.tv-banner__description--desktop {
+  display: flex;
+}
   /* ========================================================
   MOBILE MAIN BUTTON
 
