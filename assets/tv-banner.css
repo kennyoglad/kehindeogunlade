@@ -1034,22 +1034,15 @@ The 686px artwork is positioned INSIDE it.
 
 .tv-page .tv-banner__canvas {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 100%;
   height: 421px;
-
   margin: 0;
   padding: 0;
-
   overflow: hidden;
-
   box-sizing: border-box;
-
   background: transparent;
-
   z-index: 1;
 }
 
@@ -1067,7 +1060,6 @@ bottom = 0%
 The artwork is intentionally wider than the
 375.44px canvas and is clipped on both sides.
 ======================================================== */
-
 .tv-page .tv-banner__canvas::before {
   content: "";
   position: absolute;
