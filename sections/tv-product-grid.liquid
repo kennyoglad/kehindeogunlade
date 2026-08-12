@@ -175,61 +175,65 @@
 
                 <form class="tv-product-popup__form">
 
-                 
+                 <script type="application/json" class="tv-product-popup__variants">
+                  {{ product.variants | json }}
+                </script>
                 
                   {% for option in product.options_with_values %}
                 
                     {% if option.name == 'Color' %}
                 
                       <div class="tv-product-popup__option">
-                
+
                         <label class="tv-product-popup__label">
                           {{ option.name }}
                         </label>
-                
+                      
                         <div class="tv-product-popup__colors">
-                
-                         {% for value in option.values %}
-                        {% assign colour = value | strip | downcase %}
-                        {% assign accent = "#DDDDDD" %}
                       
-                        {% case colour %}
-                          {% when 'white' %}
-                            {% assign accent = "#FFFFFF" %}
-                          {% when 'black' %}
-                            {% assign accent = "#000000" %}
-                          {% when 'blue' %}
-                            {% assign accent = "#0D499F" %}
-                          {% when 'red' %}
-                            {% assign accent = "#B20F36" %}
-                          {% when 'grey', 'gray' %}
-                            {% assign accent = "#AFAFB7" %}
-                          {% when 'green' %}
-                            {% assign accent = "#4D8B31" %}
-                          {% when 'brown' %}
-                            {% assign accent = "#7A4A2E" %}
-                          {% when 'orange' %}
-                            {% assign accent = "#DD7A1D" %}
-                          {% when 'beige' %}
-                            {% assign accent = "#DCC7A1" %}
-                          {% when 'pink' %}
-                            {% assign accent = "#E6A5B8" %}
-                          {% when 'yellow' %}
-                            {% assign accent = "#E4C63C" %}
-                        {% endcase %}
+                          {% for value in option.values %}
                       
-                        <button
-                          type="button"
-                          class="tv-product-popup__color"
-                          style="--tv-color-accent: {{ accent }};"
-                          data-color="{{ value | escape }}"
-                        >
-                          {{ value }}
-                        </button>
-                      {% endfor %}
-                
+                            {% assign colour = value | strip | downcase %}
+                            {% assign accent = "#DDDDDD" %}
+                      
+                            {% case colour %}
+                              {% when 'white' %}
+                                {% assign accent = "#FFFFFF" %}
+                              {% when 'black' %}
+                                {% assign accent = "#000000" %}
+                              {% when 'blue' %}
+                                {% assign accent = "#0D499F" %}
+                              {% when 'red' %}
+                                {% assign accent = "#B20F36" %}
+                              {% when 'grey', 'gray' %}
+                                {% assign accent = "#AFAFB7" %}
+                              {% when 'green' %}
+                                {% assign accent = "#4D8B31" %}
+                              {% when 'brown' %}
+                                {% assign accent = "#7A4A2E" %}
+                              {% when 'orange' %}
+                                {% assign accent = "#DD7A1D" %}
+                              {% when 'beige' %}
+                                {% assign accent = "#DCC7A1" %}
+                              {% when 'pink' %}
+                                {% assign accent = "#E6A5B8" %}
+                              {% when 'yellow' %}
+                                {% assign accent = "#E4C63C" %}
+                            {% endcase %}
+                      
+                            <button
+                              type="button"
+                              class="tv-product-popup__color"
+                              data-color="{{ value | escape }}"
+                              style="--tv-color-accent: {{ accent }};"
+                            >
+                              {{ value }}
+                            </button>
+                      
+                          {% endfor %}
+                      
                         </div>
-                
+                      
                       </div>
                 
                     {% endif %}
@@ -289,6 +293,7 @@
                     type="button"
                     class="tv-product-popup__add"
                     data-product-id="{{ product.id }}"
+                    data-product-handle="{{ product.handle }}"
                   >
                     <span>ADD TO CART</span>
                     <span class="tv-product-popup__arrow">→</span>
@@ -491,25 +496,446 @@
   })();
 
 
-document.querySelectorAll(".tv-product-popup__colors").forEach(function(group){
+/*
+ * ==========================================================
+ * PRODUCT VARIANT + ADD TO CART
+ * ==========================================================
+ */
 
-    const buttons = group.querySelectorAll(".tv-product-popup__color");
+(function () {
 
-    buttons.forEach(function(button){
+  const section = document.getElementById(
+    'tv-product-grid-{{ section.id }}'
+  );
 
-        button.addEventListener("click",function(){
+  if (!section) return;
 
-            buttons.forEach(function(btn){
-                btn.classList.remove("active");
-            });
 
-            this.classList.add("active");
+  /*
+   * ----------------------------------------------------------
+   * Find the variant matching the current selections
+   * ----------------------------------------------------------
+   */
 
-        });
+  function getSelectedVariant(form) {
+
+    const variantsElement = form.querySelector(
+      '.tv-product-popup__variants'
+    );
+
+    if (!variantsElement) return null;
+
+    let variants;
+
+    try {
+      variants = JSON.parse(
+        variantsElement.textContent
+      );
+    } catch (error) {
+      console.error(
+        'Unable to read product variants.',
+        error
+      );
+
+      return null;
+    }
+
+
+    const selectedOptions = [];
+
+
+    /*
+     * Color
+     */
+
+    const activeColor = form.querySelector(
+      '.tv-product-popup__color.active'
+    );
+
+    if (activeColor) {
+      selectedOptions.push(
+        activeColor.dataset.color
+      );
+    }
+
+
+    /*
+     * Other options such as Size
+     */
+
+    const selects = form.querySelectorAll(
+      '.tv-product-popup__select'
+    );
+
+    selects.forEach(function (select) {
+
+      selectedOptions.push(
+        select.value
+      );
 
     });
 
-});
+
+    /*
+     * A variant can only be resolved once
+     * all required options have been selected.
+     */
+
+    if (
+      selectedOptions.some(function (value) {
+        return !value;
+      })
+    ) {
+      return null;
+    }
+
+
+    /*
+     * Find exact Shopify variant.
+     */
+
+    return variants.find(function (variant) {
+
+      return selectedOptions.every(
+        function (value, index) {
+
+          return variant[
+            'option' + (index + 1)
+          ] === value;
+
+        }
+      );
+
+    }) || null;
+
+  }
+
+
+  /*
+   * ----------------------------------------------------------
+   * Color selection
+   * ----------------------------------------------------------
+   */
+
+  section
+    .querySelectorAll('.tv-product-popup__colors')
+    .forEach(function (group) {
+
+      const buttons = group.querySelectorAll(
+        '.tv-product-popup__color'
+      );
+
+
+      buttons.forEach(function (button) {
+
+        button.addEventListener(
+          'click',
+          function () {
+
+            buttons.forEach(function (btn) {
+              btn.classList.remove('active');
+            });
+
+            button.classList.add('active');
+
+          }
+        );
+
+      });
+
+    });
+
+
+  /*
+   * ----------------------------------------------------------
+   * Add product to Shopify cart
+   * ----------------------------------------------------------
+   */
+
+  async function addToCart(variantId, quantity) {
+
+    const response = await fetch(
+      '/cart/add.js',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+
+        body: JSON.stringify({
+          items: [
+            {
+              id: variantId,
+              quantity: quantity || 1
+            }
+          ]
+        })
+      }
+    );
+
+
+    if (!response.ok) {
+
+      let errorData = null;
+
+      try {
+        errorData = await response.json();
+      } catch (error) {
+        // Ignore JSON parsing errors.
+      }
+
+      throw new Error(
+        errorData?.description ||
+        'Unable to add product to cart.'
+      );
+
+    }
+
+
+    return response.json();
+
+  }
+
+
+  /*
+   * ----------------------------------------------------------
+   * Find Soft Winter Jacket
+   * ----------------------------------------------------------
+   */
+
+  async function getSoftWinterJacketVariant() {
+
+    const response = await fetch(
+      '/products/soft-winter-jacket.js'
+    );
+
+
+    if (!response.ok) {
+      throw new Error(
+        'Soft Winter Jacket could not be found.'
+      );
+    }
+
+
+    const product = await response.json();
+
+
+    /*
+     * Prefer an available variant.
+     */
+
+    return product.variants.find(
+      function (variant) {
+        return variant.available;
+      }
+    ) || null;
+
+  }
+
+
+  /*
+   * ----------------------------------------------------------
+   * ADD TO CART BUTTON
+   * ----------------------------------------------------------
+   */
+
+  section
+    .querySelectorAll('.tv-product-popup__add')
+    .forEach(function (button) {
+
+      button.addEventListener(
+        'click',
+        async function () {
+
+          const form = button.closest(
+            '.tv-product-popup__form'
+          );
+
+          if (!form) return;
+
+
+          const variant = getSelectedVariant(
+            form
+          );
+
+
+          /*
+           * No complete variant selected.
+           */
+
+          if (!variant) {
+
+            alert(
+              'Please select a color and size.'
+            );
+
+            return;
+
+          }
+
+
+          /*
+           * Variant unavailable.
+           */
+
+          if (!variant.available) {
+
+            alert(
+              'This variant is currently unavailable.'
+            );
+
+            return;
+
+          }
+
+
+          /*
+           * Prevent double-clicks.
+           */
+
+          button.disabled = true;
+
+          const originalText =
+            button.querySelector('span');
+
+          if (originalText) {
+            originalText.textContent =
+              'ADDING...';
+          }
+
+
+          try {
+
+            /*
+             * Add selected product.
+             */
+
+            await addToCart(
+              variant.id,
+              1
+            );
+
+
+            /*
+             * Black + Medium rule.
+             */
+
+            const colorButton =
+              form.querySelector(
+                '.tv-product-popup__color.active'
+              );
+
+            const sizeSelect =
+              form.querySelector(
+                '.tv-product-popup__select'
+              );
+
+
+            const selectedColor =
+              colorButton
+                ? colorButton.dataset.color
+                : '';
+
+
+            const selectedSize =
+              sizeSelect
+                ? sizeSelect.value
+                : '';
+
+
+            const isBlackMedium =
+              selectedColor
+                .trim()
+                .toLowerCase() === 'black'
+              &&
+              selectedSize
+                .trim()
+                .toLowerCase() === 'medium';
+
+
+            if (isBlackMedium) {
+
+              try {
+
+                const jacketVariant =
+                  await getSoftWinterJacketVariant();
+
+
+                if (jacketVariant) {
+
+                  await addToCart(
+                    jacketVariant.id,
+                    1
+                  );
+
+                }
+
+              } catch (jacketError) {
+
+                console.error(
+                  'Unable to add Soft Winter Jacket:',
+                  jacketError
+                );
+
+              }
+
+            }
+
+
+            /*
+             * Update cart UI.
+             */
+
+            document.dispatchEvent(
+              new CustomEvent(
+                'cart:updated'
+              )
+            );
+
+
+            /*
+             * Button feedback.
+             */
+
+            if (originalText) {
+              originalText.textContent =
+                'ADDED TO CART';
+            }
+
+
+          } catch (error) {
+
+            console.error(
+              'Add to cart failed:',
+              error
+            );
+
+
+            alert(
+              error.message ||
+              'Unable to add product to cart.'
+            );
+
+
+            if (originalText) {
+              originalText.textContent =
+                'ADD TO CART';
+            }
+
+          } finally {
+
+            button.disabled = false;
+
+          }
+
+        }
+      );
+
+    });
+
+})();
 
 </script>
 
