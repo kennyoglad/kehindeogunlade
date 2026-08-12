@@ -1003,6 +1003,15 @@ body {
 
 }
 
+/* ==========================================================
+   MOBILE MENU BUTTON
+   Hidden by default.
+   Desktop layout remains completely unchanged.
+   ========================================================== */
+
+.tv-page .tv-banner__menu {
+  display: none;
+}
 
   /* ========================================================
      MAIN HERO
