@@ -516,99 +516,181 @@
    * Find the variant matching the current selections
    * ----------------------------------------------------------
    */
+function getSelectedVariant(form) {
 
-  function getSelectedVariant(form) {
+  const variantsElement = form.querySelector(
+    '.tv-product-popup__variants'
+  );
 
-    const variantsElement = form.querySelector(
-      '.tv-product-popup__variants'
+  if (!variantsElement) {
+    console.error('Variant JSON not found.');
+    return null;
+  }
+
+  let variants;
+
+  try {
+    variants = JSON.parse(
+      variantsElement.textContent
     );
+  } catch (error) {
+    console.error(
+      'Unable to parse product variants:',
+      error
+    );
+    return null;
+  }
 
-    if (!variantsElement) return null;
+  /*
+   * Build the selected options by OPTION NAME.
+   */
 
-    let variants;
+  const selections = {};
 
-    try {
-      variants = JSON.parse(
-        variantsElement.textContent
-      );
-    } catch (error) {
-      console.error(
-        'Unable to read product variants.',
-        error
-      );
+  /*
+   * Color
+   */
+  const activeColor = form.querySelector(
+    '.tv-product-popup__color.active'
+  );
 
-      return null;
+  if (activeColor) {
+    selections.Color =
+      activeColor.dataset.color.trim();
+  }
+
+  /*
+   * Other options such as Size
+   */
+  const selects = form.querySelectorAll(
+    '.tv-product-popup__select'
+  );
+
+  selects.forEach(function (select) {
+
+    const optionName =
+      select.dataset.optionName ||
+      select.closest(
+        '.tv-product-popup__option'
+      )?.querySelector(
+        '.tv-product-popup__label'
+      )?.textContent.trim();
+
+    if (!optionName) return;
+
+    selections[optionName] =
+      select.value.trim();
+
+  });
+
+
+  console.log(
+    'Selected options:',
+    selections
+  );
+
+  console.log(
+    'Available variants:',
+    variants
+  );
+
+
+  /*
+   * Make sure every required option
+   * has a selected value.
+   */
+
+  const requiredOptionNames = [];
+
+  /*
+   * Color
+   */
+  if (
+    form.querySelector(
+      '.tv-product-popup__colors'
+    )
+  ) {
+    requiredOptionNames.push('Color');
+  }
+
+  /*
+   * Select options
+   */
+  selects.forEach(function (select) {
+
+    const optionName =
+      select.dataset.optionName ||
+      select.closest(
+        '.tv-product-popup__option'
+      )?.querySelector(
+        '.tv-product-popup__label'
+      )?.textContent.trim();
+
+    if (
+      optionName &&
+      !requiredOptionNames.includes(optionName)
+    ) {
+      requiredOptionNames.push(optionName);
     }
 
-
-    const selectedOptions = [];
-
-
-    /*
-     * Color
-     */
-
-    const activeColor = form.querySelector(
-      '.tv-product-popup__color.active'
-    );
-
-    if (activeColor) {
-      selectedOptions.push(
-        activeColor.dataset.color
-      );
-    }
+  });
 
 
-    /*
-     * Other options such as Size
-     */
+  const missingOption =
+    requiredOptionNames.find(function (name) {
 
-    const selects = form.querySelectorAll(
-      '.tv-product-popup__select'
-    );
-
-    selects.forEach(function (select) {
-
-      selectedOptions.push(
-        select.value
-      );
+      return !selections[name];
 
     });
 
 
-    /*
-     * A variant can only be resolved once
-     * all required options have been selected.
-     */
+  if (missingOption) {
 
-    if (
-      selectedOptions.some(function (value) {
-        return !value;
-      })
-    ) {
-      return null;
-    }
+    console.warn(
+      'Missing variant option:',
+      missingOption
+    );
 
-
-    /*
-     * Find exact Shopify variant.
-     */
-
-    return variants.find(function (variant) {
-
-      return selectedOptions.every(
-        function (value, index) {
-
-          return variant[
-            'option' + (index + 1)
-          ] === value;
-
-        }
-      );
-
-    }) || null;
+    return null;
 
   }
+
+
+  /*
+   * Find the Shopify variant.
+   *
+   * Shopify stores the variant values as
+   * option1, option2, option3.
+   */
+
+  return variants.find(function (variant) {
+
+    const variantOptions = [
+      variant.option1,
+      variant.option2,
+      variant.option3
+    ].filter(function (value) {
+      return value !== null &&
+             value !== undefined;
+    });
+
+
+    return requiredOptionNames.every(
+      function (optionName, index) {
+
+        const selectedValue =
+          selections[optionName];
+
+        return variantOptions.includes(
+          selectedValue
+        );
+
+      }
+    );
+
+  }) || null;
+
+}
 
 
   /*
