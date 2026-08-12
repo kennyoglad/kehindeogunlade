@@ -910,3 +910,195 @@ body.tv-product-popup-open {
 
 }
 
+
+
+/* =========================================================
+   TV PRODUCT GRID — MOBILE
+   Figma: 375.44px mobile design
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+
+  /* -------------------------------------------------------
+     PRODUCT GRID SECTION
+     ------------------------------------------------------- */
+
+  .tv-product-grid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tv-product-grid__container {
+    width: 342px;
+    max-width: 342px;
+    margin: 0 auto;
+  }
+
+
+  /* -------------------------------------------------------
+     HEADING
+     Figma:
+     width 248px
+     height 29px
+     font 24px
+     line-height 120%
+     ------------------------------------------------------- */
+
+  .tv-product-grid__heading {
+    width: 248px;
+    height: 29px;
+
+    margin: 0 auto 20px;
+
+    font-family: 'Lustria', serif;
+    font-size: 24px;
+    line-height: 120%;
+    font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #000000;
+  }
+
+
+  /* -------------------------------------------------------
+     PRODUCT ITEMS
+     Figma:
+     width 342px
+     height 567.26px
+     gap 4px
+     ------------------------------------------------------- */
+
+  .tv-product-grid__items {
+    width: 342px;
+    height: 567.26px;
+
+    display: grid;
+    grid-template-columns: 169px 169px;
+    grid-template-rows: repeat(3, 186.42px);
+
+    column-gap: 4px;
+    row-gap: 4px;
+
+    align-items: start;
+  }
+
+
+  /* -------------------------------------------------------
+     PRODUCT CARD
+     ------------------------------------------------------- */
+
+  .tv-product-card {
+    width: 169px;
+    height: 186.42px;
+
+    position: relative;
+  }
+
+
+  /* -------------------------------------------------------
+     IMAGE
+     ------------------------------------------------------- */
+
+  .tv-product-card__image-wrapper {
+    width: 169px;
+    height: 186.42px;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tv-product-card__image {
+    display: block;
+
+    width: 169px;
+    height: 186.42px;
+
+    object-fit: cover;
+  }
+
+
+  /* -------------------------------------------------------
+     PLACEHOLDER
+     ------------------------------------------------------- */
+
+  .tv-product-card__image-placeholder {
+    width: 169px;
+    height: 186.42px;
+  }
+
+
+  /* -------------------------------------------------------
+     HOTSPOT
+     ------------------------------------------------------- */
+
+  .tv-product-hotspot {
+    position: absolute;
+
+    /* keep the hotspot controlled by your Liquid
+       --hotspot-x / --hotspot-y values */
+    left: var(--hotspot-x);
+    top: var(--hotspot-y);
+
+    transform: translate(-50%, -50%);
+
+    padding: 0;
+    margin: 0;
+
+    width: 16px;
+    height: 16px;
+
+    border: 0;
+    background: transparent;
+
+    z-index: 2;
+  }
+
+  .tv-product-hotspot__circle {
+    width: 16px;
+    height: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(248, 248, 248, 0.9);
+  }
+
+  .tv-product-hotspot__plus {
+    position: relative;
+
+    width: 8px;
+    height: 8px;
+  }
+
+  .tv-product-hotspot__plus::before,
+  .tv-product-hotspot__plus::after {
+    content: '';
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    background: #000000;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .tv-product-hotspot__plus::before {
+    width: 7px;
+    height: 1px;
+  }
+
+  .tv-product-hotspot__plus::after {
+    width: 1px;
+    height: 7px;
+  }
+
+}
