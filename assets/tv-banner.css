@@ -1200,9 +1200,8 @@ the 375.44px canvas and is clipped on both sides.
   display: none !important;
 }
 
-/* Mobile description */
 .tv-page .tv-banner__description--mobile {
-  display: flex;
+  display: flex !important;
 }
 
   /* ========================================================
