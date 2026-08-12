@@ -910,3 +910,193 @@ body.tv-product-popup-open {
 
 }
 
+
+
+```css
+/* ==========================================================
+   MOBILE PRODUCT GRID — FIGMA 375px
+   ========================================================== */
+
+@media screen and (max-width: 749px) {
+
+  /* ----------------------------------------------------------
+     SECTION
+     Figma:
+     banner ends at 520px
+     gap = 40px
+     grid begins at 560px
+     ---------------------------------------------------------- */
+
+  .tv-page > .tv-product-grid-section {
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    flex: 0 0 auto;
+  }
+
+  .tv-product-grid {
+    width: 100%;
+
+    background: #ffffff;
+  }
+
+
+  /* ----------------------------------------------------------
+     CONTAINER
+     Figma:
+     342px wide
+     ---------------------------------------------------------- */
+
+  .tv-product-grid__container {
+    width: 342px;
+    max-width: 342px;
+
+    margin: 0 auto;
+    padding: 0;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADING
+     Figma:
+     248 × 29px
+     font: Lustria 24px
+     ---------------------------------------------------------- */
+
+  .tv-product-grid__heading {
+    width: 248px;
+    height: 29px;
+
+    margin: 0 auto 20px;
+    padding: 0;
+
+    font-family: "Lustria", serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 120%;
+
+    color: #000000;
+
+    display: flex;
+    align-items: center;
+  }
+
+
+  /* ----------------------------------------------------------
+     GRID
+     Figma:
+     342px wide
+     2 columns
+     169px each
+     4px gap
+     ---------------------------------------------------------- */
+
+  .tv-product-grid__items {
+    width: 342px;
+
+    display: grid;
+
+    grid-template-columns: 169px 169px;
+
+    column-gap: 4px;
+    row-gap: 4px;
+
+    align-items: start;
+  }
+
+
+  /* ----------------------------------------------------------
+     PRODUCT CARD
+     ---------------------------------------------------------- */
+
+  .tv-product-card {
+    width: 169px;
+    min-width: 169px;
+
+    position: relative;
+  }
+
+
+  /* ----------------------------------------------------------
+     IMAGE
+     Figma:
+     169 × 186.42px
+     ---------------------------------------------------------- */
+
+  .tv-product-card__image-wrapper {
+    width: 169px;
+    height: 186.42px;
+
+    aspect-ratio: auto;
+
+    overflow: hidden;
+
+    background: #f5f5f5;
+  }
+
+  .tv-product-card__image {
+    width: 169px;
+    height: 186.42px;
+
+    object-fit: cover;
+  }
+
+
+  /* ----------------------------------------------------------
+     HOTSPOT
+     Figma:
+     15.71 × 15.71px
+     x ≈ 101.29px
+     y ≈ 18px
+     ---------------------------------------------------------- */
+
+  .tv-product-hotspot {
+    left: 59.94%;
+    top: 9.66%;
+
+    width: 15.71px;
+    height: 15.71px;
+  }
+
+  .tv-product-hotspot__circle {
+    width: 15.71px;
+    height: 15.71px;
+
+    background: rgba(248, 248, 248, 0.9);
+  }
+
+  .tv-product-hotspot__plus {
+    width: 7px;
+    height: 7px;
+  }
+
+  .tv-product-hotspot__plus::before,
+  .tv-product-hotspot__plus::after {
+    width: 7px;
+    height: 1px;
+
+    background: #000000;
+  }
+
+
+  /* ----------------------------------------------------------
+     POPUP
+     Keep popup desktop dimensions/behaviour.
+     Only ensure it fits on mobile.
+     ---------------------------------------------------------- */
+
+  .tv-product-popup {
+    padding: 12px;
+  }
+
+  .tv-product-popup__content {
+    width: 311px;
+    height: 447px;
+
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+  }
+
+}
