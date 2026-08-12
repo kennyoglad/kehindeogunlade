@@ -1132,49 +1132,6 @@ The artwork itself is 686px wide.
   }
 
 
-/* ========================================================
-BANNER DESCRIPTION — BASE
-======================================================== */
-
-.tv-page .tv-banner__description {
-  position: absolute;
-
-  left: 50%;
-  top: 103px;
-
-  width: 340px;
-  height: 42px;
-
-  margin: 0;
-  padding: 0;
-
-  transform: translateX(-50%);
-
-  align-items: center;
-  justify-content: center;
-
-  color: #000000;
-
-  font-family: 'Jost', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-
-  font-size: 16px;
-  line-height: 21px;
-
-  text-align: center;
-
-  box-sizing: border-box;
-}
-
-
-/* ========================================================
-DESKTOP DESCRIPTION
-======================================================== */
-
-.tv-page .tv-banner__description--desktop {
-  display: flex;
-}
 
 
 /* ========================================================
