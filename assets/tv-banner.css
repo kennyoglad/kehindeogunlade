@@ -851,16 +851,15 @@ body {
   }
 
 
-  /* ==========================================================
-   MOBILE TV BANNER — HEADER
-   Figma: 375.44 × 65px
-   ========================================================== */
+ @media screen and (max-width: 749px) {
 
-@media screen and (max-width: 749px) {
+  /* ==========================================================
+     MOBILE HEADER
+     Figma: 375.44 × 65px
+     ========================================================== */
 
   .tv-page .tv-banner__header {
     position: absolute;
-
     left: 0;
     top: 0;
 
@@ -869,11 +868,10 @@ body {
 
     background: #F7F7F7;
 
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 
-    z-index: 10;
+    z-index: 100;
   }
-
 
   .tv-page .tv-banner__header-inner {
     position: relative;
@@ -884,20 +882,18 @@ body {
     margin: 0;
     padding: 0;
 
-    display: flex;
-    align-items: center;
-
-    box-sizing: border-box;
+    display: block;
   }
 
 
-  /* ========================================================
+  /* ==========================================================
      HAMBURGER
+
      Figma:
-     x ≈ 16px
+     x = approximately 16px
      width = 18px
      height = 10px
-     ======================================================== */
+     ========================================================== */
 
   .tv-page .tv-banner__menu {
     position: absolute;
@@ -908,44 +904,54 @@ body {
     width: 18px;
     height: 10px;
 
+    margin: 0;
+    padding: 0;
+
     transform: translateY(-50%);
 
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     justify-content: space-between;
+    align-items: stretch;
 
-    padding: 0;
-    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
 
-    background: transparent;
-    border: 0;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0;
 
-    z-index: 3;
+    color: #000000;
+
+    cursor: pointer;
+
+    z-index: 999;
   }
 
-
   .tv-page .tv-banner__menu span {
-    display: block;
+    display: block !important;
+
+    flex: 0 0 0;
 
     width: 18px;
     height: 0;
 
+    margin: 0;
+    padding: 0;
+
+    border: 0;
     border-top: 2px solid #000000;
+
+    background: transparent;
+
+    opacity: 1;
+    visibility: visible;
   }
 
 
-  /* ========================================================
-     MOBILE LOGO
-
-     Figma:
-     x = 112px
-     y = 23px
-     width ≈ 151.44px
-     height = 19px
-
-     Centered:
-     (375.44 - 151.44) / 2 ≈ 112px
-     ======================================================== */
+  /* ==========================================================
+     LOGO
+     ========================================================== */
 
   .tv-page .tv-banner__logo {
     position: absolute;
@@ -956,17 +962,13 @@ body {
     width: 151.44px;
     height: 19px;
 
-    transform: translateX(-50%);
-
     margin: 0;
     padding: 0;
 
-    display: flex;
-    align-items: center;
+    transform: translateX(-50%);
 
-    z-index: 2;
+    z-index: 10;
   }
-
 
   .tv-page .tv-banner__logo-image {
     display: block;
@@ -975,33 +977,20 @@ body {
     height: 19px;
 
     max-width: none;
-
-    object-fit: contain;
   }
 
 
-  .tv-page .tv-banner__brand-text {
-    display: block;
-
-    color: #000000;
-
-    font-family: 'Jost', sans-serif;
-    font-size: 19px;
-    font-weight: 500;
-    line-height: 19px;
-
-    white-space: nowrap;
-  }
-
-
-  /* ========================================================
-     HIDE DESKTOP HEADER MESSAGE
-     ======================================================== */
+  /* Desktop elements are not part of the mobile Figma header */
 
   .tv-page .tv-banner__header-message {
     display: none;
   }
 
+  .tv-page .tv-banner__header-button {
+    display: none;
+  }
+
+}
 
   /* ========================================================
      HIDE DESKTOP HEADER BUTTON
