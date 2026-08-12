@@ -1165,14 +1165,9 @@ The artwork itself is 686px wide.
   box-sizing: border-box;
 }
 
-  /* Desktop description is hidden on mobile */
-.tv-page .tv-banner__description--desktop {
-  display: none !important;
-}
 
-.tv-page .tv-banner__description--mobile {
-  display: flex !important;
-}
+
+  
 
 
 
