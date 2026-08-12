@@ -1,35 +1,10 @@
 {{ 'tv-product.grid.css' | asset_url | stylesheet_tag }}
 {{ 'tv-product.grid.js' | asset_url | script_tag }}
 
-{% comment %}
-  ==========================================================
-  AUTOMATIC PRODUCT
-  ==========================================================
-
-  When a customer adds any product with:
-    Color = Black
-    Size  = Medium
-
-  this product is automatically added:
-
-    Handle: dark-winter-jacket
-
-  We resolve the product and its available variant in Liquid
-  so JavaScript receives the actual Shopify variant ID.
-{% endcomment %}
-
-{% assign automatic_jacket = all_products['dark-winter-jacket'] %}
-
-{% if automatic_jacket != blank and automatic_jacket.available %}
-  {% assign automatic_jacket_variant = automatic_jacket.first_available_variant %}
-{% endif %}
-
-
 <section
   id="tv-product-grid-{{ section.id }}"
   class="tv-product-grid"
   data-section-id="{{ section.id }}"
-  data-jacket-variant-id="{% if automatic_jacket_variant != blank %}{{ automatic_jacket_variant.id }}{% endif %}"
 >
   <div class="tv-product-grid__container">
 
@@ -77,6 +52,11 @@
 
               {% endif %}
 
+              {% comment %}
+                Product hotspot.
+                Position is controlled from the Theme Customizer.
+              {% endcomment %}
+
               <button
                 type="button"
                 class="tv-product-hotspot"
@@ -99,9 +79,7 @@
 
 
           {% comment %}
-            ======================================================
             PRODUCT POPUP
-            ======================================================
           {% endcomment %}
 
           <div
@@ -198,31 +176,27 @@
 
                 <form class="tv-product-popup__form">
 
-                  <script
-                    type="application/json"
-                    class="tv-product-popup__variants"
-                  >
-                    {{ product.variants | json }}
-                  </script>
-
-
+                 <script type="application/json" class="tv-product-popup__variants">
+                  {{ product.variants | json }}
+                </script>
+                
                   {% for option in product.options_with_values %}
-
+                
                     {% if option.name == 'Color' %}
-
+                
                       <div class="tv-product-popup__option">
 
                         <label class="tv-product-popup__label">
                           {{ option.name }}
                         </label>
-
+                      
                         <div class="tv-product-popup__colors">
-
+                      
                           {% for value in option.values %}
-
+                      
                             {% assign colour = value | strip | downcase %}
                             {% assign accent = "#DDDDDD" %}
-
+                      
                             {% case colour %}
                               {% when 'white' %}
                                 {% assign accent = "#FFFFFF" %}
@@ -247,7 +221,7 @@
                               {% when 'yellow' %}
                                 {% assign accent = "#E4C63C" %}
                             {% endcase %}
-
+                      
                             <button
                               type="button"
                               class="tv-product-popup__color"
@@ -256,67 +230,66 @@
                             >
                               {{ value }}
                             </button>
-
+                      
                           {% endfor %}
-
+                      
                         </div>
-
+                      
                       </div>
-
+                
                     {% endif %}
-
+                
                   {% endfor %}
-
-
-                  {% comment %}
-                    ======================================================
-                    ALL OTHER OPTIONS
-                    ======================================================
-                  {% endcomment %}
-
+                
+                
+                  {%- comment -%}
+                    ==========================================================
+                    ALL OTHER OPTIONS — AFTER COLOR
+                    ==========================================================
+                  {%- endcomment -%}
+                
                   {% for option in product.options_with_values %}
-
+                
                     {% unless option.name == 'Color' %}
-
-                      <div class="tv-product-popup__option tv-product-popup__option--size">
-
+                      
+                        <div class="tv-product-popup__option tv-product-popup__option--size">
+                
                         <label class="tv-product-popup__label">
                           {{ option.name }}
                         </label>
-
+                
                         <select
                           class="tv-product-popup__select"
                           data-option-name="{{ option.name }}"
-                          data-option-position="{{ option.position }}"
                         >
-
+                
                           <option value="">
                             Choose your {{ option.name | downcase }}
                           </option>
-
+                
                           {% for value in option.values %}
-
+                
                             <option value="{{ value }}">
                               {{ value }}
                             </option>
-
+                
                           {% endfor %}
-
+                
                         </select>
-
+                
                       </div>
-
+                
                     {% endunless %}
-
+                
                   {% endfor %}
-
-
-                  {% comment %}
-                    ======================================================
+                
+                
+                  {%- comment -%}
+                    ==========================================================
                     ADD TO CART
-                    ======================================================
-                  {% endcomment %}
-
+                    ==========================================================
+                  {%- endcomment -%}
+                
                   <button
                     type="button"
                     class="tv-product-popup__add"
@@ -326,7 +299,7 @@
                     <span>ADD TO CART</span>
                     <span class="tv-product-popup__arrow">→</span>
                   </button>
-
+                
                 </form>
 
               {% else %}
@@ -349,6 +322,7 @@
 
   </div>
 </section>
+
 
 
 {% schema %}
@@ -424,3 +398,6 @@
   ]
 }
 {% endschema %}
+
+
+
