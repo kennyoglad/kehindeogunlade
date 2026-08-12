@@ -1073,83 +1073,101 @@
               );
 
 
-              /*
-               * ------------------------------------------------
-               * Check Black + Medium.
-               * ------------------------------------------------
-               */
+           /*
+ * ------------------------------------------------
+ * Check the ACTUAL selected Shopify variant
+ * for Black + Medium.
+ * ------------------------------------------------
+ */
 
-              const isBlackMedium =
-                selectedColor === 'black' &&
-                selectedSize === 'medium';
+const variantOptions = [
+  variant.option1,
+  variant.option2,
+  variant.option3
+]
+  .filter(function (value) {
+    return value !== null &&
+           value !== undefined;
+  })
+  .map(function (value) {
+    return value.trim().toLowerCase();
+  });
 
+const isBlackMedium =
+  variantOptions.includes('black') &&
+  variantOptions.includes('medium');
 
-              console.log(
-                'Black + Medium check:',
-                {
-                  selectedColor,
-                  selectedSize,
-                  isBlackMedium
-                }
-              );
+console.log(
+  'Selected Shopify variant:',
+  variant
+);
 
+console.log(
+  'Selected variant options:',
+  variantOptions
+);
 
-              /*
-               * ------------------------------------------------
-               * Automatically add Soft Winter Jacket.
-               * ------------------------------------------------
-               */
-
-              if (isBlackMedium) {
-
-                console.log(
-                  'Black + Medium detected. ' +
-                  'Adding Soft Winter Jacket...'
-                );
-
-
-                /*
-                 * Get the actual Shopify variant ID.
-                 */
-
-                const jacketVariantId =
-                  await getDarkWinterJacketVariant();
+console.log(
+  'Black + Medium detected:',
+  isBlackMedium
+);
 
 
-                console.log(
-                  'Soft Winter Jacket variant ID:',
-                  jacketVariantId
-                );
+/*
+ * ------------------------------------------------
+ * Automatically add Soft Winter Jacket.
+ * ------------------------------------------------
+ */
+
+if (isBlackMedium) {
+
+  console.log(
+    'BLACK + MEDIUM MATCHED.'
+  );
+
+  console.log(
+    'Loading Soft Winter Jacket variant...'
+  );
 
 
-                /*
-                 * Add Soft Winter Jacket to
-                 * the same cart request.
-                 */
-
-                cartItems.push({
-                  id: jacketVariantId,
-                  quantity: 1
-                });
+  const jacketVariantId =
+    await getDarkWinterJacketVariant();
 
 
-                console.log(
-                  'Soft Winter Jacket added to cart items.'
-                );
+  console.log(
+    'Soft Winter Jacket variant ID:',
+    jacketVariantId
+  );
 
-              }
+
+  /*
+   * Add jacket to the SAME cart request.
+   */
+
+  cartItems.push({
+    id: Number(jacketVariantId),
+    quantity: 1
+  });
 
 
-              /*
-               * ------------------------------------------------
-               * Add ALL products in ONE Shopify request.
-               * ------------------------------------------------
-               */
+  console.log(
+    'FINAL CART ITEMS:',
+    cartItems
+  );
 
-              console.log(
-                'Final cart items:',
-                cartItems
-              );
+}
+
+
+/*
+ * ------------------------------------------------
+ * Add ALL products in ONE Shopify request.
+ * ------------------------------------------------
+ */
+
+console.log(
+  'Final cart items:',
+  cartItems
+);
 
 
               await addToCart(
