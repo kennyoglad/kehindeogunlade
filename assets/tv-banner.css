@@ -1011,75 +1011,56 @@ MOBILE — MAX WIDTH 749px
 
 
 /* ========================================================
-MOBILE HERO CANVAS
+MOBILE HERO CANVAS / FIGMA ARTWORK FRAME
 
-375.44px × 421px Figma hero frame.
+Figma hero:
+375px × 421px
 
-The canvas is the clipping viewport.
-The artwork itself is 686px wide.
+Figma artwork frame:
+width = 686px
+left  = calc(50% - 686px/2 + 15.5px)
+top   = 37.29%
+bottom = 0
+
+The 686px artwork frame intentionally extends
+outside the 375px mobile hero and is clipped by
+the hero.
 ======================================================== */
 
 .tv-page .tv-banner__canvas {
   position: absolute;
 
-  left: 0;
-  top: 0;
+  /* Figma horizontal position */
+  left: calc(50% - 686px / 2 + 15.5px);
 
-  width: 100%;
-  height: 421px;
+  /* Figma vertical position */
+  top: 37.29%;
+
+  /* Figma artwork frame */
+  width: 686px;
+  height: 264px;
 
   margin: 0;
   padding: 0;
 
   overflow: hidden;
-
   box-sizing: border-box;
 
-  background: transparent;
-
   z-index: 1;
-}
 
-
-/* ========================================================
-MOBILE BANNER ARTWORK
-
-Figma:
-
-width  = 686px
-left   = calc(50% - 686px/2 + 15.5px)
-top    = 37.29%
-bottom = 0%
-
-The 686px artwork is intentionally wider than
-the 375.44px canvas and is clipped on both sides.
-======================================================== */
-
-.tv-page .tv-banner__canvas::before {
-  content: "";
-
-  position: absolute;
-
-  width: 686px;
-
-  left: calc(50% - 686px / 2 + 15.5px);
-
-  top: 37.29%;
-  bottom: 0;
-
-  margin: 0;
-  padding: 0;
-
+  /* Mobile artwork */
   background-image: var(--tv-banner-artwork-mobile);
 
   background-repeat: no-repeat;
 
-  background-size: 686px auto;
+  /*
+    Render artwork at the Figma frame size.
+  */
+  background-size: 686px 264px;
+
   background-position: 0 0;
 
   background-color: transparent;
-
-  z-index: 0;
 }
 
   /* ========================================================
