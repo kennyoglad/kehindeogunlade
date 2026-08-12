@@ -734,51 +734,33 @@ function getSelectedVariant(form) {
    * ----------------------------------------------------------
    */
 
-  async function addToCart(variantId, quantity) {
+async function addToCart(items) {
+  const response = await fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      items: items
+    })
+  });
 
-    const response = await fetch(
-      '/cart/add.js',
-      {
-        method: 'POST',
+  if (!response.ok) {
+    let errorData = null;
 
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+    try {
+      errorData = await response.json();
+    } catch (error) {}
 
-        body: JSON.stringify({
-          items: [
-            {
-              id: variantId,
-              quantity: quantity || 1
-            }
-          ]
-        })
-      }
+    throw new Error(
+      errorData?.description ||
+      'Unable to add product to cart.'
     );
-
-
-    if (!response.ok) {
-
-      let errorData = null;
-
-      try {
-        errorData = await response.json();
-      } catch (error) {
-        // Ignore JSON parsing errors.
-      }
-
-      throw new Error(
-        errorData?.description ||
-        'Unable to add product to cart.'
-      );
-
-    }
-
-
-    return response.json();
-
   }
+
+  return response.json();
+}
 
 
   /*
