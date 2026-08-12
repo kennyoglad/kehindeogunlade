@@ -801,57 +801,9 @@ body {
 }
 
 
-/* ==========================================================
-   TV BANNER — MOBILE
-   Figma mobile: 375.44 × 520px
-
-   Structure:
-   Header  = 65px
-   Main    = 421px
-   Footer  = 34px
-   Total   = 520px
-   ========================================================== */
-
-@media screen and (max-width: 749px) {
-
-  /* --------------------------------------------------------
-     PAGE
-     -------------------------------------------------------- */
-
-  .tv-page {
-    width: 100%;
-    min-height: auto;
-    gap: 40px;
-    overflow: hidden;
-  }
-
-
-  /* --------------------------------------------------------
-     TV BANNER
-     Figma:
-     width  = 375px
-     height = 520px
-     -------------------------------------------------------- */
-
-  .tv-page .tv-banner {
-    position: relative;
-
-    width: 100%;
-    max-width: 100%;
-
-    height: 520px;
-    flex: 0 0 520px;
-
-    margin: 0;
-    padding: 0;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-  }
-
 
  @media screen and (max-width: 749px) {
+
 
   /* ==========================================================
      MOBILE HEADER
