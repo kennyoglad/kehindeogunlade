@@ -965,26 +965,21 @@ function getSelectedVariant(form) {
 
             }
 
+/*
+ * Button feedback.
+ */
 
-            /*
-             * Update cart UI.
-             */
-
-            document.dispatchEvent(
-              new CustomEvent(
-                'cart:updated'
-              )
-            );
+if (originalText) {
+  originalText.textContent =
+    'ADDED TO CART';
+}
 
 
-            /*
-             * Button feedback.
-             */
+/*
+ * Go to Shopify cart page.
+ */
 
-            if (originalText) {
-              originalText.textContent =
-                'ADDED TO CART';
-            }
+window.location.href = '/cart';
 
 
           } catch (error) {
