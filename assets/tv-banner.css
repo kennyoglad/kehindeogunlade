@@ -1132,57 +1132,76 @@ The artwork itself is 686px wide.
   }
 
 
-  /* ========================================================
-  MOBILE DESCRIPTION
+/* ========================================================
+BANNER DESCRIPTION — BASE
+======================================================== */
 
-  Figma:
-  width  = 340px
-  height = 42px
-  top    = 103px
-  font   = 16px
-  line   = 21px
-  ======================================================== */
-
-  .tv-page .tv-banner__description {
+.tv-page .tv-banner__description {
   position: absolute;
+
   left: 50%;
   top: 103px;
+
   width: 340px;
   height: 42px;
+
   margin: 0;
   padding: 0;
+
   transform: translateX(-50%);
-  display: flex;
+
   align-items: center;
   justify-content: center;
+
   color: #000000;
+
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
+
   font-size: 16px;
   line-height: 21px;
+
   text-align: center;
+
   box-sizing: border-box;
 }
 
 
-
-  
-
-
-
-  /* ========================================================
-DESCRIPTION VISIBILITY
-Desktop shows the full description.
-Mobile shows only the mobile description.
+/* ========================================================
+DESKTOP DESCRIPTION
 ======================================================== */
 
-.tv-banner__description--mobile {
+.tv-page .tv-banner__description--desktop {
+  display: flex;
+}
+
+
+/* ========================================================
+MOBILE DESCRIPTION
+Hidden by default.
+Only enabled inside the mobile breakpoint.
+======================================================== */
+
+.tv-page .tv-banner__description--mobile {
   display: none;
 }
 
-.tv-banner__description--desktop {
-  display: flex;
+
+/* ========================================================
+MOBILE
+======================================================== */
+
+@media screen and (max-width: 749px) {
+
+  .tv-page .tv-banner__description--desktop {
+    display: none;
+  }
+
+  .tv-page .tv-banner__description--mobile {
+    display: flex;
+  }
+
 }
   /* ========================================================
   MOBILE MAIN BUTTON
