@@ -323,7 +323,14 @@
 </section>
 
 
+```liquid
 <script>
+  /*
+   * ==========================================================
+   * PRODUCT POPUPS
+   * ==========================================================
+   */
+
   (function () {
     const section = document.getElementById(
       'tv-product-grid-{{ section.id }}'
@@ -432,14 +439,12 @@
      */
 
     hotspots.forEach(function (hotspot) {
-
       hotspot.addEventListener(
         'click',
         function () {
           openPopup(hotspot);
         }
       );
-
     });
 
 
@@ -448,23 +453,19 @@
      */
 
     popups.forEach(function (popup) {
-
       const closeElements =
         popup.querySelectorAll(
           '[data-popup-close]'
         );
 
       closeElements.forEach(function (element) {
-
         element.addEventListener(
           'click',
           function () {
             closePopup(popup);
           }
         );
-
       });
-
     });
 
 
@@ -475,11 +476,9 @@
     document.addEventListener(
       'keydown',
       function (event) {
-
         if (event.key !== 'Escape') return;
 
         popups.forEach(function (popup) {
-
           if (
             popup.classList.contains(
               'is-open'
@@ -487,527 +486,753 @@
           ) {
             closePopup(popup);
           }
-
         });
-
       }
     );
 
   })();
 
 
-/*
- * ==========================================================
- * PRODUCT VARIANT + ADD TO CART
- * ==========================================================
- */
-
-(function () {
-
-  const section = document.getElementById(
-    'tv-product-grid-{{ section.id }}'
-  );
-
-  if (!section) return;
-
-
   /*
-   * ----------------------------------------------------------
-   * Find the variant matching the current selections
-   * ----------------------------------------------------------
+   * ==========================================================
+   * PRODUCT VARIANT + ADD TO CART
+   * ==========================================================
    */
-function getSelectedVariant(form) {
 
-  const variantsElement = form.querySelector(
-    '.tv-product-popup__variants'
-  );
+  (function () {
 
-  if (!variantsElement) {
-    console.error('Variant JSON not found.');
-    return null;
-  }
-
-  let variants;
-
-  try {
-    variants = JSON.parse(
-      variantsElement.textContent
+    const section = document.getElementById(
+      'tv-product-grid-{{ section.id }}'
     );
-  } catch (error) {
-    console.error(
-      'Unable to parse product variants:',
-      error
-    );
-    return null;
-  }
 
-  /*
-   * Build the selected options by OPTION NAME.
-   */
-
-  const selections = {};
-
-  /*
-   * Color
-   */
-  const activeColor = form.querySelector(
-    '.tv-product-popup__color.active'
-  );
-
-  if (activeColor) {
-    selections.Color =
-      activeColor.dataset.color.trim();
-  }
-
-  /*
-   * Other options such as Size
-   */
-  const selects = form.querySelectorAll(
-    '.tv-product-popup__select'
-  );
-
-  selects.forEach(function (select) {
-
-    const optionName =
-      select.dataset.optionName ||
-      select.closest(
-        '.tv-product-popup__option'
-      )?.querySelector(
-        '.tv-product-popup__label'
-      )?.textContent.trim();
-
-    if (!optionName) return;
-
-    selections[optionName] =
-      select.value.trim();
-
-  });
+    if (!section) return;
 
 
-  console.log(
-    'Selected options:',
-    selections
-  );
+    /*
+     * ----------------------------------------------------------
+     * Find the Shopify variant matching the selections
+     * ----------------------------------------------------------
+     */
 
-  console.log(
-    'Available variants:',
-    variants
-  );
+    function getSelectedVariant(form) {
+
+      const variantsElement = form.querySelector(
+        '.tv-product-popup__variants'
+      );
+
+      if (!variantsElement) {
+        console.error(
+          'Variant JSON not found.'
+        );
+
+        return null;
+      }
 
 
-  /*
-   * Make sure every required option
-   * has a selected value.
-   */
+      let variants;
 
-  const requiredOptionNames = [];
+      try {
 
-  /*
-   * Color
-   */
-  if (
-    form.querySelector(
-      '.tv-product-popup__colors'
-    )
-  ) {
-    requiredOptionNames.push('Color');
-  }
+        variants = JSON.parse(
+          variantsElement.textContent
+        );
 
-  /*
-   * Select options
-   */
-  selects.forEach(function (select) {
+      } catch (error) {
 
-    const optionName =
-      select.dataset.optionName ||
-      select.closest(
-        '.tv-product-popup__option'
-      )?.querySelector(
-        '.tv-product-popup__label'
-      )?.textContent.trim();
+        console.error(
+          'Unable to parse product variants:',
+          error
+        );
 
-    if (
-      optionName &&
-      !requiredOptionNames.includes(optionName)
-    ) {
-      requiredOptionNames.push(optionName);
+        return null;
+      }
+
+
+      /*
+       * Store selected options.
+       */
+
+      const selections = {};
+
+
+      /*
+       * Color
+       */
+
+      const activeColor = form.querySelector(
+        '.tv-product-popup__color.active'
+      );
+
+      if (activeColor) {
+        selections.Color =
+          activeColor.dataset.color.trim();
+      }
+
+
+      /*
+       * Size / other select options
+       */
+
+      const selects = form.querySelectorAll(
+        '.tv-product-popup__select'
+      );
+
+      selects.forEach(function (select) {
+
+        const optionName =
+          select.dataset.optionName ||
+          select
+            .closest('.tv-product-popup__option')
+            ?.querySelector(
+              '.tv-product-popup__label'
+            )
+            ?.textContent
+            .trim();
+
+        if (!optionName) return;
+
+        selections[optionName] =
+          select.value.trim();
+
+      });
+
+
+      console.log(
+        'Selected options:',
+        selections
+      );
+
+      console.log(
+        'Available variants:',
+        variants
+      );
+
+
+      /*
+       * Determine which product options are required.
+       */
+
+      const requiredOptionNames = [];
+
+
+      /*
+       * Color
+       */
+
+      if (
+        form.querySelector(
+          '.tv-product-popup__colors'
+        )
+      ) {
+        requiredOptionNames.push(
+          'Color'
+        );
+      }
+
+
+      /*
+       * Other options.
+       */
+
+      selects.forEach(function (select) {
+
+        const optionName =
+          select.dataset.optionName ||
+          select
+            .closest('.tv-product-popup__option')
+            ?.querySelector(
+              '.tv-product-popup__label'
+            )
+            ?.textContent
+            .trim();
+
+        if (
+          optionName &&
+          !requiredOptionNames.includes(
+            optionName
+          )
+        ) {
+          requiredOptionNames.push(
+            optionName
+          );
+        }
+
+      });
+
+
+      /*
+       * Check for missing selections.
+       */
+
+      const missingOption =
+        requiredOptionNames.find(
+          function (name) {
+            return !selections[name];
+          }
+        );
+
+
+      if (missingOption) {
+
+        console.warn(
+          'Missing variant option:',
+          missingOption
+        );
+
+        return null;
+      }
+
+
+      /*
+       * Find matching Shopify variant.
+       */
+
+      return variants.find(
+        function (variant) {
+
+          const variantOptions = [
+            variant.option1,
+            variant.option2,
+            variant.option3
+          ].filter(
+            function (value) {
+              return (
+                value !== null &&
+                value !== undefined
+              );
+            }
+          );
+
+
+          return requiredOptionNames.every(
+            function (optionName) {
+
+              return variantOptions.includes(
+                selections[optionName]
+              );
+
+            }
+          );
+
+        }
+      ) || null;
+
     }
 
-  });
+
+    /*
+     * ----------------------------------------------------------
+     * COLOR SELECTION
+     * ----------------------------------------------------------
+     */
+
+    section
+      .querySelectorAll(
+        '.tv-product-popup__colors'
+      )
+      .forEach(function (group) {
+
+        const buttons =
+          group.querySelectorAll(
+            '.tv-product-popup__color'
+          );
 
 
-  const missingOption =
-    requiredOptionNames.find(function (name) {
+        buttons.forEach(function (button) {
 
-      return !selections[name];
+          button.addEventListener(
+            'click',
+            function () {
 
-    });
+              buttons.forEach(
+                function (btn) {
 
+                  btn.classList.remove(
+                    'active'
+                  );
 
-  if (missingOption) {
-
-    console.warn(
-      'Missing variant option:',
-      missingOption
-    );
-
-    return null;
-
-  }
+                }
+              );
 
 
-  /*
-   * Find the Shopify variant.
-   *
-   * Shopify stores the variant values as
-   * option1, option2, option3.
-   */
+              button.classList.add(
+                'active'
+              );
 
-  return variants.find(function (variant) {
+            }
+          );
 
-    const variantOptions = [
-      variant.option1,
-      variant.option2,
-      variant.option3
-    ].filter(function (value) {
-      return value !== null &&
-             value !== undefined;
-    });
+        });
+
+      });
 
 
-    return requiredOptionNames.every(
-      function (optionName, index) {
+    /*
+     * ----------------------------------------------------------
+     * ADD ITEMS TO SHOPIFY CART
+     * ----------------------------------------------------------
+     */
 
-        const selectedValue =
-          selections[optionName];
+    async function addToCart(items) {
 
-        return variantOptions.includes(
-          selectedValue
+      const response =
+        await fetch(
+          window.Shopify.routes.root +
+          'cart/add.js',
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type':
+                'application/json',
+
+              'Accept':
+                'application/json'
+            },
+
+            body: JSON.stringify({
+              items: items
+            })
+          }
+        );
+
+
+      if (!response.ok) {
+
+        let errorData = null;
+
+        try {
+
+          errorData =
+            await response.json();
+
+        } catch (error) {
+          // Ignore JSON parsing errors.
+        }
+
+
+        throw new Error(
+          errorData?.description ||
+          'Unable to add product to cart.'
         );
 
       }
-    );
 
-  }) || null;
+
+      return response.json();
+
+    }
+
+
+    /*
+     * ----------------------------------------------------------
+     * FIND SOFT WINTER JACKET VARIANT
+     * ----------------------------------------------------------
+     *
+     * Product handle:
+     * soft-winter-jacket
+     *
+     * Returns the Shopify VARIANT ID directly.
+     * ----------------------------------------------------------
+     */
+
+    async function getDarkWinterJacketVariant() {
+
+      const response = await fetch(
+        window.Shopify.routes.root +
+        'products/soft-winter-jacket.js',
+        {
+          headers: {
+            'Accept':
+              'application/json'
+          }
+        }
+      );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          'Unable to load Soft Winter Jacket.'
+        );
+
+      }
+
+
+      const product =
+        await response.json();
+
+
+      console.log(
+        'Soft Winter Jacket product:',
+        product
+      );
+
+
+      console.log(
+        'Soft Winter Jacket variants:',
+        product.variants
+      );
+
+
+      /*
+       * Use the first available variant.
+       */
+
+      const variant =
+        product.variants.find(
+          function (variant) {
+            return variant.available;
+          }
+        );
+
+
+      if (!variant) {
+
+        throw new Error(
+          'Soft Winter Jacket is currently unavailable.'
+        );
+
+      }
+
+
+      console.log(
+        'Soft Winter Jacket variant ID:',
+        variant.id
+      );
+
+
+      /*
+       * IMPORTANT:
+       * Return the variant ID directly.
+       */
+
+      return variant.id;
+
+    }
+
+
+    /*
+     * ----------------------------------------------------------
+     * ADD TO CART BUTTON
+     * ----------------------------------------------------------
+     */
+
+    section
+      .querySelectorAll(
+        '.tv-product-popup__add'
+      )
+      .forEach(function (button) {
+
+        button.addEventListener(
+          'click',
+          async function () {
+
+            const form =
+              button.closest(
+                '.tv-product-popup__form'
+              );
+
+
+            if (!form) return;
+
+
+            /*
+             * Find selected Shopify variant.
+             */
+
+            const variant =
+              getSelectedVariant(form);
+
+
+            if (!variant) {
+
+              alert(
+                'Please select a color and size.'
+              );
+
+              return;
+
+            }
+
+
+            /*
+             * Check availability.
+             */
+
+            if (!variant.available) {
+
+              alert(
+                'This variant is currently unavailable.'
+              );
+
+              return;
+
+            }
+
+
+            /*
+             * Prevent double-clicks.
+             */
+
+            button.disabled = true;
+
+
+            const originalText =
+              button.querySelector('span');
+
+
+            if (originalText) {
+
+              originalText.textContent =
+                'ADDING...';
+
+            }
+
+
+            try {
+
+              /*
+               * ------------------------------------------------
+               * Start with the selected product.
+               * ------------------------------------------------
+               */
+
+              const cartItems = [
+                {
+                  id: variant.id,
+                  quantity: 1
+                }
+              ];
+
+
+              /*
+               * ------------------------------------------------
+               * Get selected Color.
+               * ------------------------------------------------
+               */
+
+              const colorButton =
+                form.querySelector(
+                  '.tv-product-popup__color.active'
+                );
+
+
+              const selectedColor =
+                colorButton
+                  ? colorButton.dataset.color
+                      .trim()
+                      .toLowerCase()
+                  : '';
+
+
+              /*
+               * ------------------------------------------------
+               * Get selected Size.
+               * ------------------------------------------------
+               */
+
+              let selectedSize = '';
+
+
+              const selects =
+                form.querySelectorAll(
+                  '.tv-product-popup__select'
+                );
+
+
+              selects.forEach(
+                function (select) {
+
+                  const optionName =
+                    select.dataset.optionName ||
+                    select
+                      .closest(
+                        '.tv-product-popup__option'
+                      )
+                      ?.querySelector(
+                        '.tv-product-popup__label'
+                      )
+                      ?.textContent
+                      .trim()
+                      .toLowerCase();
+
+
+                  if (
+                    optionName === 'size'
+                  ) {
+
+                    selectedSize =
+                      select.value
+                        .trim()
+                        .toLowerCase();
+
+                  }
+
+                }
+              );
+
+
+           /*
+ * ------------------------------------------------
+ * Check the ACTUAL selected Shopify variant
+ * for Black + Medium.
+ * ------------------------------------------------
+ */
+
+const variantOptions = [
+  variant.option1,
+  variant.option2,
+  variant.option3
+]
+  .filter(function (value) {
+    return value !== null &&
+           value !== undefined;
+  })
+  .map(function (value) {
+    return value.trim().toLowerCase();
+  });
+
+const isBlackMedium =
+  variantOptions.includes('black') &&
+  variantOptions.includes('medium');
+
+console.log(
+  'Selected Shopify variant:',
+  variant
+);
+
+console.log(
+  'Selected variant options:',
+  variantOptions
+);
+
+console.log(
+  'Black + Medium detected:',
+  isBlackMedium
+);
+
+
+/*
+ * ------------------------------------------------
+ * Automatically add Soft Winter Jacket.
+ * ------------------------------------------------
+ */
+
+if (isBlackMedium) {
+
+  console.log(
+    'BLACK + MEDIUM MATCHED.'
+  );
+
+  console.log(
+    'Loading Soft Winter Jacket variant...'
+  );
+
+
+  const jacketVariantId =
+    await getDarkWinterJacketVariant();
+
+
+  console.log(
+    'Soft Winter Jacket variant ID:',
+    jacketVariantId
+  );
+
+
+  /*
+   * Add jacket to the SAME cart request.
+   */
+
+  cartItems.push({
+    id: Number(jacketVariantId),
+    quantity: 1
+  });
+
+
+  console.log(
+    'FINAL CART ITEMS:',
+    cartItems
+  );
 
 }
 
 
-  /*
-   * ----------------------------------------------------------
-   * Color selection
-   * ----------------------------------------------------------
-   */
+/*
+ * ------------------------------------------------
+ * Add ALL products in ONE Shopify request.
+ * ------------------------------------------------
+ */
 
-  section
-    .querySelectorAll('.tv-product-popup__colors')
-    .forEach(function (group) {
-
-      const buttons = group.querySelectorAll(
-        '.tv-product-popup__color'
-      );
+console.log(
+  'Final cart items:',
+  cartItems
+);
 
 
-      buttons.forEach(function (button) {
+              await addToCart(
+                cartItems
+              );
 
-        button.addEventListener(
-          'click',
-          function () {
 
-            buttons.forEach(function (btn) {
-              btn.classList.remove('active');
-            });
+              /*
+               * Button feedback.
+               */
 
-            button.classList.add('active');
+              if (originalText) {
+
+                originalText.textContent =
+                  'ADDED TO CART';
+
+              }
+
+
+              /*
+               * Redirect after everything
+               * has been added successfully.
+               */
+
+              window.location.href =
+                '/cart';
+
+
+            } catch (error) {
+
+              console.error(
+                'Add to cart failed:',
+                error
+              );
+
+
+              alert(
+                error.message ||
+                'Unable to add product to cart.'
+              );
+
+
+              if (originalText) {
+
+                originalText.textContent =
+                  'ADD TO CART';
+
+              }
+
+            } finally {
+
+              button.disabled = false;
+
+            }
 
           }
         );
 
       });
 
-    });
-
-
-  /*
-   * ----------------------------------------------------------
-   * Add product to Shopify cart
-   * ----------------------------------------------------------
-   */
-
-async function addToCart(items) {
-  const response = await fetch('/cart/add.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      items: items
-    })
-  });
-
-  if (!response.ok) {
-    let errorData = null;
-
-    try {
-      errorData = await response.json();
-    } catch (error) {}
-
-    throw new Error(
-      errorData?.description ||
-      'Unable to add product to cart.'
-    );
-  }
-
-  return response.json();
-}
-
-
-  /*
-   * ----------------------------------------------------------
-   * Find Soft Winter Jacket
-   * ----------------------------------------------------------
-   */
-
-async function getDarkWinterJacketVariant() {
-  const response = await fetch(
-    '/products/dark-winter-jacket.js',
-    {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      'Could not load Dark Winter Jacket product.'
-    );
-  }
-
-  const product = await response.json();
-
-  console.log(
-    'Dark Winter Jacket product:',
-    product
-  );
-
-  const variant = product.variants.find(
-    function (variant) {
-      return variant.available;
-    }
-  );
-
-  if (!variant) {
-    throw new Error(
-      'Dark Winter Jacket has no available variant.'
-    );
-  }
-
-  return variant;
-}
-
-
-  /*
-   * ----------------------------------------------------------
-   * ADD TO CART BUTTON
-   * ----------------------------------------------------------
-   */
-
-  section
-    .querySelectorAll('.tv-product-popup__add')
-    .forEach(function (button) {
-
-      button.addEventListener(
-        'click',
-        async function () {
-
-          const form = button.closest(
-            '.tv-product-popup__form'
-          );
-
-          if (!form) return;
-
-
-          const variant = getSelectedVariant(
-            form
-          );
-
-
-          /*
-           * No complete variant selected.
-           */
-
-          if (!variant) {
-
-            alert(
-              'Please select a color and size.'
-            );
-
-            return;
-
-          }
-
-
-          /*
-           * Variant unavailable.
-           */
-
-          if (!variant.available) {
-
-            alert(
-              'This variant is currently unavailable.'
-            );
-
-            return;
-
-          }
-
-
-          /*
-           * Prevent double-clicks.
-           */
-
-          button.disabled = true;
-
-          const originalText =
-            button.querySelector('span');
-
-          if (originalText) {
-            originalText.textContent =
-              'ADDING...';
-          }
-
-
-          try {
-
-           /*
- * Build the cart items.
- */
-
-const cartItems = [
-  {
-    id: variant.id,
-    quantity: 1
-  }
-];
-
-
-/*
- * Check for Black + Medium.
- */
-
-const colorButton =
-  form.querySelector(
-    '.tv-product-popup__color.active'
-  );
-
-const sizeSelect =
-  form.querySelector(
-    '.tv-product-popup__select'
-  );
-
-
-const selectedColor =
-  colorButton
-    ? colorButton.dataset.color.trim().toLowerCase()
-    : '';
-
-
-const selectedSize =
-  sizeSelect
-    ? sizeSelect.value.trim().toLowerCase()
-    : '';
-
-
-const isBlackMedium =
-  selectedColor === 'black' &&
-  selectedSize === 'medium';
-
-
-/*
- * If Black + Medium, find the
- * Dark Winter Jacket variant first.
- */
-
-if (isBlackMedium) {
-
-  const jacketVariant =
-    await getDarkWinterJacketVariant();
-
-
-  cartItems.push({
-    id: jacketVariant.id,
-    quantity: 1
-  });
-
-}
-
-
-/*
- * Add everything in ONE Shopify request.
- */
-
-await addToCart(cartItems);
-
-
-/*
- * Go to cart only after everything
- * has successfully been added.
- */
-
-window.location.href = '/cart';
-
-/*
- * Button feedback.
- */
-
-if (originalText) {
-  originalText.textContent =
-    'ADDED TO CART';
-}
-
-
-/*
- * Go to Shopify cart page.
- */
-
-window.location.href = '/cart';
-
-
-          } catch (error) {
-
-            console.error(
-              'Add to cart failed:',
-              error
-            );
-
-
-            alert(
-              error.message ||
-              'Unable to add product to cart.'
-            );
-
-
-            if (originalText) {
-              originalText.textContent =
-                'ADD TO CART';
-            }
-
-          } finally {
-
-            button.disabled = false;
-
-          }
-
-        }
-      );
-
-    });
-
-})();
+  })();
 
 </script>
+```
+
 
 
 {% schema %}
