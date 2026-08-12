@@ -410,41 +410,46 @@ Starts below 64px header.
   background: #ffffff;
 }
 
-/* ==========================================================
-MERGED BANNER ARTWORK
+/* ========================================================
+MOBILE HERO CANVAS
 
-banner.svg = complete 1440 × 780 artwork
+Figma:
+Hero frame = 375px × 421px
 
-The SVG is applied to the canvas rather than being split
-into separate top/bottom artwork elements.
-========================================================== */
+Mobile artwork:
+banner-mobile.svg = 375px × 264px
+
+Artwork starts at:
+421px × 37.29% ≈ 157px
+
+Therefore:
+157px + 264px = 421px
+
+The image fits the hero exactly.
+No cropping.
+No scaling.
+No overflow.
+======================================================== */
 
 .tv-page .tv-banner__canvas {
-  position: relative;
-
-  width: 1440px;
-  height: 780px;
-
+  position: absolute;
+  left: 0;
+  top: 157px;
+  width: 375px;
+  height: 264px;
   margin: 0;
   padding: 0;
-
-  box-sizing: border-box;
-
   overflow: hidden;
-
+  box-sizing: border-box;
+  z-index: 1;
+  background-image: var(--tv-banner-artwork-mobile);
   background-repeat: no-repeat;
+
+  /* SVG is already exactly 375 × 264 */
+  background-size: 375px 264px;
   background-position: 0 0;
-  background-size: 1440px 780px;
-
-  /*
-    The actual banner.svg URL should be supplied from Liquid.
-    Example later in tv-banner.liquid:
-
-    style="--tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');"
-  */
-  background-image: var(--tv-banner-artwork);
+  background-color: transparent;
 }
-
 /* ==========================================================
 BANNER CONTENT
 
