@@ -13,7 +13,7 @@
  *
  * IMPORTANT:
  * The automatic jacket product handle is:
- * dark-winter-jacke
+ * dark-winter-jacket
  * ============================================================
  */
 
@@ -536,56 +536,46 @@
 
 
     /*
-     * ========================================================
-     * GET AUTOMATIC JACKET VARIANT
-     * ========================================================
-     *
-     * Shopify product handle:
-     *
-     * dark-winter-jacke
-     *
-     * The first available variant is selected.
-     * ========================================================
-     */
+ * ========================================================
+ * GET SOFT WINTER JACKET VARIANT
+ * ========================================================
+ *
+ * Shopify product handle:
+ * dark-winter-jacket
+ *
+ * The first available variant is used.
+ * ========================================================
+ */
 
-async function getDarkWinterJacketVariant() {
-  const response =
-    await fetch(
-      window.Shopify.routes.root +
-      'products/dark-winter-jacket.js',
-      {
-        headers: {
-          'Accept':
-            'application/json'
-        }
+async function getSoftWinterJacketVariant() {
+  const response = await fetch(
+    window.Shopify.routes.root +
+    'products/dark-winter-jacket.js',
+    {
+      headers: {
+        Accept: 'application/json'
       }
-    );
+    }
+  );
 
   if (!response.ok) {
     throw new Error(
-      'Unable to load Soft Winter Jacket. Check the product handle: dark-winter-jacket'
+      'Unable to load Soft Winter Jacket.'
     );
   }
 
-  const product =
-    await response.json();
+  const product = await response.json();
 
   console.log(
-    'AUTOMATIC JACKET PRODUCT:',
+    'Soft Winter Jacket product:',
     product
   );
 
-  console.log(
-    'AUTOMATIC JACKET VARIANTS:',
-    product.variants
+  const variant = product.variants.find(
+    function (variant) {
+      return variant.available;
+    }
   );
-
-  const variant =
-    product.variants.find(
-      function (variant) {
-        return variant.available;
-      }
-    );
 
   if (!variant) {
     throw new Error(
@@ -594,7 +584,7 @@ async function getDarkWinterJacketVariant() {
   }
 
   console.log(
-    'AUTOMATIC JACKET VARIANT ID:',
+    'Soft Winter Jacket variant:',
     variant.id
   );
 
@@ -784,7 +774,7 @@ async function getDarkWinterJacketVariant() {
 
 
                   const jacketVariantId =
-                    await getDarkWinterJacketVariant();
+                  await getSoftWinterJacketVariant();
 
 
                   console.log(
