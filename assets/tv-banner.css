@@ -1050,48 +1050,23 @@ MOBILE — MAX WIDTH 749px
   elements anymore.
   ======================================================== */
 
-  .tv-page .tv-banner__canvas {
-    position: absolute;
-
-    left: calc(50% - 343px + 15.5px);
-    top: 157px;
-
-    width: 686px;
-
-    /*
-      The Figma frame extends to the bottom of the
-      421px mobile main area.
-
-      421 - 157 = 264px visible frame.
-    */
-    height: 264px;
-
-    margin: 0;
-    padding: 0;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    z-index: 1;
-
-    /*
-      The merged SVG is treated as the background
-      artwork for this frame.
-    */
-    background-repeat: no-repeat;
-
-    /*
-      IMPORTANT:
-      Keep the artwork at the mobile Figma frame size.
-    */
-    background-size: 686px auto;
-
-    background-position: 0 0;
-
-    background-color: transparent;
-  }
-
+ .tv-page .tv-banner__canvas {
+  position: absolute;
+  left: calc(50% - 343px + 15.5px);
+  top: 157px;
+  width: 686px;
+  height: 264px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 1;
+  background-image: url('{{ 'banner-mobile.svg' | asset_url }}');
+  background-repeat: no-repeat;
+  background-size: 686px auto;
+  background-position: 0 0;
+  background-color: transparent;
+}
 
   /* ========================================================
   MOBILE CONTENT LAYER
@@ -1238,7 +1213,8 @@ MOBILE — MAX WIDTH 749px
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+   justify-content: flex-start;
+    gap: 10px;
 
     box-sizing: border-box;
 
