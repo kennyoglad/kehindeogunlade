@@ -1018,7 +1018,6 @@ MOBILE HERO CANVAS
 The canvas is the clipping viewport.
 The artwork itself is 686px wide.
 ======================================================== */
-
 .tv-page .tv-banner__canvas {
   position: absolute;
 
@@ -1032,51 +1031,33 @@ The artwork itself is 686px wide.
   padding: 0;
 
   overflow: hidden;
-
   box-sizing: border-box;
 
-  background: transparent;
+  background: #ffffff;
 
   z-index: 1;
 }
-
-
-/* ========================================================
-MOBILE BANNER ARTWORK
-
-Figma:
-
-width  = 686px
-left   = calc(50% - 686px/2 + 15.5px)
-top    = 37.29%
-bottom = 0%
-
-The 686px artwork is intentionally wider than
-the 375.44px canvas and is clipped on both sides.
-======================================================== */
 
 .tv-page .tv-banner__canvas::before {
   content: "";
 
   position: absolute;
 
-  width: 686px;
+  left: 50%;
+  top: 157px;
 
-  left: calc(50% - 686px / 2 + 15.5px);
+  width: 375px;
+  height: 264px;
 
-  top: 37.29%;
-  bottom: 0;
+  transform: translateX(-50%);
 
   margin: 0;
   padding: 0;
 
   background-image: var(--tv-banner-artwork-mobile);
-
   background-repeat: no-repeat;
-
-  background-size: 686px auto;
-  background-position: 0 0;
-
+  background-size: 375px 264px;
+  background-position: center center;
   background-color: transparent;
 
   z-index: 0;
