@@ -837,77 +837,34 @@
      * ----------------------------------------------------------
      */
 
-    async function getDarkWinterJacketVariant() {
+    const isBlackMedium =
+  selectedColor === 'black' &&
+  selectedSize === 'medium';
 
-      const url =
-        window.Shopify.routes.root +
-        'products/dark-winter-jacket.js';
+console.log('Black + Medium check:', {
+  selectedColor,
+  selectedSize,
+  isBlackMedium
+});
 
+if (isBlackMedium) {
+  console.log(
+    'Black + Medium detected. Adding Soft Winter Jacket.'
+  );
 
-      console.log(
-        'Fetching Dark Winter Jacket:',
-        url
-      );
+  const jacketVariantId =
+    await getDarkWinterJacketVariant();
 
+  cartItems.push({
+    id: jacketVariantId,
+    quantity: 1
+  });
 
-      const response =
-        await fetch(
-          url,
-          {
-            headers: {
-              'Accept':
-                'application/json'
-            }
-          }
-        );
-
-
-      console.log(
-        'Dark Winter Jacket response:',
-        response.status,
-        response.statusText
-      );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          'Dark Winter Jacket could not be loaded. ' +
-          'HTTP status: ' +
-          response.status
-        );
-
-      }
-
-
-      const product =
-        await response.json();
-
-
-      console.log(
-        'Dark Winter Jacket product:',
-        product
-      );
-
-
-      console.log(
-        'Dark Winter Jacket variants:',
-        product.variants
-      );
-
-
-      /*
-       * Use the first available variant.
-       */
-
-      const variant =
-        product.variants.find(
-          function (variant) {
-
-            return variant.available;
-
-          }
-        );
+  console.log(
+    'Soft Winter Jacket added to cart request:',
+    jacketVariantId
+  );
+}
 
 
       if (!variant) {
