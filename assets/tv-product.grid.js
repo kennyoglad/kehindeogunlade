@@ -548,69 +548,58 @@
      * ========================================================
      */
 
-    async function getDarkWinterJacketVariant() {
-      const response =
-        await fetch(
-          window.Shopify.routes.root +
-          'products/dark-winter-jacke.js',
-          {
-            headers: {
-              'Accept':
-                'application/json'
-            }
-          }
-        );
-
-
-      if (!response.ok) {
-        throw new Error(
-          'Unable to load Soft Winter Jacket.'
-        );
+async function getDarkWinterJacketVariant() {
+  const response =
+    await fetch(
+      window.Shopify.routes.root +
+      'products/dark-winter-jacke.js',
+      {
+        headers: {
+          'Accept':
+            'application/json'
+        }
       }
+    );
 
+  if (!response.ok) {
+    throw new Error(
+      'Unable to load Soft Winter Jacket. Check the product handle: dark-winter-jacke'
+    );
+  }
 
-      const product =
-        await response.json();
+  const product =
+    await response.json();
 
+  console.log(
+    'AUTOMATIC JACKET PRODUCT:',
+    product
+  );
 
-      console.log(
-        'Soft Winter Jacket product:',
-        product
-      );
+  console.log(
+    'AUTOMATIC JACKET VARIANTS:',
+    product.variants
+  );
 
-      console.log(
-        'Soft Winter Jacket variants:',
-        product.variants
-      );
-
-
-      /*
-       * Find the first available jacket variant.
-       */
-
-      const variant =
-        product.variants.find(
-          function (variant) {
-            return variant.available;
-          }
-        );
-
-
-      if (!variant) {
-        throw new Error(
-          'Soft Winter Jacket is currently unavailable.'
-        );
+  const variant =
+    product.variants.find(
+      function (variant) {
+        return variant.available;
       }
+    );
 
+  if (!variant) {
+    throw new Error(
+      'Soft Winter Jacket has no available variants.'
+    );
+  }
 
-      console.log(
-        'Soft Winter Jacket variant ID:',
-        variant.id
-      );
+  console.log(
+    'AUTOMATIC JACKET VARIANT ID:',
+    variant.id
+  );
 
-
-      return variant.id;
-    }
+  return variant.id;
+}
 
 
     /*
