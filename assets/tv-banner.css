@@ -410,46 +410,41 @@ Starts below 64px header.
   background: #ffffff;
 }
 
-/* ========================================================
-MOBILE HERO CANVAS
+/* ==========================================================
+MERGED BANNER ARTWORK
 
-Figma:
-Hero frame = 375px × 421px
+banner.svg = complete 1440 × 780 artwork
 
-Mobile artwork:
-banner-mobile.svg = 375px × 264px
-
-Artwork starts at:
-421px × 37.29% ≈ 157px
-
-Therefore:
-157px + 264px = 421px
-
-The image fits the hero exactly.
-No cropping.
-No scaling.
-No overflow.
-======================================================== */
+The SVG is applied to the canvas rather than being split
+into separate top/bottom artwork elements.
+========================================================== */
 
 .tv-page .tv-banner__canvas {
-  position: absolute;
-  left: 0;
-  top: 157px;
-  width: 375px;
-  height: 264px;
+  position: relative;
+
+  width: 1440px;
+  height: 780px;
+
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-  z-index: 1;
-  background-image: var(--tv-banner-artwork-mobile);
-  background-repeat: no-repeat;
 
-  /* SVG is already exactly 375 × 264 */
-  background-size: 375px 264px;
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background-repeat: no-repeat;
   background-position: 0 0;
-  background-color: transparent;
+  background-size: 1440px 780px;
+
+  /*
+    The actual banner.svg URL should be supplied from Liquid.
+    Example later in tv-banner.liquid:
+
+    style="--tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');"
+  */
+  background-image: var(--tv-banner-artwork);
 }
+
 /* ==========================================================
 BANNER CONTENT
 
@@ -1016,56 +1011,75 @@ MOBILE — MAX WIDTH 749px
 
 
 /* ========================================================
-MOBILE HERO CANVAS / FIGMA ARTWORK FRAME
+MOBILE HERO CANVAS
 
-Figma hero:
-375px × 421px
+375.44px × 421px Figma hero frame.
 
-Figma artwork frame:
-width = 686px
-left  = calc(50% - 686px/2 + 15.5px)
-top   = 37.29%
-bottom = 0
-
-The 686px artwork frame intentionally extends
-outside the 375px mobile hero and is clipped by
-the hero.
+The canvas is the clipping viewport.
+The artwork itself is 686px wide.
 ======================================================== */
 
 .tv-page .tv-banner__canvas {
   position: absolute;
 
-  /* Figma horizontal position */
-  left: calc(50% - 686px / 2 + 15.5px);
+  left: 0;
+  top: 0;
 
-  /* Figma vertical position */
-  top: 37.29%;
-
-  /* Figma artwork frame */
-  width: 686px;
-  height: 264px;
+  width: 100%;
+  height: 421px;
 
   margin: 0;
   padding: 0;
 
   overflow: hidden;
+
   box-sizing: border-box;
 
-  z-index: 1;
+  background: transparent;
 
-  /* Mobile artwork */
+  z-index: 1;
+}
+
+
+/* ========================================================
+MOBILE BANNER ARTWORK
+
+Figma:
+
+width  = 686px
+left   = calc(50% - 686px/2 + 15.5px)
+top    = 37.29%
+bottom = 0%
+
+The 686px artwork is intentionally wider than
+the 375.44px canvas and is clipped on both sides.
+======================================================== */
+
+.tv-page .tv-banner__canvas::before {
+  content: "";
+
+  position: absolute;
+
+  width: 686px;
+
+  left: calc(50% - 686px / 2 + 15.5px);
+
+  top: 37.29%;
+  bottom: 0;
+
+  margin: 0;
+  padding: 0;
+
   background-image: var(--tv-banner-artwork-mobile);
 
   background-repeat: no-repeat;
 
-  /*
-    Render artwork at the Figma frame size.
-  */
-  background-size: 686px 264px;
-
+  background-size: 686px auto;
   background-position: 0 0;
 
   background-color: transparent;
+
+  z-index: 0;
 }
 
   /* ========================================================
