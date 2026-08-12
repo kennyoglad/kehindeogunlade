@@ -552,7 +552,7 @@ async function getDarkWinterJacketVariant() {
   const response =
     await fetch(
       window.Shopify.routes.root +
-      'products/dark-winter-jacke.js',
+      'products/dark-winter-jacket.js',
       {
         headers: {
           'Accept':
@@ -563,7 +563,7 @@ async function getDarkWinterJacketVariant() {
 
   if (!response.ok) {
     throw new Error(
-      'Unable to load Soft Winter Jacket. Check the product handle: dark-winter-jacke'
+      'Unable to load Soft Winter Jacket. Check the product handle: dark-winter-jacket'
     );
   }
 
