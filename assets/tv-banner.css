@@ -547,6 +547,21 @@ DESCRIPTION
 }
 
 /* ==========================================================
+DESCRIPTION VARIANTS — DESKTOP
+========================================================== */
+
+/* Desktop uses the full description */
+.tv-page .tv-banner__description--desktop {
+  display: flex;
+}
+
+/* Mobile description must NEVER appear on desktop */
+.tv-page .tv-banner__description--mobile {
+  display: none;
+}
+
+
+/* ==========================================================
 MAIN BUTTON
 ========================================================== */
 
