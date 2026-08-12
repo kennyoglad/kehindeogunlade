@@ -120,8 +120,14 @@
       {% endif %}
 
       {% if section.settings.description != blank %}
-        <div class="tv-banner__description">
+        <div class="tv-banner__description tv-banner__description--desktop">
           {{ section.settings.description }}
+        </div>
+      {% endif %}
+      
+      {% if section.settings.mobile_description != blank %}
+        <div class="tv-banner__description tv-banner__description--mobile">
+          {{ section.settings.mobile_description }}
         </div>
       {% endif %}
 
