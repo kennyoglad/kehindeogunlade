@@ -769,15 +769,15 @@ async function addToCart(items) {
    * ----------------------------------------------------------
    */
 
-async function getDarkWinterJacketVariant() {
-  const response = await fetch(
-    '/products/dark-winter-jacket.js',
-    {
-      headers: {
-        'Accept': 'application/json'
-      }
+const response = await fetch(
+  window.Shopify.routes.root +
+  'products/dark-winter-jacket.js',
+  {
+    headers: {
+      'Accept': 'application/json'
     }
-  );
+  }
+);
 
   if (!response.ok) {
     throw new Error(
@@ -902,22 +902,39 @@ const colorButton =
     '.tv-product-popup__color.active'
   );
 
-const sizeSelect =
-  form.querySelector(
-    '.tv-product-popup__select'
-  );
-
-
 const selectedColor =
   colorButton
     ? colorButton.dataset.color.trim().toLowerCase()
     : '';
 
 
-const selectedSize =
-  sizeSelect
-    ? sizeSelect.value.trim().toLowerCase()
-    : '';
+let selectedSize = '';
+
+const selects =
+  form.querySelectorAll(
+    '.tv-product-popup__select'
+  );
+
+selects.forEach(function (select) {
+
+  const optionName =
+    select.dataset.optionName ||
+    select
+      .closest('.tv-product-popup__option')
+      ?.querySelector('.tv-product-popup__label')
+      ?.textContent
+      .trim()
+      .toLowerCase();
+
+  if (
+    optionName &&
+    optionName.toLowerCase() === 'size'
+  ) {
+    selectedSize =
+      select.value.trim().toLowerCase();
+  }
+
+});
 
 
 const isBlackMedium =
@@ -925,23 +942,20 @@ const isBlackMedium =
   selectedSize === 'medium';
 
 
+console.log(
+  'Black + Medium check:',
+  {
+    selectedColor,
+    selectedSize,
+    isBlackMedium
+  }
+);
+
+
 /*
  * If Black + Medium, find the
  * Dark Winter Jacket variant first.
  */
-
-if (isBlackMedium) {
-
-  const jacketVariant =
-    await getDarkWinterJacketVariant();
-
-
-  cartItems.push({
-    id: jacketVariant.id,
-    quantity: 1
-  });
-
-}
 
 
 /*
