@@ -105,7 +105,10 @@
 
 <div
   class="tv-banner__canvas"
-  style="--tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');"
+  style="
+    --tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');
+    --tv-banner-artwork-mobile: url('{{ 'banner-mobile.svg' | asset_url }}');
+  "
 >
 
     <div class="tv-banner__content">
