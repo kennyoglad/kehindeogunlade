@@ -901,12 +901,23 @@
    * ==========================================================
    */
 
+ function initializeProductGrids() {
   document
-    .querySelectorAll(
-      '.tv-product-grid'
-    )
-    .forEach(
-      initGrid
-    );
+    .querySelectorAll('.tv-product-grid')
+    .forEach(function (section) {
+      initGrid(section);
+    });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener(
+    'DOMContentLoaded',
+    initializeProductGrids
+  );
+} else {
+  initializeProductGrids();
+}
+
+})();
 
 })();
