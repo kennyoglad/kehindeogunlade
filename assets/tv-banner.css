@@ -851,11 +851,12 @@ body {
   }
 
 
-  /* ========================================================
-     HEADER
-     Figma:
-     375 × 65
-     ======================================================== */
+  /* ==========================================================
+   MOBILE TV BANNER — HEADER
+   Figma: 375.44 × 65px
+   ========================================================== */
+
+@media screen and (max-width: 749px) {
 
   .tv-page .tv-banner__header {
     position: absolute;
@@ -866,9 +867,9 @@ body {
     width: 100%;
     height: 65px;
 
-    background: #f7f7f7;
+    background: #F7F7F7;
 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
     z-index: 10;
   }
@@ -885,36 +886,83 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: center;
 
     box-sizing: border-box;
   }
 
 
-  /* --------------------------------------------------------
+  /* ========================================================
+     HAMBURGER
+     Figma:
+     x ≈ 16px
+     width = 18px
+     height = 10px
+     ======================================================== */
+
+  .tv-page .tv-banner__menu {
+    position: absolute;
+
+    left: 16px;
+    top: 50%;
+
+    width: 18px;
+    height: 10px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 0;
+    margin: 0;
+
+    background: transparent;
+    border: 0;
+
+    z-index: 3;
+  }
+
+
+  .tv-page .tv-banner__menu span {
+    display: block;
+
+    width: 18px;
+    height: 0;
+
+    border-top: 2px solid #000000;
+  }
+
+
+  /* ========================================================
      MOBILE LOGO
 
-     Figma logo:
-     approximately 151.44 × 19
-     centered horizontally
-     -------------------------------------------------------- */
+     Figma:
+     x = 112px
+     y = 23px
+     width ≈ 151.44px
+     height = 19px
+
+     Centered:
+     (375.44 - 151.44) / 2 ≈ 112px
+     ======================================================== */
 
   .tv-page .tv-banner__logo {
     position: absolute;
 
     left: 50%;
-    top: 50%;
+    top: 23px;
 
     width: 151.44px;
     height: 19px;
 
-    margin: 0;
+    transform: translateX(-50%);
 
-    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
 
     display: flex;
     align-items: center;
-    justify-content: center;
 
     z-index: 2;
   }
@@ -923,10 +971,12 @@ body {
   .tv-page .tv-banner__logo-image {
     display: block;
 
-    width: 100%;
-    height: auto;
+    width: 151.44px;
+    height: 19px;
 
-    max-width: 100%;
+    max-width: none;
+
+    object-fit: contain;
   }
 
 
@@ -938,49 +988,30 @@ body {
     font-family: 'Jost', sans-serif;
     font-size: 19px;
     font-weight: 500;
-    line-height: 1;
+    line-height: 19px;
 
     white-space: nowrap;
   }
 
 
-  /* --------------------------------------------------------
-     MOBILE HEADER MESSAGE
-     -------------------------------------------------------- */
+  /* ========================================================
+     HIDE DESKTOP HEADER MESSAGE
+     ======================================================== */
 
   .tv-page .tv-banner__header-message {
     display: none;
   }
 
 
-  /* --------------------------------------------------------
-     MOBILE MENU
-
-     Your markup's menu element may have a different class.
-     If you have .tv-banner__menu, this positions it exactly.
-     -------------------------------------------------------- */
-
-  .tv-page .tv-banner__menu {
-    position: absolute;
-
-    left: 16px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    z-index: 5;
-  }
-
-
-  /* --------------------------------------------------------
-     HEADER BUTTON
-
-     Desktop yellow CTA is NOT present in the mobile Figma.
-     -------------------------------------------------------- */
+  /* ========================================================
+     HIDE DESKTOP HEADER BUTTON
+     ======================================================== */
 
   .tv-page .tv-banner__header-button {
     display: none;
   }
+
+}
 
 
   /* ========================================================
