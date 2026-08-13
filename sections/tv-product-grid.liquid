@@ -192,6 +192,10 @@
                  <script type="application/json" class="tv-product-popup__variants">
                   {{ product.variants | json }}
                 </script>
+              
+                <script type="application/json" class="tv-product-popup__option-names">
+                  {{ product.options | json }}
+                </script>
                 
                   {% for option in product.options_with_values %}
                 
