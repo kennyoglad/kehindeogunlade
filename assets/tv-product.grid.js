@@ -289,397 +289,346 @@
 
 
     /*
-     * ========================================================
-     * GET SELECTED SHOPIFY VARIANT
-     * ========================================================
-     *
-     * This finds the exact variant selected by the customer.
-     *
-     * Example:
-     *
-     * Color = Black
-     * Size  = Medium
-     *
-     * It will match:
-     *
-     * Black / Medium
-     *
-     * and NOT:
-     *
-     * Black / Small
-     * White / Medium
-     *
-     * ========================================================
-     */
+ * ========================================================
+ * GET SELECTED SHOPIFY VARIANT
+ * ========================================================
+ *
+ * Uses the ACTUAL Shopify product option order.
+ *
+ * This is important because the popup visually places
+ * Color first, but Shopify may internally have:
+ *
+ * option1 = Size
+ * option2 = Color
+ *
+ * or:
+ *
+ * option1 = Color
+ * option2 = Size
+ *
+ * This function handles both correctly.
+ * ========================================================
+ */
 
-    function getSelectedVariant(form) {
+function getSelectedVariant(form) {
 
-      const variantsElement =
-        form.querySelector(
-          '.tv-product-popup__variants'
-        );
+  /*
+   * ------------------------------------------------------
+   * GET VARIANT JSON
+   * ------------------------------------------------------
+   */
 
-
-      if (!variantsElement) {
-
-        console.error(
-          'Variant JSON not found.'
-        );
+  const variantsElement =
+    form.querySelector(
+      '.tv-product-popup__variants'
+    );
 
 
-        return null;
+  if (!variantsElement) {
 
+    console.error(
+      'Variant JSON not found.'
+    );
+
+    return null;
+
+  }
+
+
+  let variants;
+
+
+  try {
+
+    variants =
+      JSON.parse(
+        variantsElement.textContent
+      );
+
+  } catch (error) {
+
+    console.error(
+      'Unable to parse product variants:',
+      error
+    );
+
+    return null;
+
+  }
+
+
+  /*
+   * ------------------------------------------------------
+   * GET ACTUAL SHOPIFY OPTION ORDER
+   * ------------------------------------------------------
+   */
+
+  const optionNamesElement =
+    form.querySelector(
+      '.tv-product-popup__option-names'
+    );
+
+
+  if (!optionNamesElement) {
+
+    console.error(
+      'Product option names JSON not found.'
+    );
+
+    return null;
+
+  }
+
+
+  let optionNames;
+
+
+  try {
+
+    optionNames =
+      JSON.parse(
+        optionNamesElement.textContent
+      );
+
+  } catch (error) {
+
+    console.error(
+      'Unable to parse product option names:',
+      error
+    );
+
+    return null;
+
+  }
+
+
+  console.log(
+    'SHOPIFY OPTION ORDER:',
+    optionNames
+  );
+
+
+  /*
+   * ------------------------------------------------------
+   * GET CUSTOMER SELECTIONS
+   * ------------------------------------------------------
+   */
+
+  const selections = {};
+
+
+  /*
+   * COLOR
+   */
+
+  const activeColor =
+    form.querySelector(
+      '.tv-product-popup__color.active'
+    );
+
+
+  if (activeColor) {
+
+    selections.Color =
+      activeColor.dataset.color
+        .trim();
+
+  }
+
+
+  /*
+   * OTHER OPTIONS
+   */
+
+  const selects =
+    form.querySelectorAll(
+      '.tv-product-popup__select'
+    );
+
+
+  selects.forEach(
+    function (select) {
+
+      const optionName =
+        select.dataset.optionName;
+
+
+      if (!optionName) {
+        return;
       }
 
 
-      let variants;
-
-
-      try {
-
-        variants =
-          JSON.parse(
-            variantsElement.textContent
-          );
-
-      } catch (error) {
-
-        console.error(
-          'Unable to parse product variants:',
-          error
-        );
-
-
-        return null;
-
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * BUILD CUSTOMER SELECTIONS
-       * ------------------------------------------------------
-       */
-
-      const selections = {};
-
-
-      /*
-       * COLOR
-       */
-
-      const activeColor =
-        form.querySelector(
-          '.tv-product-popup__color.active'
-        );
-
-
-      if (activeColor) {
-
-        selections.Color =
-          activeColor.dataset.color
-            .trim();
-
-      }
-
-
-      /*
-       * OTHER OPTIONS
-       */
-
-      const selects =
-        form.querySelectorAll(
-          '.tv-product-popup__select'
-        );
-
-
-      selects.forEach(
-        function (select) {
-
-          const optionName =
-            select.dataset.optionName;
-
-
-          if (!optionName) {
-            return;
-          }
-
-
-          selections[optionName] =
-            select.value.trim();
-
-        }
-      );
-
-
-      console.log(
-        'CUSTOMER SELECTIONS:',
-        selections
-      );
-
-
-      /*
-       * ------------------------------------------------------
-       * GET PRODUCT OPTION ORDER
-       * ------------------------------------------------------
-       *
-       * Shopify variants use:
-       *
-       * option1
-       * option2
-       * option3
-       *
-       * The order is determined by the product options.
-       * ------------------------------------------------------
-       */
-
-      const optionNames = [];
-
-
-      /*
-       * Color
-       */
-
-      if (
-        form.querySelector(
-          '.tv-product-popup__colors'
-        )
-      ) {
-
-        optionNames.push(
-          'Color'
-        );
-
-      }
-
-
-      /*
-       * Other options
-       */
-
-      selects.forEach(
-        function (select) {
-
-          const optionName =
-            select.dataset.optionName;
-
-
-          if (
-            optionName &&
-            !optionNames.includes(
-              optionName
-            )
-          ) {
-
-            optionNames.push(
-              optionName
-            );
-
-          }
-
-        }
-      );
-
-
-      console.log(
-        'PRODUCT OPTION NAMES:',
-        optionNames
-      );
-
-
-      /*
-       * ------------------------------------------------------
-       * FIND EXACT VARIANT
-       * ------------------------------------------------------
-       */
-
-      const selectedVariant =
-        variants.find(
-          function (variant) {
-
-            /*
-             * Variant must be available.
-             */
-
-            if (!variant.available) {
-              return false;
-            }
-
-
-            /*
-             * Make sure variant.options exists.
-             */
-
-            if (
-              !variant.options ||
-              !Array.isArray(
-                variant.options
-              )
-            ) {
-
-              /*
-               * Fallback for Shopify variant JSON
-               * that only exposes option1/2/3.
-               */
-
-              const fallbackOptions = [
-                variant.option1,
-                variant.option2,
-                variant.option3
-              ]
-                .filter(
-                  function (value) {
-
-                    return (
-                      value !== null &&
-                      value !== undefined &&
-                      value !== ''
-                    );
-
-                  }
-                );
-
-
-              if (
-                fallbackOptions.length === 0
-              ) {
-
-                return false;
-
-              }
-
-
-              return optionNames.every(
-                function (
-                  optionName,
-                  index
-                ) {
-
-                  const selectedValue =
-                    selections[
-                      optionName
-                    ];
-
-
-                  if (!selectedValue) {
-                    return false;
-                  }
-
-
-                  const variantValue =
-                    fallbackOptions[
-                      index
-                    ];
-
-
-                  if (
-                    variantValue ===
-                      null ||
-                    variantValue ===
-                      undefined
-                  ) {
-
-                    return false;
-
-                  }
-
-
-                  return (
-                    String(
-                      variantValue
-                    )
-                      .trim()
-                      .toLowerCase() ===
-                    String(
-                      selectedValue
-                    )
-                      .trim()
-                      .toLowerCase()
-                  );
-
-                }
-              );
-
-            }
-
-
-            /*
-             * Shopify variant.options exists.
-             *
-             * Compare each option by position.
-             */
-
-            return optionNames.every(
-              function (
-                optionName,
-                index
-              ) {
-
-                const selectedValue =
-                  selections[
-                    optionName
-                  ];
-
-
-                /*
-                 * An option hasn't been selected.
-                 */
-
-                if (!selectedValue) {
-                  return false;
-                }
-
-
-                const variantValue =
-                  variant.options[
-                    index
-                  ];
-
-
-                if (
-                  variantValue ===
-                    null ||
-                  variantValue ===
-                    undefined
-                ) {
-
-                  return false;
-
-                }
-
-
-                return (
-                  String(
-                    variantValue
-                  )
-                    .trim()
-                    .toLowerCase() ===
-                  String(
-                    selectedValue
-                  )
-                    .trim()
-                    .toLowerCase()
-                );
-
-              }
-            );
-
-          }
-        );
-
-
-      console.log(
-        'MATCHED PRODUCT VARIANT:',
-        selectedVariant
-      );
-
-
-      return (
-        selectedVariant ||
-        null
-      );
+      selections[optionName] =
+        select.value.trim();
 
     }
+  );
+
+
+  console.log(
+    'CUSTOMER SELECTIONS:',
+    selections
+  );
+
+
+  /*
+   * ------------------------------------------------------
+   * CHECK THAT EVERY OPTION HAS BEEN SELECTED
+   * ------------------------------------------------------
+   */
+
+  const missingOption =
+    optionNames.find(
+      function (optionName) {
+
+        return !selections[
+          optionName
+        ];
+
+      }
+    );
+
+
+  if (missingOption) {
+
+    console.warn(
+      'Missing product option:',
+      missingOption
+    );
+
+    return null;
+
+  }
+
+
+  /*
+   * ------------------------------------------------------
+   * FIND EXACT SHOPIFY VARIANT
+   * ------------------------------------------------------
+   *
+   * Shopify's:
+   *
+   * option1
+   * option2
+   * option3
+   *
+   * correspond directly to:
+   *
+   * optionNames[0]
+   * optionNames[1]
+   * optionNames[2]
+   * ------------------------------------------------------
+   */
+
+  const selectedVariant =
+    variants.find(
+      function (variant) {
+
+        /*
+         * Ignore unavailable variants.
+         */
+
+        if (!variant.available) {
+          return false;
+        }
+
+
+        /*
+         * Build the variant's option values
+         * in Shopify's actual option order.
+         */
+
+        const variantOptions = [
+          variant.option1,
+          variant.option2,
+          variant.option3
+        ];
+
+
+        /*
+         * Compare every Shopify option.
+         */
+
+        return optionNames.every(
+          function (
+            optionName,
+            index
+          ) {
+
+            const customerValue =
+              selections[
+                optionName
+              ];
+
+
+            const variantValue =
+              variantOptions[
+                index
+              ];
+
+
+            if (
+              customerValue ===
+                undefined ||
+              customerValue ===
+                null
+            ) {
+
+              return false;
+
+            }
+
+
+            if (
+              variantValue ===
+                undefined ||
+              variantValue ===
+                null
+            ) {
+
+              return false;
+
+            }
+
+
+            return (
+              String(
+                customerValue
+              )
+                .trim()
+                .toLowerCase() ===
+              String(
+                variantValue
+              )
+                .trim()
+                .toLowerCase()
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  /*
+   * ------------------------------------------------------
+   * DEBUG
+   * ------------------------------------------------------
+   */
+
+  console.log(
+    'MATCHED PRODUCT VARIANT:',
+    selectedVariant
+  );
+
+
+  return (
+    selectedVariant ||
+    null
+  );
+
+}
 
 
     /*
