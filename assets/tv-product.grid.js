@@ -1,56 +1,86 @@
 /*
  * TV PRODUCT GRID
  * ============================================================
+ *
  * Handles:
  *
  * - Product hotspot / popup opening
- * - Popup closing
+ * - Product popup closing
  * - ESC key closing
  * - Color selection
- * - Shopify variant matching
+ * - Product option selection
+ * - Exact Shopify variant matching
  * - Add to Cart
  * - Automatic Soft Winter Jacket addition
  *
  * AUTOMATIC JACKET:
  *
- * Product handle:
- * dark-winter-jacket
+ * Liquid supplies the exact jacket variant ID through:
  *
- * Required jacket variant:
+ * #tv-soft-winter-jacket-config-{section.id}
+ *
+ * Required jacket:
  *
  * Color = Black
  * Size  = Medium
- *
- * IMPORTANT:
- *
- * The Liquid section generates the exact jacket variant ID:
- *
- * tv-soft-winter-jacket-config-{{ section.id }}
- *
- * JavaScript reads that configuration.
  *
  * ============================================================
  */
 
 (function () {
+
   'use strict';
 
 
   /*
    * ==========================================================
-   * NORMALIZE VALUE
+   * GLOBAL DEBUG PREFIX
    * ==========================================================
-   *
-   * Makes comparison safe:
-   *
-   * "Black"
-   * " black "
-   * "BLACK"
-   *
-   * all become:
-   *
-   * "black"
-   *
+   */
+
+  const LOG_PREFIX =
+    'TV PRODUCT GRID';
+
+
+  /*
+   * ==========================================================
+   * LOGGING HELPERS
+   * ==========================================================
+   */
+
+  function log() {
+
+    console.log(
+      LOG_PREFIX + ':',
+      ...arguments
+    );
+
+  }
+
+
+  function warn() {
+
+    console.warn(
+      LOG_PREFIX + ':',
+      ...arguments
+    );
+
+  }
+
+
+  function error() {
+
+    console.error(
+      LOG_PREFIX + ':',
+      ...arguments
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * NORMALIZE VALUE
    * ==========================================================
    */
 
@@ -60,11 +90,15 @@
       value === null ||
       value === undefined
     ) {
+
       return '';
+
     }
+
 
     return String(value)
       .trim()
+      .replace(/\s+/g, ' ')
       .toLowerCase();
 
   }
@@ -72,43 +106,59 @@
 
   /*
    * ==========================================================
-   * INITIALIZE PRODUCT GRID
+   * GET SHOPIFY ROOT URL
+   * ==========================================================
+   */
+
+  function getShopifyRoot() {
+
+    if (
+      window.Shopify &&
+      window.Shopify.routes &&
+      window.Shopify.routes.root
+    ) {
+
+      return window.Shopify.routes.root;
+
+    }
+
+
+    return '/';
+
+  }
+
+
+  /*
+   * ==========================================================
+   * INITIALIZE GRID
    * ==========================================================
    */
 
   function initGrid(section) {
 
     if (!section) {
+
       return;
+
     }
 
 
     /*
      * --------------------------------------------------------
-     * SECTION ID
+     * Prevent duplicate initialization.
      * --------------------------------------------------------
      */
 
-    const sectionId =
-      section.dataset.sectionId;
+    if (
+      section.dataset.tvGridInitialized === 'true'
+    ) {
+
+      return;
+
+    }
 
 
-    console.log(
-      '================================================'
-    );
-
-    console.log(
-      'TV PRODUCT GRID INITIALIZED'
-    );
-
-    console.log(
-      'SECTION ID:',
-      sectionId
-    );
-
-    console.log(
-      '================================================'
-    );
+    section.dataset.tvGridInitialized = 'true';
 
 
     /*
@@ -135,6 +185,16 @@
       );
 
 
+    log(
+      'Initializing section:',
+      section.dataset.sectionId,
+      'Hotspots:',
+      hotspots.length,
+      'Popups:',
+      popups.length
+    );
+
+
     /*
      * ========================================================
      * OPEN POPUP
@@ -143,6 +203,13 @@
 
     function openPopup(hotspot) {
 
+      if (!hotspot) {
+
+        return;
+
+      }
+
+
       const popupId =
         hotspot.getAttribute(
           'aria-controls'
@@ -150,7 +217,13 @@
 
 
       if (!popupId) {
+
+        warn(
+          'Hotspot has no aria-controls.'
+        );
+
         return;
+
       }
 
 
@@ -162,17 +235,18 @@
 
       if (!popup) {
 
-        console.error(
-          'TV PRODUCT GRID: Popup not found:',
+        error(
+          'Popup not found:',
           popupId
         );
 
         return;
+
       }
 
 
       /*
-       * Close every other popup.
+       * Close all popups in this section.
        */
 
       popups.forEach(
@@ -241,6 +315,12 @@
         'tv-product-popup-open'
       );
 
+
+      log(
+        'Popup opened:',
+        popupId
+      );
+
     }
 
 
@@ -253,7 +333,9 @@
     function closePopup(popup) {
 
       if (!popup) {
+
         return;
+
       }
 
 
@@ -289,12 +371,17 @@
         'tv-product-popup-open'
       );
 
+
+      log(
+        'Popup closed.'
+      );
+
     }
 
 
     /*
      * ========================================================
-     * HOTSPOT CLICK
+     * HOTSPOT CLICK EVENTS
      * ========================================================
      */
 
@@ -318,7 +405,7 @@
 
     /*
      * ========================================================
-     * CLOSE BUTTON / OVERLAY
+     * CLOSE EVENTS
      * ========================================================
      */
 
@@ -358,137 +445,207 @@
      * ========================================================
      */
 
-    document.addEventListener(
-      'keydown',
-      function (event) {
+    function handleEscape(event) {
 
-        if (
-          event.key !== 'Escape'
-        ) {
-          return;
-        }
+      if (
+        event.key !== 'Escape'
+      ) {
 
-
-        popups.forEach(
-          function (popup) {
-
-            if (
-              popup.classList.contains(
-                'is-open'
-              )
-            ) {
-
-              closePopup(
-                popup
-              );
-
-            }
-
-          }
-        );
+        return;
 
       }
+
+
+      popups.forEach(
+        function (popup) {
+
+          if (
+            popup.classList.contains(
+              'is-open'
+            )
+          ) {
+
+            closePopup(
+              popup
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    document.addEventListener(
+      'keydown',
+      handleEscape
     );
 
 
     /*
      * ========================================================
-     * GET SELECTED SHOPIFY VARIANT
+     * READ JSON SCRIPT
+     * ========================================================
+     */
+
+    function readJsonElement(element) {
+
+      if (!element) {
+
+        return null;
+
+      }
+
+
+      const text =
+        element.textContent.trim();
+
+
+      if (!text) {
+
+        return null;
+
+      }
+
+
+      try {
+
+        return JSON.parse(
+          text
+        );
+
+      } catch (jsonError) {
+
+        error(
+          'Could not parse JSON:',
+          jsonError,
+          text
+        );
+
+        return null;
+
+      }
+
+    }
+
+
+    /*
+     * ========================================================
+     * GET PRODUCT OPTION NAMES
      * ========================================================
      *
-     * Reads:
+     * Your Liquid currently outputs:
      *
-     * .tv-product-popup__variants
+     * <script class="tv-product-popup__option-names">
+     *   {{ product.options | json }}
+     * </script>
      *
-     * Then compares the customer's selections against
-     * Shopify's variant options.
+     * Example:
      *
-     * This intentionally does NOT assume:
+     * [
+     *   "Color",
+     *   "Size"
+     * ]
      *
-     * Color / Size
-     *
-     * or:
-     *
-     * Size / Color
-     *
-     * because we compare the selected values as a group.
+     * This is the REAL Shopify option order.
      *
      * ========================================================
      */
 
-    function getSelectedVariant(form) {
+    function getProductOptionNames(form) {
 
-      if (!form) {
-
-        console.error(
-          'TV PRODUCT GRID: Product form not found.'
+      const element =
+        form.querySelector(
+          '.tv-product-popup__option-names'
         );
 
-        return null;
+
+      const optionNames =
+        readJsonElement(
+          element
+        );
+
+
+      if (
+        !Array.isArray(
+          optionNames
+        )
+      ) {
+
+        error(
+          'Product option names are missing or invalid.',
+          optionNames
+        );
+
+        return [];
+
       }
 
 
-      /*
-       * ------------------------------------------------------
-       * GET VARIANT JSON
-       * ------------------------------------------------------
-       */
+      return optionNames.map(
+        function (name) {
 
-      const variantsElement =
+          return String(
+            name
+          ).trim();
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ========================================================
+     * GET PRODUCT VARIANTS
+     * ========================================================
+     */
+
+    function getProductVariants(form) {
+
+      const element =
         form.querySelector(
           '.tv-product-popup__variants'
         );
 
 
-      if (!variantsElement) {
-
-        console.error(
-          'TV PRODUCT GRID: Variant JSON element not found.'
+      const variants =
+        readJsonElement(
+          element
         );
 
-        return null;
-      }
 
+      if (
+        !Array.isArray(
+          variants
+        )
+      ) {
 
-      let variants;
-
-
-      try {
-
-        variants =
-          JSON.parse(
-            variantsElement.textContent
-          );
-
-      } catch (error) {
-
-        console.error(
-          'TV PRODUCT GRID: Unable to parse variant JSON.',
-          error
-        );
-
-        return null;
-      }
-
-
-      if (!Array.isArray(variants)) {
-
-        console.error(
-          'TV PRODUCT GRID: Variant JSON is not an array.',
+        error(
+          'Product variants are missing or invalid.',
           variants
         );
 
-        return null;
+        return [];
+
       }
 
 
-      /*
-       * ------------------------------------------------------
-       * CUSTOMER SELECTIONS
-       * ------------------------------------------------------
-       */
+      return variants;
 
-      const selectedValues = [];
+    }
+
+
+    /*
+     * ========================================================
+     * GET SELECTED FORM VALUES
+     * ========================================================
+     */
+
+    function getSelectedValues(form) {
+
+      const selections = {};
 
 
       /*
@@ -505,26 +662,17 @@
 
       if (activeColor) {
 
-        const color =
-          normalizeValue(
-            activeColor.dataset.color
-          );
-
-
-        if (color) {
-
-          selectedValues.push(
-            color
-          );
-
-        }
+        selections.Color =
+          String(
+            activeColor.dataset.color || ''
+          ).trim();
 
       }
 
 
       /*
        * ------------------------------------------------------
-       * OTHER OPTIONS
+       * SELECT ELEMENTS
        * ------------------------------------------------------
        */
 
@@ -537,241 +685,325 @@
       selects.forEach(
         function (select) {
 
-          const value =
-            normalizeValue(
-              select.value
-            );
+          const optionName =
+            select.dataset.optionName;
 
 
-          /*
-           * Ignore the placeholder.
-           */
+          if (!optionName) {
 
-          if (value) {
-
-            selectedValues.push(
-              value
-            );
+            return;
 
           }
+
+
+          selections[
+            optionName
+          ] =
+            String(
+              select.value || ''
+            ).trim();
 
         }
       );
 
 
-      console.log(
-        'TV PRODUCT GRID - SELECTED VALUES:',
-        selectedValues
-      );
-
-
-      /*
-       * ------------------------------------------------------
-       * NO SELECTION
-       * ------------------------------------------------------
-       */
-
-      if (
-        selectedValues.length === 0
-      ) {
-
-        console.warn(
-          'TV PRODUCT GRID: No options selected.'
-        );
-
-        return null;
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * FIND MATCHING VARIANT
-       * ------------------------------------------------------
-       */
-
-      const selectedVariant =
-        variants.find(
-          function (variant) {
-
-            /*
-             * Skip unavailable variants.
-             */
-
-            if (
-              variant.available === false
-            ) {
-
-              return false;
-            }
-
-
-            /*
-             * Shopify variant options.
-             */
-
-            let variantOptions = [];
-
-
-            if (
-              Array.isArray(
-                variant.options
-              )
-            ) {
-
-              variantOptions =
-                variant.options;
-
-            } else {
-
-              variantOptions = [
-                variant.option1,
-                variant.option2,
-                variant.option3
-              ];
-
-            }
-
-
-            /*
-             * Remove empty options.
-             */
-
-            variantOptions =
-              variantOptions
-                .filter(
-                  function (value) {
-
-                    return (
-                      value !== null &&
-                      value !== undefined &&
-                      String(value).trim() !== ''
-                    );
-
-                  }
-                )
-                .map(
-                  function (value) {
-
-                    return normalizeValue(
-                      value
-                    );
-
-                  }
-                );
-
-
-            /*
-             * The number of selected values must equal
-             * the number of variant options.
-             *
-             * Example:
-             *
-             * Selected:
-             * Black
-             *
-             * Variant:
-             * Black / Medium
-             *
-             * NOT a match.
-             */
-
-            if (
-              selectedValues.length !==
-              variantOptions.length
-            ) {
-
-              return false;
-            }
-
-
-            /*
-             * Copy variant options.
-             */
-
-            const remainingOptions =
-              variantOptions.slice();
-
-
-            /*
-             * Match each selected value exactly once.
-             */
-
-            for (
-              let i = 0;
-              i < selectedValues.length;
-              i++
-            ) {
-
-              const selectedValue =
-                selectedValues[i];
-
-
-              const matchIndex =
-                remainingOptions.findIndex(
-                  function (variantValue) {
-
-                    return (
-                      variantValue ===
-                      selectedValue
-                    );
-
-                  }
-                );
-
-
-              /*
-               * No matching value.
-               */
-
-              if (
-                matchIndex === -1
-              ) {
-
-                return false;
-              }
-
-
-              /*
-               * Remove matched option.
-               */
-
-              remainingOptions.splice(
-                matchIndex,
-                1
-              );
-
-            }
-
-
-            /*
-             * Exact match.
-             */
-
-            return (
-              remainingOptions.length === 0
-            );
-
-          }
-        );
-
-
-      console.log(
-        'TV PRODUCT GRID - MATCHED VARIANT:',
-        selectedVariant
-      );
-
-
-      return (
-        selectedVariant ||
-        null
-      );
+      return selections;
 
     }
 
 
     /*
      * ========================================================
-     * COLOR SELECTION
+     * FIND EXACT PRODUCT VARIANT
+     * ========================================================
+     *
+     * This is the important part.
+     *
+     * We use Shopify's actual option order:
+     *
+     * ["Color", "Size"]
+     *
+     * and compare:
+     *
+     * selections.Color
+     * selections.Size
+     *
+     * against:
+     *
+     * variant.options[0]
+     * variant.options[1]
+     *
+     * ========================================================
+     */
+
+    function getSelectedVariant(form) {
+
+      const optionNames =
+        getProductOptionNames(
+          form
+        );
+
+
+      const variants =
+        getProductVariants(
+          form
+        );
+
+
+      const selections =
+        getSelectedValues(
+          form
+        );
+
+
+      log(
+        'OPTION NAMES:',
+        optionNames
+      );
+
+
+      log(
+        'CUSTOMER SELECTIONS:',
+        selections
+      );
+
+
+      log(
+        'VARIANTS:',
+        variants
+      );
+
+
+      /*
+       * ------------------------------------------------------
+       * Make sure options exist.
+       * ------------------------------------------------------
+       */
+
+      if (
+        optionNames.length === 0
+      ) {
+
+        error(
+          'No Shopify product option names were found.'
+        );
+
+        return null;
+
+      }
+
+
+      if (
+        variants.length === 0
+      ) {
+
+        error(
+          'No Shopify product variants were found.'
+        );
+
+        return null;
+
+      }
+
+
+      /*
+       * ------------------------------------------------------
+       * Make sure EVERY option is selected.
+       * ------------------------------------------------------
+       */
+
+      for (
+        let i = 0;
+        i < optionNames.length;
+        i++
+      ) {
+
+        const optionName =
+          optionNames[i];
+
+
+        const selectedValue =
+          selections[
+            optionName
+          ];
+
+
+        if (
+          !selectedValue
+        ) {
+
+          warn(
+            'Missing option:',
+            optionName
+          );
+
+
+          return null;
+
+        }
+
+      }
+
+
+      /*
+       * ------------------------------------------------------
+       * FIND MATCH
+       * ------------------------------------------------------
+       */
+
+      for (
+        let i = 0;
+        i < variants.length;
+        i++
+      ) {
+
+        const variant =
+          variants[i];
+
+
+        /*
+         * Ignore unavailable variants.
+         */
+
+        if (
+          variant.available === false
+        ) {
+
+          continue;
+
+        }
+
+
+        /*
+         * Shopify now exposes variant.options.
+         *
+         * Older JSON can expose option1/2/3.
+         */
+
+        let variantOptions = [];
+
+
+        if (
+          Array.isArray(
+            variant.options
+          ) &&
+          variant.options.length > 0
+        ) {
+
+          variantOptions =
+            variant.options;
+
+        } else {
+
+          variantOptions = [
+            variant.option1,
+            variant.option2,
+            variant.option3
+          ];
+
+        }
+
+
+        /*
+         * Compare every Shopify option by POSITION.
+         */
+
+        let matches =
+          true;
+
+
+        for (
+          let optionIndex = 0;
+          optionIndex < optionNames.length;
+          optionIndex++
+        ) {
+
+          const optionName =
+            optionNames[
+              optionIndex
+            ];
+
+
+          const selectedValue =
+            normalizeValue(
+              selections[
+                optionName
+              ]
+            );
+
+
+          const variantValue =
+            normalizeValue(
+              variantOptions[
+                optionIndex
+              ]
+            );
+
+
+          log(
+            'COMPARING:',
+            optionName,
+            'customer=',
+            selectedValue,
+            'shopify=',
+            variantValue
+          );
+
+
+          if (
+            selectedValue !==
+            variantValue
+          ) {
+
+            matches =
+              false;
+
+            break;
+
+          }
+
+        }
+
+
+        if (matches) {
+
+          log(
+            'EXACT VARIANT FOUND:',
+            variant
+          );
+
+
+          return variant;
+
+        }
+
+      }
+
+
+      /*
+       * ------------------------------------------------------
+       * No match.
+       * ------------------------------------------------------
+       */
+
+      error(
+        'NO MATCHING SHOPIFY VARIANT.',
+        {
+          optionNames: optionNames,
+          selections: selections,
+          variants: variants
+        }
+      );
+
+
+      return null;
+
+    }
+
+
+    /*
+     * ========================================================
+     * COLOR BUTTONS
      * ========================================================
      */
 
@@ -795,33 +1027,35 @@
                 'click',
                 function () {
 
-                  /*
-                   * Remove active state from
-                   * every color button in this group.
-                   */
-
                   buttons.forEach(
-                    function (btn) {
+                    function (item) {
 
-                      btn.classList.remove(
+                      item.classList.remove(
                         'active'
+                      );
+
+                      item.setAttribute(
+                        'aria-pressed',
+                        'false'
                       );
 
                     }
                   );
 
 
-                  /*
-                   * Activate selected color.
-                   */
-
                   button.classList.add(
                     'active'
                   );
 
 
-                  console.log(
-                    'TV PRODUCT GRID - COLOR SELECTED:',
+                  button.setAttribute(
+                    'aria-pressed',
+                    'true'
+                  );
+
+
+                  log(
+                    'COLOR SELECTED:',
                     button.dataset.color
                   );
 
@@ -837,81 +1071,243 @@
 
     /*
      * ========================================================
+     * SELECT CHANGE EVENTS
+     * ========================================================
+     */
+
+    section
+      .querySelectorAll(
+        '.tv-product-popup__select'
+      )
+      .forEach(
+        function (select) {
+
+          select.addEventListener(
+            'change',
+            function () {
+
+              log(
+                'OPTION CHANGED:',
+                select.dataset.optionName,
+                select.value
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /*
+     * ========================================================
+     * GET JACKET CONFIGURATION
+     * ========================================================
+     *
+     * Your Liquid creates:
+     *
+     * id="tv-soft-winter-jacket-config-{{ section.id }}"
+     *
+     * with:
+     *
+     * {
+     *   "productFound": true,
+     *   "variantId": 123456789
+     * }
+     *
+     * ========================================================
+     */
+
+    function getSoftWinterJacketVariant() {
+
+      const sectionId =
+        section.dataset.sectionId;
+
+
+      if (!sectionId) {
+
+        throw new Error(
+          'Product grid section ID is missing.'
+        );
+
+      }
+
+
+      const configId =
+        'tv-soft-winter-jacket-config-' +
+        sectionId;
+
+
+      const configElement =
+        document.getElementById(
+          configId
+        );
+
+
+      if (!configElement) {
+
+        error(
+          'Jacket configuration element not found:',
+          configId
+        );
+
+
+        throw new Error(
+          'Soft Winter Jacket configuration was not found.'
+        );
+
+      }
+
+
+      const config =
+        readJsonElement(
+          configElement
+        );
+
+
+      log(
+        'JACKET CONFIGURATION:',
+        config
+      );
+
+
+      if (!config) {
+
+        throw new Error(
+          'Soft Winter Jacket configuration could not be read.'
+        );
+
+      }
+
+
+      if (
+        config.productFound !== true
+      ) {
+
+        throw new Error(
+          'Soft Winter Jacket product was not found.'
+        );
+
+      }
+
+
+      if (
+        !config.variantId
+      ) {
+
+        throw new Error(
+          'Black + Medium Soft Winter Jacket variant was not found or is unavailable.'
+        );
+
+      }
+
+
+      const variantId =
+        Number(
+          config.variantId
+        );
+
+
+      if (
+        !Number.isFinite(
+          variantId
+        ) ||
+        variantId <= 0
+      ) {
+
+        throw new Error(
+          'Soft Winter Jacket variant ID is invalid.'
+        );
+
+      }
+
+
+      log(
+        'JACKET VARIANT ID:',
+        variantId
+      );
+
+
+      return variantId;
+
+    }
+
+
+    /*
+     * ========================================================
      * ADD ITEMS TO SHOPIFY CART
+     * ========================================================
+     *
+     * Shopify officially supports:
+     *
+     * POST /cart/add.js
+     *
+     * with:
+     *
+     * {
+     *   items: [
+     *     {
+     *       id: variantId,
+     *       quantity: 1
+     *     }
+     *   ]
+     * }
+     *
+     * Multiple variants can be included in the same request.
+     *
      * ========================================================
      */
 
     async function addToCart(items) {
 
       if (
-        !Array.isArray(items) ||
+        !Array.isArray(
+          items
+        ) ||
         items.length === 0
       ) {
 
         throw new Error(
-          'No products were selected.'
+          'No products were supplied to Shopify.'
         );
 
       }
 
 
-      console.log(
-        '================================================'
-      );
-
-      console.log(
-        'TV PRODUCT GRID - ADDING ITEMS TO CART'
-      );
-
-      console.log(
-        'CART ITEMS:',
+      log(
+        'ADDING ITEMS:',
         items
       );
 
-      console.log(
-        '================================================'
-      );
 
-
-      /*
-       * Shopify root URL.
-       */
-
-      const root =
-        window.Shopify &&
-        window.Shopify.routes &&
-        window.Shopify.routes.root
-          ? window.Shopify.routes.root
-          : '/';
-
-
-      const cartUrl =
-        root +
+      const url =
+        getShopifyRoot() +
         'cart/add.js';
 
 
-      console.log(
+      log(
         'CART URL:',
-        cartUrl
+        url
       );
 
 
-      /*
-       * Send cart request.
-       */
-
       const response =
         await fetch(
-          cartUrl,
+          url,
           {
             method: 'POST',
+
+            credentials: 'same-origin',
 
             headers: {
               'Content-Type':
                 'application/json',
 
               'Accept':
-                'application/json'
+                'application/json',
+
+              'X-Requested-With':
+                'XMLHttpRequest'
             },
 
             body: JSON.stringify({
@@ -921,50 +1317,64 @@
         );
 
 
-      /*
-       * Parse response.
-       */
+      let data =
+        null;
 
-      let data = null;
+
+      const responseText =
+        await response.text();
 
 
       try {
 
         data =
-          await response.json();
+          responseText
+            ? JSON.parse(
+                responseText
+              )
+            : null;
 
-      } catch (error) {
+      } catch (parseError) {
 
-        console.error(
-          'TV PRODUCT GRID: Could not parse Shopify response.',
-          error
+        error(
+          'Shopify returned non-JSON:',
+          responseText
         );
 
       }
 
 
-      console.log(
-        'SHOPIFY CART STATUS:',
+      log(
+        'CART HTTP STATUS:',
         response.status
       );
 
 
-      console.log(
-        'SHOPIFY CART RESPONSE:',
+      log(
+        'CART RESPONSE:',
         data
       );
 
 
-      /*
-       * Handle Shopify errors.
-       */
+      if (
+        !response.ok
+      ) {
 
-      if (!response.ok) {
+        const message =
+          (
+            data &&
+            (
+              data.description ||
+              data.message ||
+              data.status
+            )
+          ) ||
+          responseText ||
+          'Shopify could not add the product to the cart.';
+
 
         throw new Error(
-          data?.description ||
-          data?.message ||
-          'Shopify could not add the products to the cart.'
+          message
         );
 
       }
@@ -977,223 +1387,7 @@
 
     /*
      * ========================================================
-     * GET SOFT WINTER JACKET VARIANT
-     * ========================================================
-     *
-     * IMPORTANT:
-     *
-     * DO NOT fetch /products/dark-winter-jacket.js here.
-     *
-     * The Liquid file has already found the exact:
-     *
-     * Black + Medium
-     *
-     * available jacket variant.
-     *
-     * Liquid creates:
-     *
-     * tv-soft-winter-jacket-config-{{ section.id }}
-     *
-     * We read that configuration here.
-     *
-     * ========================================================
-     */
-
-    function getSoftWinterJacketVariant(section) {
-
-      /*
-       * ------------------------------------------------------
-       * BUILD CONFIG ELEMENT ID
-       * ------------------------------------------------------
-       */
-
-      const currentSectionId =
-        section.dataset.sectionId;
-
-
-      const configId =
-        'tv-soft-winter-jacket-config-' +
-        currentSectionId;
-
-
-      console.log(
-        'LOOKING FOR JACKET CONFIG:',
-        configId
-      );
-
-
-      /*
-       * ------------------------------------------------------
-       * FIND CONFIGURATION
-       * ------------------------------------------------------
-       */
-
-      const configElement =
-        document.getElementById(
-          configId
-        );
-
-
-      if (!configElement) {
-
-        console.error(
-          'TV PRODUCT GRID: Soft Winter Jacket config element not found.',
-          configId
-        );
-
-
-        throw new Error(
-          'Soft Winter Jacket configuration was not found.'
-        );
-
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * PARSE CONFIGURATION
-       * ------------------------------------------------------
-       */
-
-      let config;
-
-
-      try {
-
-        config =
-          JSON.parse(
-            configElement.textContent
-          );
-
-      } catch (error) {
-
-        console.error(
-          'TV PRODUCT GRID: Unable to parse jacket configuration.',
-          error
-        );
-
-
-        throw new Error(
-          'Unable to read Soft Winter Jacket configuration.'
-        );
-
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * DEBUG
-       * ------------------------------------------------------
-       */
-
-      console.log(
-        '================================================'
-      );
-
-      console.log(
-        'JACKET CONFIG:'
-      );
-
-      console.log(
-        config
-      );
-
-      console.log(
-        'JACKET PRODUCT FOUND:',
-        config.productFound
-      );
-
-      console.log(
-        'JACKET VARIANT ID:',
-        config.variantId
-      );
-
-      console.log(
-        '================================================'
-      );
-
-
-      /*
-       * ------------------------------------------------------
-       * PRODUCT DOES NOT EXIST
-       * ------------------------------------------------------
-       */
-
-      if (
-        !config.productFound
-      ) {
-
-        throw new Error(
-          'Product "dark-winter-jacket" was not found.'
-        );
-
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * VARIANT DOES NOT EXIST
-       * ------------------------------------------------------
-       */
-
-      if (
-        !config.variantId ||
-        Number(config.variantId) === 0
-      ) {
-
-        throw new Error(
-          'Black + Medium Soft Winter Jacket variant was not found or is unavailable.'
-        );
-
-      }
-
-
-      /*
-       * ------------------------------------------------------
-       * VALIDATE VARIANT ID
-       * ------------------------------------------------------
-       */
-
-      const jacketVariantId =
-        Number(
-          config.variantId
-        );
-
-
-      if (
-        !Number.isFinite(
-          jacketVariantId
-        ) ||
-        jacketVariantId <= 0
-      ) {
-
-        console.error(
-          'TV PRODUCT GRID: Invalid jacket variant ID:',
-          config.variantId
-        );
-
-
-        throw new Error(
-          'The Soft Winter Jacket variant ID is invalid.'
-        );
-
-      }
-
-
-      console.log(
-        'JACKET VARIANT ID:',
-        jacketVariantId
-      );
-
-
-      return jacketVariantId;
-
-    }
-
-
-    /*
-     * ========================================================
-     * ADD TO CART BUTTON
+     * ADD TO CART BUTTONS
      * ========================================================
      */
 
@@ -1206,29 +1400,29 @@
 
           button.addEventListener(
             'click',
-            async function () {
+            async function (event) {
 
-              console.log(
-                '================================================'
+              event.preventDefault();
+
+
+              log(
+                '========================================'
               );
 
-              console.log(
-                'TV PRODUCT GRID - ADD TO CART CLICKED'
+
+              log(
+                'ADD TO CART CLICKED'
               );
 
-              console.log(
-                'SECTION ID:',
-                sectionId
-              );
 
-              console.log(
-                '================================================'
+              log(
+                '========================================'
               );
 
 
               /*
                * ------------------------------------------------
-               * FIND FORM
+               * Find form.
                * ------------------------------------------------
                */
 
@@ -1240,17 +1434,24 @@
 
               if (!form) {
 
-                console.error(
-                  'TV PRODUCT GRID: Product form not found.'
+                error(
+                  'Could not find product form.'
                 );
 
+
+                alert(
+                  'Unable to find the product form.'
+                );
+
+
                 return;
+
               }
 
 
               /*
                * ------------------------------------------------
-               * GET SELECTED PRODUCT VARIANT
+               * Find selected product variant.
                * ------------------------------------------------
                */
 
@@ -1260,53 +1461,67 @@
                 );
 
 
-              console.log(
-                'TV PRODUCT GRID - SELECTED PRODUCT VARIANT:',
-                variant
-              );
-
-
-              /*
-               * ------------------------------------------------
-               * NO VARIANT
-               * ------------------------------------------------
-               */
-
               if (!variant) {
 
                 alert(
                   'Please select a color and size.'
                 );
 
+
                 return;
+
               }
+
+
+              log(
+                'SELECTED PRODUCT VARIANT:',
+                variant
+              );
 
 
               /*
                * ------------------------------------------------
-               * CHECK PRODUCT AVAILABILITY
+               * Validate variant ID.
                * ------------------------------------------------
                */
 
-              if (
-                variant.available === false
-              ) {
-
-                alert(
-                  'This variant is currently unavailable.'
+              const productVariantId =
+                Number(
+                  variant.id
                 );
 
+
+              if (
+                !Number.isFinite(
+                  productVariantId
+                ) ||
+                productVariantId <= 0
+              ) {
+
+                error(
+                  'Invalid product variant ID:',
+                  variant.id
+                );
+
+
+                alert(
+                  'This product variant is invalid.'
+                );
+
+
                 return;
+
               }
 
 
               /*
                * ------------------------------------------------
-               * PREVENT DOUBLE CLICKS
+               * Disable button.
                * ------------------------------------------------
                */
 
-              button.disabled = true;
+              button.disabled =
+                true;
 
 
               const originalText =
@@ -1327,43 +1542,59 @@
 
                 /*
                  * ------------------------------------------------
-                 * CUSTOMER PRODUCT
+                 * START CART ITEMS
                  * ------------------------------------------------
                  */
 
                 const cartItems = [
                   {
                     id:
-                      Number(
-                        variant.id
-                      ),
+                      productVariantId,
 
-                    quantity: 1
+                    quantity:
+                      1
                   }
                 ];
 
 
+                log(
+                  'INITIAL CART ITEMS:',
+                  cartItems
+                );
+
+
                 /*
                  * ------------------------------------------------
-                 * GET ACTUAL SHOPIFY VARIANT OPTIONS
+                 * DETERMINE IF SELECTED PRODUCT IS BLACK/MEDIUM
+                 * ------------------------------------------------
+                 *
+                 * IMPORTANT:
+                 *
+                 * We inspect the ACTUAL MATCHED Shopify variant.
+                 *
+                 * We do not inspect the customer's raw button
+                 * selections.
+                 *
                  * ------------------------------------------------
                  */
 
-                let variantOptions = [];
+                let actualVariantOptions =
+                  [];
 
 
                 if (
                   Array.isArray(
                     variant.options
-                  )
+                  ) &&
+                  variant.options.length > 0
                 ) {
 
-                  variantOptions =
+                  actualVariantOptions =
                     variant.options;
 
                 } else {
 
-                  variantOptions = [
+                  actualVariantOptions = [
                     variant.option1,
                     variant.option2,
                     variant.option3
@@ -1372,8 +1603,8 @@
                 }
 
 
-                variantOptions =
-                  variantOptions
+                const normalizedVariantOptions =
+                  actualVariantOptions
                     .filter(
                       function (value) {
 
@@ -1396,26 +1627,20 @@
                     );
 
 
-                console.log(
-                  'TV PRODUCT GRID - ACTUAL VARIANT OPTIONS:',
-                  variantOptions
+                log(
+                  'ACTUAL VARIANT OPTIONS:',
+                  normalizedVariantOptions
                 );
 
 
-                /*
-                 * ------------------------------------------------
-                 * DETECT BLACK + MEDIUM
-                 * ------------------------------------------------
-                 */
-
                 const hasBlack =
-                  variantOptions.includes(
+                  normalizedVariantOptions.includes(
                     'black'
                   );
 
 
                 const hasMedium =
-                  variantOptions.includes(
+                  normalizedVariantOptions.includes(
                     'medium'
                   );
 
@@ -1425,33 +1650,27 @@
                   hasMedium;
 
 
-                console.log(
+                log(
                   'HAS BLACK:',
                   hasBlack
                 );
 
 
-                console.log(
+                log(
                   'HAS MEDIUM:',
                   hasMedium
                 );
 
 
-                console.log(
-                  'BLACK + MEDIUM:',
+                log(
+                  'IS BLACK + MEDIUM:',
                   isBlackMedium
                 );
 
 
                 /*
                  * ------------------------------------------------
-                 * AUTOMATIC SOFT WINTER JACKET
-                 * ------------------------------------------------
-                 *
-                 * THIS IS THE IMPORTANT PART.
-                 *
-                 * Pass "section" into the function.
-                 *
+                 * AUTOMATIC JACKET
                  * ------------------------------------------------
                  */
 
@@ -1459,49 +1678,28 @@
                   isBlackMedium
                 ) {
 
-                  console.log(
-                    '================================================'
-                  );
-
-                  console.log(
-                    'BLACK + MEDIUM DETECTED'
-                  );
-
-                  console.log(
-                    'GETTING JACKET CONFIGURATION FROM LIQUID'
-                  );
-
-                  console.log(
-                    '================================================'
+                  log(
+                    'BLACK + MEDIUM DETECTED.'
                   );
 
 
-                  /*
-                   * IMPORTANT:
-                   *
-                   * Must be:
-                   *
-                   * getSoftWinterJacketVariant(section)
-                   *
-                   * NOT:
-                   *
-                   * getSoftWinterJacketVariant()
-                   */
+                  log(
+                    'GETTING JACKET VARIANT FROM LIQUID...'
+                  );
+
 
                   const jacketVariantId =
-                    getSoftWinterJacketVariant(
-                      section
-                    );
+                    getSoftWinterJacketVariant();
 
 
-                  console.log(
-                    'JACKET VARIANT ID TO ADD:',
+                  log(
+                    'JACKET VARIANT ID:',
                     jacketVariantId
                   );
 
 
                   /*
-                   * Add jacket to SAME Shopify request.
+                   * Add jacket to same request.
                    */
 
                   cartItems.push(
@@ -1509,23 +1707,20 @@
                       id:
                         jacketVariantId,
 
-                      quantity: 1
+                      quantity:
+                        1
                     }
                   );
 
 
-                  console.log(
-                    'SOFT WINTER JACKET ADDED TO CART ITEMS.'
+                  log(
+                    'JACKET ADDED TO CART ITEMS.'
                   );
 
                 } else {
 
-                  console.log(
-                    'Selected product is NOT Black + Medium.'
-                  );
-
-                  console.log(
-                    'No jacket will be added.'
+                  log(
+                    'SELECTED PRODUCT IS NOT BLACK + MEDIUM.'
                   );
 
                 }
@@ -1537,26 +1732,25 @@
                  * ------------------------------------------------
                  */
 
-                console.log(
-                  '================================================'
+                log(
+                  '========================================'
                 );
 
-                console.log(
-                  'FINAL CART ITEMS:'
-                );
 
-                console.log(
+                log(
+                  'FINAL CART ITEMS:',
                   cartItems
                 );
 
-                console.log(
-                  '================================================'
+
+                log(
+                  '========================================'
                 );
 
 
                 /*
                  * ------------------------------------------------
-                 * SEND EVERYTHING TO SHOPIFY
+                 * SEND TO SHOPIFY
                  * ------------------------------------------------
                  */
 
@@ -1566,15 +1760,15 @@
                   );
 
 
-                console.log(
-                  'FINAL SHOPIFY CART RESPONSE:',
+                log(
+                  'SHOPIFY CART SUCCESS:',
                   cart
                 );
 
 
                 /*
                  * ------------------------------------------------
-                 * BUTTON FEEDBACK
+                 * SUCCESS BUTTON
                  * ------------------------------------------------
                  */
 
@@ -1588,40 +1782,38 @@
 
                 /*
                  * ------------------------------------------------
-                 * REDIRECT TO CART
+                 * Redirect to cart.
                  * ------------------------------------------------
                  */
 
                 window.location.href =
-                  '/cart';
+                  getShopifyRoot() +
+                  'cart';
 
-              } catch (error) {
+              } catch (cartError) {
 
-                console.error(
-                  '================================================'
+                error(
+                  '========================================'
                 );
 
-                console.error(
-                  'TV PRODUCT GRID - ADD TO CART FAILED'
+
+                error(
+                  'ADD TO CART FAILED'
                 );
 
-                console.error(
-                  'ERROR:',
-                  error
+
+                error(
+                  cartError
                 );
 
-                console.error(
-                  'MESSAGE:',
-                  error.message
-                );
 
-                console.error(
-                  '================================================'
+                error(
+                  '========================================'
                 );
 
 
                 alert(
-                  error.message ||
+                  cartError.message ||
                   'Unable to add product to cart.'
                 );
 
@@ -1651,7 +1843,7 @@
 
   /*
    * ==========================================================
-   * INITIALIZE ALL PRODUCT GRID SECTIONS
+   * INITIALIZE ALL PRODUCT GRIDS
    * ==========================================================
    */
 
@@ -1663,8 +1855,8 @@
       );
 
 
-    console.log(
-      'TV PRODUCT GRID - FOUND SECTIONS:',
+    log(
+      'PRODUCT GRID SECTIONS FOUND:',
       sections.length
     );
 
@@ -1680,6 +1872,42 @@
     );
 
   }
+
+
+  /*
+   * ==========================================================
+   * SHOPIFY THEME EDITOR SUPPORT
+   * ==========================================================
+   *
+   * Shopify can dynamically reload sections inside the
+   * Theme Editor.
+   *
+   * These events make sure the grid gets initialized again
+   * when a section is loaded.
+   *
+   * ==========================================================
+   */
+
+  document.addEventListener(
+    'shopify:section:load',
+    function (event) {
+
+      const section =
+        event.target.querySelector(
+          '.tv-product-grid'
+        );
+
+
+      if (section) {
+
+        initGrid(
+          section
+        );
+
+      }
+
+    }
+  );
 
 
   /*
@@ -1703,5 +1931,6 @@
     initializeProductGrids();
 
   }
+
 
 })();
