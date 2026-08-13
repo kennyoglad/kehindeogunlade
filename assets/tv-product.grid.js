@@ -1099,138 +1099,208 @@
       );
 
 
-    /*
-     * ========================================================
-     * GET JACKET CONFIGURATION
-     * ========================================================
-     *
-     * Your Liquid creates:
-     *
-     * id="tv-soft-winter-jacket-config-{{ section.id }}"
-     *
-     * with:
-     *
-     * {
-     *   "productFound": true,
-     *   "variantId": 123456789
-     * }
-     *
-     * ========================================================
-     */
+   /*
+ * ========================================================
+ * GET SOFT WINTER JACKET VARIANT
+ * ========================================================
+ *
+ * The Liquid section already finds the exact available
+ * Black + Medium variant and outputs its Shopify variant ID.
+ *
+ * We simply read that ID here.
+ *
+ * This avoids:
+ *
+ * - Product Ajax API lookup
+ * - Handle problems
+ * - Variant option-order problems
+ * - Black/Medium matching problems
+ *
+ * ========================================================
+ */
 
-    function getSoftWinterJacketVariant() {
+function getSoftWinterJacketVariant() {
 
-      const sectionId =
-        section.dataset.sectionId;
-
-
-      if (!sectionId) {
-
-        throw new Error(
-          'Product grid section ID is missing.'
-        );
-
-      }
+  const sectionId =
+    section.dataset.sectionId;
 
 
-      const configId =
-        'tv-soft-winter-jacket-config-' +
-        sectionId;
+  if (!sectionId) {
+
+    console.error(
+      'TV PRODUCT GRID: Section ID is missing.'
+    );
+
+    throw new Error(
+      'Product grid section ID is missing.'
+    );
+
+  }
 
 
-      const configElement =
-        document.getElementById(
-          configId
-        );
+  const configId =
+    'tv-soft-winter-jacket-config-' +
+    sectionId;
 
 
-      if (!configElement) {
-
-        error(
-          'Jacket configuration element not found:',
-          configId
-        );
+  const configElement =
+    document.getElementById(
+      configId
+    );
 
 
-        throw new Error(
-          'Soft Winter Jacket configuration was not found.'
-        );
-
-      }
-
-
-      const config =
-        readJsonElement(
-          configElement
-        );
+  console.log(
+    'TV PRODUCT GRID: JACKET CONFIG ELEMENT:',
+    configElement
+  );
 
 
-      log(
-        'JACKET CONFIGURATION:',
-        config
+  if (!configElement) {
+
+    console.error(
+      'TV PRODUCT GRID: Jacket configuration element not found:',
+      configId
+    );
+
+    throw new Error(
+      'Soft Winter Jacket configuration was not found.'
+    );
+
+  }
+
+
+  let config;
+
+
+  try {
+
+    config =
+      JSON.parse(
+        configElement.textContent.trim()
       );
 
+  } catch (error) {
 
-      if (!config) {
+    console.error(
+      'TV PRODUCT GRID: Unable to parse jacket configuration.',
+      error
+    );
 
-        throw new Error(
-          'Soft Winter Jacket configuration could not be read.'
-        );
+    console.error(
+      'TV PRODUCT GRID: Raw jacket configuration:',
+      configElement.textContent
+    );
 
-      }
+    throw new Error(
+      'Unable to read Soft Winter Jacket configuration.'
+    );
 
-
-      if (
-        config.productFound !== true
-      ) {
-
-        throw new Error(
-          'Soft Winter Jacket product was not found.'
-        );
-
-      }
+  }
 
 
-      if (
-        !config.variantId
-      ) {
-
-        throw new Error(
-          'Black + Medium Soft Winter Jacket variant was not found or is unavailable.'
-        );
-
-      }
+  console.log(
+    'TV PRODUCT GRID: SOFT WINTER JACKET CONFIG:',
+    config
+  );
 
 
-      const variantId =
-        Number(
-          config.variantId
-        );
+  /*
+   * ------------------------------------------------------
+   * CHECK PRODUCT
+   * ------------------------------------------------------
+   */
+
+  if (
+    !config ||
+    config.productFound !== true
+  ) {
+
+    console.error(
+      'TV PRODUCT GRID: Soft Winter Jacket product was not found.'
+    );
+
+    throw new Error(
+      'Soft Winter Jacket product was not found.'
+    );
+
+  }
 
 
-      if (
-        !Number.isFinite(
-          variantId
-        ) ||
-        variantId <= 0
-      ) {
+  /*
+   * ------------------------------------------------------
+   * CHECK VARIANT
+   * ------------------------------------------------------
+   */
 
-        throw new Error(
-          'Soft Winter Jacket variant ID is invalid.'
-        );
+  if (
+    config.variantId === null ||
+    config.variantId === undefined ||
+    config.variantId === '' ||
+    Number(config.variantId) <= 0
+  ) {
 
-      }
+    console.error(
+      'TV PRODUCT GRID: Black + Medium jacket variant ID is missing.',
+      config
+    );
+
+    throw new Error(
+      'The Black + Medium Soft Winter Jacket variant is unavailable.'
+    );
+
+  }
 
 
-      log(
-        'JACKET VARIANT ID:',
-        variantId
-      );
+  const variantId =
+    Number(
+      config.variantId
+    );
 
 
-      return variantId;
+  if (
+    !Number.isFinite(
+      variantId
+    ) ||
+    variantId <= 0
+  ) {
 
-    }
+    console.error(
+      'TV PRODUCT GRID: Invalid jacket variant ID:',
+      config.variantId
+    );
+
+    throw new Error(
+      'The Soft Winter Jacket variant ID is invalid.'
+    );
+
+  }
+
+
+  console.log(
+    '================================================'
+  );
+
+  console.log(
+    'TV PRODUCT GRID: SOFT WINTER JACKET FOUND'
+  );
+
+  console.log(
+    'TV PRODUCT GRID: JACKET VARIANT ID:',
+    variantId
+  );
+
+  console.log(
+    'TV PRODUCT GRID: JACKET = BLACK + MEDIUM'
+  );
+
+  console.log(
+    '================================================'
+  );
+
+
+  return variantId;
+
+}
 
 
     /*
