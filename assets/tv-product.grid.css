@@ -783,6 +783,7 @@ body.tv-product-popup-open {
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
     color: #000000;
   }
 
