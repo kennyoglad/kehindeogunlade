@@ -1,6 +1,62 @@
 {{ 'tv-product.grid.css' | asset_url | stylesheet_tag }}
 {{ 'tv-product.grid.js' | asset_url | script_tag }}
 
+{% comment %}
+  ==========================================================
+  SOFT WINTER JACKET - FIND BLACK + MEDIUM VARIANT
+  ==========================================================
+{% endcomment %}
+
+{% assign jacket_product = all_products['dark-winter-jacket'] %}
+
+{% if jacket_product == blank %}
+  {% assign jacket_product = all_products['soft-winter-jacket'] %}
+{% endif %}
+
+{% assign jacket_variant_id = blank %}
+
+{% if jacket_product != blank %}
+
+  {% for jacket_variant in jacket_product.variants %}
+
+    {% assign jacket_is_black = false %}
+    {% assign jacket_is_medium = false %}
+
+    {% for jacket_option in jacket_variant.options %}
+
+      {% assign jacket_option_normalized = jacket_option | strip | downcase %}
+
+      {% if jacket_option_normalized == 'black' %}
+        {% assign jacket_is_black = true %}
+      {% endif %}
+
+      {% if jacket_option_normalized == 'medium' %}
+        {% assign jacket_is_medium = true %}
+      {% endif %}
+
+    {% endfor %}
+
+    {% if jacket_is_black and jacket_is_medium and jacket_variant.available %}
+      {% assign jacket_variant_id = jacket_variant.id %}
+      {% break %}
+    {% endif %}
+
+  {% endfor %}
+
+{% endif %}
+
+<script
+  type="application/json"
+  id="tv-soft-winter-jacket-config"
+>
+{
+  "productFound": {% if jacket_product != blank %}true{% else %}false{% endif %},
+  "variantFound": {% if jacket_variant_id != blank %}true{% else %}false{% endif %},
+  "productHandle": {% if jacket_product != blank %}{{ jacket_product.handle | json }}{% else %}null{% endif %},
+  "variantId": {% if jacket_variant_id != blank %}{{ jacket_variant_id }}{% else %}null{% endif %}
+}
+</script>
+
 <section
   id="tv-product-grid-{{ section.id }}"
   class="tv-product-grid"
