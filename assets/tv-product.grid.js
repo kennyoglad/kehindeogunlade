@@ -21,6 +21,7 @@
 (function () {
   'use strict';
 
+
   /*
    * ==========================================================
    * INITIALIZE PRODUCT GRID
@@ -551,7 +552,7 @@
      * Then JavaScript searches its variants for:
      *
      * - Black
-     * - Medium
+     * - Medium OR M
      *
      * This removes the dependency on the Liquid
      * all_products lookup.
@@ -710,8 +711,19 @@
             const isBlack =
               options.includes('black');
 
+
+            /*
+             * Shopify may store Medium as either:
+             *
+             * - "Medium"
+             * - "M"
+             *
+             * Treat both values as Medium.
+             */
+
             const isMedium =
-              options.includes('medium');
+              options.includes('medium') ||
+              options.includes('m');
 
 
             return (
@@ -942,13 +954,33 @@
                  * ------------------------------------------------
                  */
 
-                const isBlackMedium =
+                const isBlack =
                   variantOptions.includes(
                     'black'
-                  ) &&
+                  );
+
+
+                /*
+                 * Shopify may store Medium as either:
+                 *
+                 * - "Medium"
+                 * - "M"
+                 *
+                 * Treat both values as Medium.
+                 */
+
+                const isMedium =
                   variantOptions.includes(
                     'medium'
+                  ) ||
+                  variantOptions.includes(
+                    'm'
                   );
+
+
+                const isBlackMedium =
+                  isBlack &&
+                  isMedium;
 
 
                 console.log(
@@ -959,6 +991,16 @@
                 console.log(
                   'Selected variant options:',
                   variantOptions
+                );
+
+                console.log(
+                  'Black detected:',
+                  isBlack
+                );
+
+                console.log(
+                  'Medium detected:',
+                  isMedium
                 );
 
                 console.log(
@@ -976,7 +1018,7 @@
                  * contains both:
                  *
                  * Black
-                 * Medium
+                 * Medium OR M
                  * ------------------------------------------------
                  */
 
