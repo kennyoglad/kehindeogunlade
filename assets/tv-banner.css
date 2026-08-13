@@ -27,16 +27,12 @@ Remaining 51px is available as Figma/frame breathing room.
   min-height: 2000px;
   margin: 0 auto;
   padding: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 90px;
-
   box-sizing: border-box;
   background: #ffffff;
-
   overflow: hidden;
 }
 
@@ -61,9 +57,7 @@ BANNER
 .tv-page > .tv-banner-section {
   width: 100%;
   max-width: 1440px;
-
   flex: 0 0 auto;
-
   margin: 0;
   padding: 0;
 }
@@ -74,9 +68,7 @@ PRODUCT GRID SECTION
 
 .tv-page > .tv-product-grid-section {
   width: 100%;
-
   flex: 0 0 auto;
-
   margin: 0;
   padding: 0;
 }
@@ -94,9 +86,7 @@ At smaller screens, allow it to become fluid.
   .tv-page {
     width: 100%;
     max-width: 1440px;
-
     min-height: auto;
-
     gap: 90px;
   }
 
@@ -110,20 +100,14 @@ Exact Figma frame:
 
 .tv-page .tv-banner {
   position: relative;
-
   flex: 0 0 878px;
-
   width: 1440px;
   height: 878px;
   max-width: none;
-
   margin: 0;
   padding: 0;
-
   aspect-ratio: auto;
-
   overflow: hidden;
-
   box-sizing: border-box;
 }
 
@@ -133,31 +117,22 @@ TV BANNER HEADER
 
 .tv-page .tv-banner__header {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 1440px;
   height: 64px;
-
   box-sizing: border-box;
-
   background: #f5f5f5;
-
   z-index: 10;
 }
 
 .tv-page .tv-banner__header-inner {
   position: relative;
-
   width: 1440px;
   height: 64px;
-
   margin: 0;
   padding: 10px 50px;
-
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,37 +147,28 @@ HEADER LOGO
 
   left: 50px;
   top: 50%;
-
   width: 151.44px;
   height: 19px;
-
   transform: translateY(-50%);
-
   display: flex;
   align-items: center;
-
   z-index: 2;
 }
 
 .tv-page .tv-banner__logo-image {
   display: block;
-
   width: 100%;
   height: auto;
-
   max-width: 100%;
 }
 
 .tv-page .tv-banner__brand-text {
   display: block;
-
   color: #000000;
-
   font-family: 'Jost', sans-serif;
   font-size: 19px;
   font-weight: 500;
   line-height: 1;
-
   white-space: nowrap;
 }
 
@@ -212,30 +178,21 @@ HEADER MESSAGE
 
 .tv-page .tv-banner__header-message {
   position: absolute;
-
   left: 50%;
   top: 50%;
-
   width: 260px;
   height: 14px;
-
   transform: translate(-50%, -50%);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: #000000;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-
   font-size: 16px;
   line-height: 13px;
-
   text-align: center;
-
   white-space: nowrap;
 }
 
@@ -245,49 +202,33 @@ HEADER BUTTON
 
 .tv-page .tv-banner__header-button {
   position: absolute;
-
   right: 50px;
   top: 50%;
-
   width: 207px;
   height: 44px;
-
   transform: translateY(-50%);
-
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
-
   background: #fff544;
   color: #000000;
-
   border: 0;
   border-radius: 0;
-
   text-decoration: none;
-
   overflow: hidden;
-
   cursor: pointer;
 }
 
 .tv-page .tv-banner__header-button::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   background: #000000;
-
   transform: translateX(-101%);
-
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-
+  transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 0;
 }
 
@@ -303,73 +244,52 @@ HEADER BUTTON
 
 .tv-page .tv-banner__header-button-text {
   position: absolute;
-
   left: 19.81%;
   right: 30.92%;
-
   top: 26.51%;
   bottom: 25.76%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 2;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-
   font-size: 16px;
   line-height: 20px;
-
   text-align: center;
   text-transform: uppercase;
-
   white-space: nowrap;
 }
 
 .tv-page .tv-banner__header-button-arrow {
   position: absolute;
-
   left: 77.78%;
   right: 10.63%;
-
   top: 50%;
-
   height: 0;
-
   transform: translateY(-50%);
-
   z-index: 2;
-
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-page .tv-banner__header-arrow-line {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 100%;
-
   border-top: 1.5px solid currentColor;
 }
 
 .tv-page .tv-banner__header-arrow-head {
   position: absolute;
-
   right: 0;
   top: 50%;
-
   width: 8px;
   height: 8px;
-
   border-top: 1.5px solid currentColor;
   border-right: 1.5px solid currentColor;
-
   transform:
     translateY(-50%)
     rotate(45deg);
@@ -393,20 +313,14 @@ Starts below 64px header.
 
 .tv-page .tv-banner__main {
   position: absolute;
-
   left: 0;
   top: 64px;
-
   width: 1440px;
   height: 780px;
-
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
-
   overflow: hidden;
-
   background: #ffffff;
 }
 
@@ -421,17 +335,12 @@ into separate top/bottom artwork elements.
 
 .tv-page .tv-banner__canvas {
   position: relative;
-
   width: 1440px;
   height: 780px;
-
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
-
   overflow: hidden;
-
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: 1440px 780px;
@@ -439,7 +348,6 @@ into separate top/bottom artwork elements.
   /*
     The actual banner.svg URL should be supplied from Liquid.
     Example later in tv-banner.liquid:
-
     style="--tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');"
   */
   background-image: var(--tv-banner-artwork);
@@ -454,20 +362,14 @@ Content remains positioned against the
 
 .tv-page .tv-banner__content {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 1440px;
   height: 780px;
-
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
-
   z-index: 2;
-
   pointer-events: none;
 }
 
@@ -486,32 +388,22 @@ y = 433 relative to main
 
 .tv-page .tv-banner__heading {
   position: absolute;
-
   left: 67px;
   top: 433px;
-
   width: 459px;
   height: 70px;
-
   margin: 0;
   padding: 0;
-
   display: flex;
   align-items: center;
-
   box-sizing: border-box;
-
   color: #000000;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 500;
-
   font-size: 70px;
   line-height: 70px;
-
   letter-spacing: normal;
-
   border: 0;
 }
 
@@ -521,27 +413,19 @@ DESCRIPTION
 
 .tv-page .tv-banner__description {
   position: absolute;
-
   left: 67px;
   top: 545px;
-
   width: 483px;
   height: 84px;
-
   margin: 0;
   padding: 0;
-
   display: flex;
   align-items: center;
-
   box-sizing: border-box;
-
   color: #000000;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-
   font-size: 20px;
   line-height: 28px;
 }
@@ -567,47 +451,32 @@ MAIN BUTTON
 
 .tv-page .tv-banner__main-button {
   position: absolute;
-
   left: 67px;
   top: 679px;
-
   width: 220px;
   height: 50px;
-
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
-
   background: #000000;
   color: #ffffff;
-
   border: 0;
   border-radius: 0;
-
   text-decoration: none;
-
   overflow: hidden;
-
   cursor: pointer;
 }
 
 .tv-page .tv-banner__main-button::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   background: #ffffff;
-
   transform: translateX(-101%);
-
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-
+  transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 0;
 }
 
@@ -623,25 +492,18 @@ MAIN BUTTON
 
 .tv-page .tv-banner__main-button-text {
   position: absolute;
-
   left: 25.03%;
   right: 35.42%;
-
   top: 28.51%;
   bottom: 29.49%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 2;
-
   color: currentColor;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-
   font-size: 16px;
   line-height: 20px;
 
@@ -653,45 +515,32 @@ MAIN BUTTON
 
 .tv-page .tv-banner__main-button-arrow {
   position: absolute;
-
   left: 77.78%;
   right: 10.63%;
-
   top: 50%;
-
   height: 0;
-
   transform: translateY(-50%);
-
   z-index: 2;
-
   transition:
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tv-page .tv-banner__main-arrow-line {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 100%;
-
   border-top: 1.5px solid currentColor;
 }
 
 .tv-page .tv-banner__main-arrow-head {
   position: absolute;
-
   right: 0;
   top: 50%;
-
   width: 8px;
   height: 8px;
-
   border-top: 1.5px solid currentColor;
   border-right: 1.5px solid currentColor;
-
   transform:
     translateY(-50%)
     rotate(45deg);
@@ -714,45 +563,32 @@ height = 34
 
 .tv-page .tv-banner__footer {
   position: absolute;
-
   left: 0;
   top: 844px;
-
   width: 1440px;
   height: 34px;
-
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 10px 50px;
-
   background: #f5f5f5;
-
   z-index: 5;
 }
 
 .tv-page .tv-banner__footer-text {
   width: 451px;
   height: 14px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: #000000;
-
   font-family: 'Jost', sans-serif;
   font-style: normal;
   font-weight: 400;
-
   font-size: 16px;
   line-height: 13px;
-
   text-align: center;
-
   white-space: nowrap;
 }
 
@@ -892,37 +728,25 @@ MOBILE — MAX WIDTH 749px
 
   .tv-page .tv-banner__menu {
     position: absolute;
-
     left: 16px;
     top: 50%;
-
     width: 18px;
     height: 10px;
-
     margin: 0;
     padding: 0;
-
     transform: translateY(-50%);
-
     display: flex !important;
     flex-direction: column;
     justify-content: space-between;
     align-items: stretch;
-
     appearance: none;
     -webkit-appearance: none;
-
     background: transparent !important;
-
     border: 0 !important;
     border-radius: 0;
-
     color: #000000;
-
     cursor: pointer;
-
     z-index: 999;
-
     box-sizing: border-box;
   }
 
@@ -931,19 +755,13 @@ MOBILE — MAX WIDTH 749px
 
     width: 18px;
     height: 2px;
-
     flex: 0 0 2px;
-
     margin: 0;
     padding: 0;
-
     background: #000000;
-
     border: 0;
-
     opacity: 1;
     visibility: visible;
-
     box-sizing: border-box;
   }
 
@@ -1007,20 +825,14 @@ MOBILE — MAX WIDTH 749px
 
   .tv-page .tv-banner__main {
     position: absolute;
-
     left: 0;
     top: 65px;
-
     width: 100%;
     height: 421px;
-
     margin: 0;
     padding: 0;
-
     overflow: hidden;
-
     background: #ffffff;
-
     box-sizing: border-box;
   }
 
@@ -1035,40 +847,28 @@ The artwork itself is 686px wide.
 ======================================================== */
 .tv-page .tv-banner__canvas {
   position: absolute;
-
   left: 0;
   top: 0;
-
   width: 100%;
   height: 421px;
-
   margin: 0;
   padding: 0;
-
   overflow: hidden;
   box-sizing: border-box;
-
   background: #ffffff;
-
   z-index: 1;
 }
 
 .tv-page .tv-banner__canvas::before {
   content: "";
-
   position: absolute;
-
   left: 50%;
   top: 157px;
-
   width: 375px;
   height: 264px;
-
   transform: translateX(-50%);
-
   margin: 0;
   padding: 0;
-
   background-image: var(--tv-banner-artwork-mobile);
   background-repeat: no-repeat;
   background-size: 375px 264px;
@@ -1116,33 +916,23 @@ The artwork itself is 686px wide.
 
   .tv-page .tv-banner__heading {
     position: absolute;
-
     left: 50%;
     top: 49px;
-
     width: 197px;
     height: 30px;
-
     margin: 0;
     padding: 0;
-
     transform: translateX(-50%);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #000000;
-
     font-family: 'Jost', sans-serif;
     font-style: normal;
     font-weight: 500;
-
     font-size: 30px;
     line-height: 30px;
-
     text-align: center;
-
     box-sizing: border-box;
   }
 
@@ -1200,36 +990,25 @@ The artwork itself is 686px wide.
 
   .tv-page .tv-banner__main-button {
     position: absolute;
-
     left: 50%;
     top: 337px;
-
     width: 193px;
     height: 45px;
-
     margin: 0;
     padding: 13px 20px;
-
     transform: translateX(-50%);
-
     display: flex;
     flex-direction: row;
     align-items: center;
-   justify-content: flex-start;
+    justify-content: flex-start;
     gap: 10px;
-
     box-sizing: border-box;
-
     background: #000000;
     color: #f5f5f5;
-
     border: 0;
     border-radius: 0;
-
     text-decoration: none;
-
     overflow: hidden;
-
     cursor: pointer;
   }
 
@@ -1244,31 +1023,22 @@ The artwork itself is 686px wide.
 
   .tv-page .tv-banner__main-button-text {
     position: static;
-
     width: 119px;
     height: 19px;
-
     margin: 0;
     padding: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: currentColor;
-
     font-family: 'Jost', sans-serif;
     font-style: normal;
     font-weight: 400;
-
     font-size: 16px;
     line-height: 20px;
-
     text-align: center;
     text-transform: uppercase;
-
     white-space: nowrap;
-
     z-index: 2;
   }
 
@@ -1282,46 +1052,34 @@ The artwork itself is 686px wide.
 
   .tv-page .tv-banner__main-button-arrow {
     position: relative;
-
     left: auto;
     right: auto;
     top: auto;
-
     width: 24px;
     height: 0;
-
     margin: 0;
     padding: 0;
-
     transform: none;
-
     z-index: 2;
   }
 
   .tv-page .tv-banner__main-arrow-line {
     position: absolute;
-
     left: 0;
     top: 0;
-
     width: 24px;
     height: 0;
-
     border-top: 1.5px solid currentColor;
   }
 
   .tv-page .tv-banner__main-arrow-head {
     position: absolute;
-
     right: 0;
     top: 50%;
-
     width: 7px;
     height: 7px;
-
     border-top: 1.5px solid currentColor;
     border-right: 1.5px solid currentColor;
-
     transform:
       translateY(-50%)
       rotate(45deg);
@@ -1338,24 +1096,17 @@ The artwork itself is 686px wide.
 
   .tv-page .tv-banner__footer {
     position: absolute;
-
     left: 0;
     top: 486px;
-
     width: 100%;
     height: 34px;
-
     margin: 0;
     padding: 10px 50px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: #f5f5f5;
-
     z-index: 5;
-
     box-sizing: border-box;
   }
 
@@ -1372,16 +1123,12 @@ The artwork itself is 686px wide.
   .tv-page .tv-banner__footer-text {
     width: 288px;
     height: 14px;
-
     margin: 0;
     padding: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #000000;
-
     font-family: 'Jost', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -1393,7 +1140,6 @@ The artwork itself is 686px wide.
 
     white-space: nowrap;
   }
-
 
 .tv-page .tv-banner__footer-text--mobile {
   display: none;
