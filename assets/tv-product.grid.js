@@ -571,22 +571,58 @@ async function getSoftWinterJacketVariant() {
     product
   );
 
+
+  /*
+   * Find specifically:
+   *
+   * Color = Black
+   * Size  = Medium
+   *
+   * We do NOT want the first available variant.
+   */
+
   const variant = product.variants.find(
     function (variant) {
-      return variant.available;
+
+      const options = [
+        variant.option1,
+        variant.option2,
+        variant.option3
+      ]
+        .filter(function (value) {
+          return (
+            value !== null &&
+            value !== undefined
+          );
+        })
+        .map(function (value) {
+          return value
+            .trim()
+            .toLowerCase();
+        });
+
+
+      return (
+        options.includes('black') &&
+        options.includes('medium') &&
+        variant.available
+      );
     }
   );
 
+
   if (!variant) {
     throw new Error(
-      'Soft Winter Jacket has no available variants.'
+      'Black + Medium Soft Winter Jacket is unavailable.'
     );
   }
 
+
   console.log(
-    'Soft Winter Jacket variant:',
-    variant.id
+    'Black + Medium Soft Winter Jacket variant:',
+    variant
   );
+
 
   return variant.id;
 }
