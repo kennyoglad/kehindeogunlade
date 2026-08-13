@@ -1,20 +1,10 @@
 /*
  * TV PRODUCT GRID
  * ============================================================
- * Handles:
- *
  * - Product hotspot / popup opening
- * - Popup closing
- * - ESC key closing
- * - Color selection
- * - Shopify variant matching
- * - Add to Cart
+ * - Popup closing, ESC key closing, Color selection
+ * - Shopify variant matching, Add to Cart
  * - Automatic Soft Winter Jacket addition
- *
- * IMPORTANT:
- * The automatic jacket product handles are:
- * dark-winter-jacket
- * soft-winter-jacket
  * ============================================================
  */
 
@@ -310,7 +300,6 @@
         }
       );
 
-
       console.log(
         'Selected options:',
         selections
@@ -457,7 +446,6 @@
               '.tv-product-popup__color'
             );
 
-
           buttons.forEach(
             function (button) {
               button.addEventListener(
@@ -596,7 +584,6 @@
               }
             );
 
-
           if (!response.ok) {
             console.warn(
               'Soft Winter Jacket product request failed:',
@@ -607,10 +594,8 @@
             continue;
           }
 
-
           const data =
             await response.json();
-
 
           if (
             data &&
@@ -639,7 +624,6 @@
 
       }
 
-
       /*
        * ------------------------------------------------------
        * PRODUCT NOT FOUND
@@ -658,7 +642,6 @@
 
       }
 
-
       console.log(
         '================================================'
       );
@@ -674,7 +657,6 @@
       console.log(
         '================================================'
       );
-
 
       /*
        * ------------------------------------------------------
@@ -707,24 +689,18 @@
                 }
               );
 
-
             const isBlack =
               options.includes('black');
 
-
             /*
              * Shopify may store Medium as either:
-             *
              * - "Medium"
              * - "M"
-             *
              * Treat both values as Medium.
              */
-
             const isMedium =
               options.includes('medium') ||
               options.includes('m');
-
 
             return (
               isBlack &&
@@ -763,7 +739,6 @@
         );
 
       }
-
 
       /*
        * ------------------------------------------------------
@@ -815,7 +790,6 @@
         variantId
       );
 
-
       return variantId;
     }
 
@@ -842,7 +816,6 @@
                   '.tv-product-popup__form'
                 );
 
-
               if (!form) return;
 
 
@@ -864,7 +837,6 @@
                 return;
               }
 
-
               /*
                * ------------------------------------------------
                * CHECK PRODUCT VARIANT AVAILABILITY
@@ -879,19 +851,15 @@
                 return;
               }
 
-
               /*
                * ------------------------------------------------
                * PREVENT DOUBLE CLICKS
                * ------------------------------------------------
                */
-
               button.disabled = true;
-
 
               const originalText =
                 button.querySelector('span');
-
 
               if (originalText) {
                 originalText.textContent =
@@ -1090,7 +1058,6 @@
 
                 }
 
-
                 /*
                  * ------------------------------------------------
                  * ADD EVERYTHING IN ONE SHOPIFY REQUEST
@@ -1107,7 +1074,6 @@
                   cartItems
                 );
 
-
                 /*
                  * ------------------------------------------------
                  * BUTTON FEEDBACK
@@ -1118,7 +1084,6 @@
                   originalText.textContent =
                     'ADDED TO CART';
                 }
-
 
                 /*
                  * ------------------------------------------------
@@ -1183,7 +1148,6 @@
       );
 
   }
-
 
   if (
     document.readyState ===
