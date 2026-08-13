@@ -552,172 +552,115 @@
  * GET SOFT WINTER JACKET VARIANT
  * ========================================================
  *
- * The variant ID is resolved by Liquid.
- *
- * Liquid searches for:
- *
- * Product:
+ * Shopify product handle:
  * dark-winter-jacket
  *
  * Fallback:
  * soft-winter-jacket
  *
- * Variant:
- * Black + Medium
- *
- * JavaScript simply reads the exact Shopify variant ID.
+ * Finds the Black + Medium variant dynamically from Shopify.
  * ========================================================
  */
 
-function getSoftWinterJacketVariant() {
+async function getSoftWinterJacketVariant() {
+  const handles = [
+    'dark-winter-jacket',
+    'soft-winter-jacket'
+  ];
 
-  const configElement =
-    document.getElementById(
-      'tv-soft-winter-jacket-config'
-    );
+  let product = null;
 
-
-  if (!configElement) {
-
-    console.error(
-      'SOFT WINTER JACKET: Liquid configuration element was not found.'
-    );
-
-    throw new Error(
-      'Soft Winter Jacket configuration was not found.'
-    );
-
-  }
-
-
-  let config;
-
-  try {
-
-    config =
-      JSON.parse(
-        configElement.textContent
+  for (const handle of handles) {
+    try {
+      const response = await fetch(
+        `/products/${handle}.js`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        }
       );
 
-  } catch (error) {
+      if (!response.ok) {
+        continue;
+      }
 
-    console.error(
-      'SOFT WINTER JACKET: Could not parse Liquid configuration.',
-      error
-    );
+      const data = await response.json();
 
-    throw new Error(
-      'Could not read Soft Winter Jacket configuration.'
-    );
+      if (data && data.variants) {
+        product = data;
+        break;
+      }
 
+    } catch (error) {
+      console.error(
+        `Unable to load product: ${handle}`,
+        error
+      );
+    }
   }
 
-
-  console.log(
-    '================================================'
-  );
-
-  console.log(
-    'SOFT WINTER JACKET CONFIG:'
-  );
-
-  console.log(
-    config
-  );
-
-  console.log(
-    '================================================'
-  );
-
-
-  /*
-   * ------------------------------------------------------
-   * PRODUCT NOT FOUND
-   * ------------------------------------------------------
-   */
-
-  if (!config.productFound) {
-
-    console.error(
-      'SOFT WINTER JACKET: Product was not found.'
-    );
-
+  if (!product) {
     throw new Error(
-      'Soft Winter Jacket product was not found.'
+      'Soft Winter Jacket product could not be found.'
     );
-
   }
 
+  console.log(
+    'Soft Winter Jacket product loaded:',
+    product
+  );
 
   /*
-   * ------------------------------------------------------
-   * BLACK + MEDIUM VARIANT NOT FOUND
-   * ------------------------------------------------------
+   * Find Black + Medium variant.
    */
+  const jacketVariant = product.variants.find(
+    function (variant) {
 
-  if (
-    !config.variantFound ||
-    !config.variantId
-  ) {
+      const options = [
+        variant.option1,
+        variant.option2,
+        variant.option3
+      ]
+        .filter(function (value) {
+          return value !== null &&
+                 value !== undefined;
+        })
+        .map(function (value) {
+          return value
+            .trim()
+            .toLowerCase();
+        });
 
+      const isBlack = options.includes('black');
+      const isMedium = options.includes('medium');
+
+      return (
+        isBlack &&
+        isMedium &&
+        variant.available
+      );
+    }
+  );
+
+  if (!jacketVariant) {
     console.error(
-      'SOFT WINTER JACKET: Black + Medium variant was not found or is unavailable.'
-    );
-
-    console.error(
-      'Product handle:',
-      config.productHandle
+      'Soft Winter Jacket variants:',
+      product.variants
     );
 
     throw new Error(
       'Black + Medium Soft Winter Jacket variant is unavailable.'
     );
-
   }
 
-
-  /*
-   * ------------------------------------------------------
-   * SUCCESS
-   * ------------------------------------------------------
-   */
-
-  const variantId =
-    Number(
-      config.variantId
-    );
-
-
-  if (!variantId) {
-
-    console.error(
-      'SOFT WINTER JACKET: Invalid variant ID:',
-      config.variantId
-    );
-
-    throw new Error(
-      'Invalid Soft Winter Jacket variant ID.'
-    );
-
-  }
-
-
   console.log(
-    'SOFT WINTER JACKET FOUND'
+    'Soft Winter Jacket Black + Medium variant found:',
+    jacketVariant
   );
 
-  console.log(
-    'Product handle:',
-    config.productHandle
-  );
-
-  console.log(
-    'Black + Medium variant ID:',
-    variantId
-  );
-
-
-  return variantId;
+  return Number(jacketVariant.id);
 }
 
 
