@@ -106,8 +106,17 @@
 <div
   class="tv-banner__canvas"
   style="
-    --tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');
-    --tv-banner-artwork-mobile: url('{{ 'mobile.svg' | asset_url }}');
+    {% if section.settings.banner_artwork != blank %}
+      --tv-banner-artwork: url('{{ section.settings.banner_artwork | image_url: width: 1440 }}');
+    {% else %}
+      --tv-banner-artwork: url('{{ 'banner.svg' | asset_url }}');
+    {% endif %}
+
+    {% if section.settings.mobile_banner_artwork != blank %}
+      --tv-banner-artwork-mobile: url('{{ section.settings.mobile_banner_artwork | image_url: width: 750 }}');
+    {% else %}
+      --tv-banner-artwork-mobile: url('{{ 'mobile.svg' | asset_url }}');
+    {% endif %}
   "
 >
 
