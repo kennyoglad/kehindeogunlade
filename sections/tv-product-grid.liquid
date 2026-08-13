@@ -1,6 +1,19 @@
 {{ 'tv-product.grid.css' | asset_url | stylesheet_tag }}
 {{ 'tv-product.grid.js' | asset_url | script_tag }}
 
+{% assign jacket_product = all_products['dark-winter-jacket'] %}
+
+<script
+  type="application/json"
+  id="tv-soft-winter-jacket-variants"
+>
+  {% if jacket_product != blank %}
+    {{ jacket_product.variants | json }}
+  {% else %}
+    []
+  {% endif %}
+</script>
+
 <section
   id="tv-product-grid-{{ section.id }}"
   class="tv-product-grid"
