@@ -535,22 +535,28 @@
     }
 
 
-    /*
+/*
  * ========================================================
  * GET SOFT WINTER JACKET VARIANT
  * ========================================================
  *
- * Shopify product handle:
+ * Product handle:
  * dark-winter-jacket
  *
- * The first available variant is used.
+ * Required jacket variant:
+ * Color = Black
+ * Size  = Medium
  * ========================================================
  */
 
 async function getSoftWinterJacketVariant() {
+  const jacketHandle = 'dark-winter-jacket';
+
   const response = await fetch(
     window.Shopify.routes.root +
-    'products/dark-winter-jacket.js',
+    'products/' +
+    jacketHandle +
+    '.js',
     {
       headers: {
         Accept: 'application/json'
@@ -571,18 +577,16 @@ async function getSoftWinterJacketVariant() {
     product
   );
 
-
   /*
-   * Find specifically:
-   *
-   * Color = Black
-   * Size  = Medium
-   *
-   * We do NOT want the first available variant.
+   * Find the Black + Medium variant.
    */
 
   const variant = product.variants.find(
     function (variant) {
+
+      if (!variant.available) {
+        return false;
+      }
 
       const options = [
         variant.option1,
@@ -590,26 +594,22 @@ async function getSoftWinterJacketVariant() {
         variant.option3
       ]
         .filter(function (value) {
-          return (
-            value !== null &&
-            value !== undefined
-          );
+          return value !== null &&
+                 value !== undefined &&
+                 value !== '';
         })
         .map(function (value) {
-          return value
+          return String(value)
             .trim()
             .toLowerCase();
         });
 
-
       return (
         options.includes('black') &&
-        options.includes('medium') &&
-        variant.available
+        options.includes('medium')
       );
     }
   );
-
 
   if (!variant) {
     throw new Error(
@@ -617,295 +617,278 @@ async function getSoftWinterJacketVariant() {
     );
   }
 
-
   console.log(
-    'Black + Medium Soft Winter Jacket variant:',
+    'Soft Winter Jacket Black + Medium variant:',
     variant
   );
 
-
-  return variant.id;
+  return Number(variant.id);
 }
 
-
-    /*
-     * ========================================================
-     * ADD TO CART BUTTON
-     * ========================================================
-     */
-
-    section
-      .querySelectorAll(
-        '.tv-product-popup__add'
-      )
-      .forEach(
-        function (button) {
-
-          button.addEventListener(
-            'click',
-            async function () {
-
-              const form =
-                button.closest(
-                  '.tv-product-popup__form'
-                );
-
-
-              if (!form) return;
-
-
-              /*
-               * ------------------------------------------------
-               * FIND SELECTED SHOPIFY VARIANT
-               * ------------------------------------------------
-               */
-
-              const variant =
-                getSelectedVariant(form);
-
-
-              if (!variant) {
-                alert(
-                  'Please select a color and size.'
-                );
-
-                return;
-              }
-
-
-              /*
-               * ------------------------------------------------
-               * CHECK PRODUCT VARIANT AVAILABILITY
-               * ------------------------------------------------
-               */
-
-              if (!variant.available) {
-                alert(
-                  'This variant is currently unavailable.'
-                );
-
-                return;
-              }
-
-
-              /*
-               * ------------------------------------------------
-               * PREVENT DOUBLE CLICKS
-               * ------------------------------------------------
-               */
-
-              button.disabled = true;
-
-
-              const originalText =
-                button.querySelector('span');
-
-
-              if (originalText) {
-                originalText.textContent =
-                  'ADDING...';
-              }
-
-
-              try {
-
-                /*
-                 * ------------------------------------------------
-                 * START WITH THE SELECTED PRODUCT
-                 * ------------------------------------------------
-                 */
-
-                const cartItems = [
-                  {
-                    id: Number(variant.id),
-                    quantity: 1
-                  }
-                ];
-
-
-                /*
-                 * ------------------------------------------------
-                 * CHECK THE ACTUAL SHOPIFY VARIANT
-                 *
-                 * We intentionally check the selected Shopify
-                 * variant rather than only checking the UI.
-                 * ------------------------------------------------
-                 */
-
-                const variantOptions = [
-                  variant.option1,
-                  variant.option2,
-                  variant.option3
-                ]
-                  .filter(
-                    function (value) {
-                      return (
-                        value !== null &&
-                        value !== undefined
-                      );
-                    }
-                  )
-                  .map(
-                    function (value) {
-                      return value
-                        .trim()
-                        .toLowerCase();
-                    }
-                  );
-
-
-                /*
-                 * ------------------------------------------------
-                 * BLACK + MEDIUM DETECTION
-                 * ------------------------------------------------
-                 */
-
-                const isBlackMedium =
-                  variantOptions.includes(
-                    'black'
-                  ) &&
-                  variantOptions.includes(
-                    'medium'
-                  );
-
-
-                console.log(
-                  'Selected Shopify variant:',
-                  variant
-                );
-
-                console.log(
-                  'Selected variant options:',
-                  variantOptions
-                );
-
-                console.log(
-                  'Black + Medium detected:',
-                  isBlackMedium
-                );
-
-
-                /*
-                 * ------------------------------------------------
-                 * AUTOMATICALLY ADD SOFT WINTER JACKET
-                 * ------------------------------------------------
-                 *
-                 * Only happens when the selected product variant
-                 * contains both:
-                 *
-                 * Black
-                 * Medium
-                 * ------------------------------------------------
-                 */
-
-                if (isBlackMedium) {
-
-                  console.log(
-                    'BLACK + MEDIUM MATCHED.'
-                  );
-
-                  console.log(
-                    'Loading Soft Winter Jacket variant...'
-                  );
-
-
-                  const jacketVariantId =
-                  await getSoftWinterJacketVariant();
-
-
-                  console.log(
-                    'Soft Winter Jacket variant ID:',
-                    jacketVariantId
-                  );
-
-
-                  /*
-                   * Add the jacket to the SAME cart request.
-                   */
-
-                  cartItems.push({
-                    id: Number(
-                      jacketVariantId
-                    ),
-                    quantity: 1
-                  });
-
-
-                  console.log(
-                    'FINAL CART ITEMS:',
-                    cartItems
-                  );
-                }
-
-
-                /*
-                 * ------------------------------------------------
-                 * ADD EVERYTHING IN ONE SHOPIFY REQUEST
-                 * ------------------------------------------------
-                 */
-
-                console.log(
-                  'Final cart items:',
-                  cartItems
-                );
-
-
-                await addToCart(
-                  cartItems
-                );
-
-
-                /*
-                 * ------------------------------------------------
-                 * BUTTON FEEDBACK
-                 * ------------------------------------------------
-                 */
-
-                if (originalText) {
-                  originalText.textContent =
-                    'ADDED TO CART';
-                }
-
-
-                /*
-                 * ------------------------------------------------
-                 * REDIRECT TO CART
-                 * ------------------------------------------------
-                 */
-
-                window.location.href =
-                  '/cart';
-
-              } catch (error) {
-
-                console.error(
-                  'Add to cart failed:',
-                  error
-                );
-
-
-                alert(
-                  error.message ||
-                  'Unable to add product to cart.'
-                );
-
-
-                if (originalText) {
-                  originalText.textContent =
-                    'ADD TO CART';
-                }
-
-              } finally {
-
-                button.disabled = false;
-
-              }
-
-            }
+   /*
+ * ========================================================
+ * ADD TO CART BUTTON
+ * ========================================================
+ */
+
+section
+  .querySelectorAll(
+    '.tv-product-popup__add'
+  )
+  .forEach(function (button) {
+
+    button.addEventListener(
+      'click',
+      async function () {
+
+        const form =
+          button.closest(
+            '.tv-product-popup__form'
           );
 
+        if (!form) return;
+
+
+        /*
+         * ------------------------------------------------
+         * FIND SELECTED SHOPIFY VARIANT
+         * ------------------------------------------------
+         */
+
+        const variant =
+          getSelectedVariant(form);
+
+        if (!variant) {
+          alert(
+            'Please select a color and size.'
+          );
+
+          return;
         }
-      );
+
+
+        /*
+         * ------------------------------------------------
+         * CHECK PRODUCT VARIANT AVAILABILITY
+         * ------------------------------------------------
+         */
+
+        if (!variant.available) {
+          alert(
+            'This variant is currently unavailable.'
+          );
+
+          return;
+        }
+
+
+        /*
+         * ------------------------------------------------
+         * PREVENT DOUBLE CLICKS
+         * ------------------------------------------------
+         */
+
+        button.disabled = true;
+
+        const originalText =
+          button.querySelector('span');
+
+        if (originalText) {
+          originalText.textContent =
+            'ADDING...';
+        }
+
+
+        try {
+
+          /*
+           * ------------------------------------------------
+           * START WITH THE SELECTED PRODUCT
+           * ------------------------------------------------
+           */
+
+          const cartItems = [
+            {
+              id: Number(variant.id),
+              quantity: 1
+            }
+          ];
+
+
+          /*
+           * ------------------------------------------------
+           * GET THE ACTUAL SELECTED VARIANT OPTIONS
+           * ------------------------------------------------
+           */
+
+          const variantOptions = [
+            variant.option1,
+            variant.option2,
+            variant.option3
+          ]
+            .filter(function (value) {
+              return (
+                value !== null &&
+                value !== undefined &&
+                value !== ''
+              );
+            })
+            .map(function (value) {
+              return String(value)
+                .trim()
+                .toLowerCase();
+            });
+
+
+          console.log(
+            'Selected variant:',
+            variant
+          );
+
+          console.log(
+            'Selected variant options:',
+            variantOptions
+          );
+
+
+          /*
+           * ------------------------------------------------
+           * DETECT BLACK + MEDIUM
+           * ------------------------------------------------
+           *
+           * The selected variant must contain BOTH:
+           *
+           * black
+           * medium
+           *
+           * The order of the options does not matter.
+           * ------------------------------------------------
+           */
+
+          const hasBlack =
+            variantOptions.includes('black');
+
+          const hasMedium =
+            variantOptions.includes('medium');
+
+          const isBlackMedium =
+            hasBlack && hasMedium;
+
+
+          console.log(
+            'Has Black:',
+            hasBlack
+          );
+
+          console.log(
+            'Has Medium:',
+            hasMedium
+          );
+
+          console.log(
+            'Black + Medium:',
+            isBlackMedium
+          );
+
+
+          /*
+           * ------------------------------------------------
+           * AUTOMATIC SOFT WINTER JACKET
+           * ------------------------------------------------
+           */
+
+          if (isBlackMedium) {
+
+            console.log(
+              'Black + Medium detected.'
+            );
+
+            console.log(
+              'Getting Soft Winter Jacket Black + Medium variant...'
+            );
+
+            const jacketVariantId =
+              await getSoftWinterJacketVariant();
+
+            console.log(
+              'Jacket variant ID:',
+              jacketVariantId
+            );
+
+
+            /*
+             * Add the jacket to the same cart request.
+             */
+
+            cartItems.push({
+              id: jacketVariantId,
+              quantity: 1
+            });
+
+          }
+
+
+          /*
+           * ------------------------------------------------
+           * ADD EVERYTHING TO CART
+           * ------------------------------------------------
+           */
+
+          console.log(
+            'Final cart items:',
+            cartItems
+          );
+
+          await addToCart(cartItems);
+
+
+          /*
+           * ------------------------------------------------
+           * BUTTON FEEDBACK
+           * ------------------------------------------------
+           */
+
+          if (originalText) {
+            originalText.textContent =
+              'ADDED TO CART';
+          }
+
+
+          /*
+           * ------------------------------------------------
+           * REDIRECT TO CART
+           * ------------------------------------------------
+           */
+
+          window.location.href = '/cart';
+
+        } catch (error) {
+
+          console.error(
+            'Add to cart failed:',
+            error
+          );
+
+          alert(
+            error.message ||
+            'Unable to add product to cart.'
+          );
+
+          if (originalText) {
+            originalText.textContent =
+              'ADD TO CART';
+          }
+
+        } finally {
+
+          button.disabled = false;
+
+        }
+
+      }
+    );
+
+  });
 
   }
 
