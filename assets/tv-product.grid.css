@@ -923,11 +923,13 @@ body.tv-product-popup-open {
      PRODUCT GRID SECTION
      ------------------------------------------------------- */
 
-  .tv-product-grid {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+   .tv-product-grid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 40px;
+}
 
   .tv-product-grid__container {
     width: 342px;
